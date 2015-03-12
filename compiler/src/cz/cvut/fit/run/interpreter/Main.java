@@ -1,5 +1,6 @@
-package cz.cvut.fit.run.compiler;
+package cz.cvut.fit.run.interpreter;
 
+import cz.cvut.fit.run.interpreter.traversion.BasicVisitor;
 import cz.cvut.fit.run.parser.JavaLexer;
 import cz.cvut.fit.run.parser.JavaParser;
 import org.antlr.v4.runtime.ANTLRFileStream;
