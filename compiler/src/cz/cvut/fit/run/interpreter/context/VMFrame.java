@@ -10,6 +10,7 @@ import cz.cvut.fit.run.interpreter.core.types.VMType;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
 
 /**
  * Created by MagNet on 9. 3. 2015.
@@ -50,13 +51,13 @@ public class VMFrame {
     }
 
     public void push(VMObject value) {
-        System.out.println("Push " + value);
+        VMMachine.logger.log(Level.INFO, "Push " + value);
         opStack.push(value);
     }
 
     public VMObject pop() {
         VMObject object = opStack.pop();
-        System.out.println("Pop " + object);
+        VMMachine.logger.log(Level.INFO, "Pop " + object);
         return object;
     }
 }

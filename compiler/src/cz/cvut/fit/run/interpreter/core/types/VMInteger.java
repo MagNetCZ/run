@@ -5,6 +5,7 @@ import cz.cvut.fit.run.interpreter.core.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 /**
  * Created by MagNet on 12. 3. 2015.
@@ -24,7 +25,7 @@ public class VMInteger extends VMSimpleType<Integer> {
     }
 
     public void sum(VMObject operand) throws VMException {
-        System.out.println("summing");
+        VMMachine.logger.log(Level.INFO, "summing");
         VMInteger secondOperand = convertToInt(operand);
 
         VMMachine.push(new VMInteger(contents + secondOperand.contents));

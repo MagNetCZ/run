@@ -21,7 +21,7 @@ public class Test {
     public static int testMethod() {
         int a = 10;
         int b = 15;
-        int c = a + b;
+        int c = b + b + a;
         return c;
     }
 }

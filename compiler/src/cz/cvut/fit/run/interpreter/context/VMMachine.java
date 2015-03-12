@@ -17,6 +17,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by MagNet on 12. 3. 2015.
@@ -25,6 +27,8 @@ public class VMMachine {
     private static VMMachine instance = null;
     private HashMap<VMExpressionType, VMStackFunction> functions;
 
+    public static final Logger logger = Logger.getLogger("VMMachine");
+
     private VMFrame currentFrame;
 
     private VMMachine() {
@@ -32,6 +36,8 @@ public class VMMachine {
         functions = new HashMap<>();
 
         loadFunctions();
+
+        logger.setLevel(Level.INFO);
     }
 
     private void loadFunctions() {
@@ -58,7 +64,7 @@ public class VMMachine {
         VMObject object = pop();
         if (object instanceof VMIdentifier) {
             VMObject value = getFrame().getVariable((VMIdentifier)object);
-            System.out.println("Looked up " + value);
+            logger.log(Level.INFO, "Looked up " + value);
             return value;
         }
 
@@ -125,7 +131,6 @@ public class VMMachine {
                 value = new VMIdentifier(primary.getChild(0).toString()); // TODO identifier type
             }
 
-            System.out.println("Adding <" + value + "> to stack");
             push(value);
             return;
         }
@@ -175,6 +180,4 @@ public class VMMachine {
             functions.get(VMExpressionType.ASSIGNMENT).call();
         }
     }
-
-    // TODO LOGGER
 }
