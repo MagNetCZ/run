@@ -17,4 +17,11 @@ public class Test {
     public int getNumber() {
         return this.number;
     }
+
+    public static int testMethod() {
+        int a = 10;
+        int b = 15;
+        int c = a + b;
+        return c;
+    }
 }
