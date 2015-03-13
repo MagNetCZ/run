@@ -18,10 +18,27 @@ public class Test {
         return this.number;
     }
 
-    public static int testMethod() {
+    public static int testNumbers() {
         int a = 10;
         int b = 15;
-        int c = b + b + a;
-        return c;
+        int c = b + b * a;
+        
+        console(c);
+    }
+
+    public static int testIf() {
+        int a = 0;
+        if (a == 0)
+            console(1);
+    }
+
+    public static void testMethod() {
+        boolean a = false;
+        boolean b = true;
+        console(!a);
+        console(a == a);
+        console(a == b);
+        console(!a == a);
+        //a = !a;
     }
 }

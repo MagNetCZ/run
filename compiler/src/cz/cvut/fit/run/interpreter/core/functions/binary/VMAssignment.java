@@ -16,7 +16,7 @@ public class VMAssignment implements VMStackFunction {
         VMObject value = VMMachine.pop();
         VMObject identifier = VMMachine.pop();
 
-        System.out.println("Assigning " + identifier + " = " + value);
+        VMMachine.logger.info("Assigning " + identifier + " = " + value);
 
         VMMachine.getFrame().assignVariable((VMIdentifier) identifier, value);
         return null;

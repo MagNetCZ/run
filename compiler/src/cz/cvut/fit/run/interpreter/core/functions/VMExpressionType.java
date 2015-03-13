@@ -5,6 +5,8 @@ package cz.cvut.fit.run.interpreter.core.functions;
  */
 public enum VMExpressionType {
     ASSIGNMENT,
-    DIRECT_METHOD,
-    DOT_ACCESS;
+    DIRECT_BINARY_METHOD,
+    DIRECT_UNARY_METHOD,
+    DOT_ACCESS,
+    FUNCTION_CALL;
 }

@@ -1,22 +1,18 @@
 package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.VMObject;
-import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.functions.VMExpressionType;
 import cz.cvut.fit.run.interpreter.core.functions.VMStackFunction;
 import cz.cvut.fit.run.interpreter.core.functions.binary.VMAssignment;
+import cz.cvut.fit.run.interpreter.core.helpers.LiteralParser;
 import cz.cvut.fit.run.interpreter.core.types.VMIdentifier;
-import cz.cvut.fit.run.interpreter.core.types.VMInteger;
-import cz.cvut.fit.run.interpreter.core.types.VMString;
 import cz.cvut.fit.run.interpreter.core.types.VMType;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +33,7 @@ public class VMMachine {
 
         loadFunctions();
 
-        logger.setLevel(Level.INFO);
+        logger.setLevel(Level.SEVERE);
     }
 
     private void loadFunctions() {
@@ -90,18 +86,23 @@ public class VMMachine {
     }
 
     private VMExpressionType getExpressionType(ExpressionContext expression) {
-        String middleNode = expression.getChild(1).toString();
+        if (expression.getChildCount() == 4)
+            return VMExpressionType.FUNCTION_CALL;
+
+        String operator = expression.getChild(expression.getChildCount() - 2).toString();
 
         // Binary expressions
-        switch (middleNode) {
+        switch (operator) {
             case "=": return VMExpressionType.ASSIGNMENT;
-            case "+": return VMExpressionType.DIRECT_METHOD;
-            case "-": return VMExpressionType.DIRECT_METHOD;
-            case "*": return VMExpressionType.DIRECT_METHOD;
-            case "/": return VMExpressionType.DIRECT_METHOD;
             case ".": return VMExpressionType.DOT_ACCESS;
-            default: throw new NotImplementedException();
+            default:
+                if (expression.getChildCount() == 3)
+                    return VMExpressionType.DIRECT_BINARY_METHOD;
+                if (expression.getChildCount() == 2)
+                    return VMExpressionType.DIRECT_UNARY_METHOD;
         }
+
+        throw new NotImplementedException();
     }
 
     private void evalStatement(BlockStatementContext blockStatement) throws VMException {
@@ -118,23 +119,22 @@ public class VMMachine {
         }
     }
 
-    private void evalExpression(ExpressionContext expression) throws VMException {
-        // Primary expression
-        if (expression.children.size() == 1) {
-            VMObject value;
+    private void evalPrimaryExpression(ExpressionContext expression) throws VMException {
+        VMObject value;
 
-            PrimaryContext primary = expression.primary();
-            // Literal?
-            if (primary.literal() != null) {
-                value = new VMInteger(primary.literal().getChild(0).toString()); // TODO proper type
-            } else {
-                value = new VMIdentifier(primary.getChild(0).toString()); // TODO identifier type
-            }
-
-            push(value);
-            return;
+        PrimaryContext primary = expression.primary();
+        // Literal?
+        if (primary.literal() != null) {
+            value = LiteralParser.parseLiteral(primary.getText());
+        } else {
+            value = new VMIdentifier(primary.getText());
         }
 
+        push(value);
+        return;
+    }
+
+    private void evalSecondaryExpression(ExpressionContext expression) throws VMException {
         VMExpressionType expressionType = getExpressionType(expression);
 
         for (ParseTree child : expression.children) {
@@ -144,17 +144,46 @@ public class VMMachine {
 
         switch (expressionType) {
             case ASSIGNMENT:
-                functions.get(expressionType).call();
+                assignValue();
                 break;
-            case DIRECT_METHOD:
-                String methodName = expression.getChild(1).toString();
+            case DIRECT_BINARY_METHOD:
+                String binOperator = expression.getChild(1).toString();
                 VMObject operand = popValue();
                 VMObject object = popValue();
-                object.callMethod(methodName, operand);
+                object.callMethod(binOperator, operand);
+                break;
+            case DIRECT_UNARY_METHOD:
+                String unOperator = expression.getChild(0).toString();
+                VMObject unObject = popValue();
+                unObject.callMethod(unOperator);
                 break;
             case DOT_ACCESS:
                 throw new NotImplementedException();
+            case FUNCTION_CALL:
+                evalFunctionCall(expression);
         }
+    }
+
+    private void evalFunctionCall(ExpressionContext expression) throws VMException {
+        evalExpression(expression.expressionList().expression(0));
+        System.out.println(popValue());
+    }
+
+    private void evalExpression(ExpressionContext expression) throws VMException {
+        // Primary expression
+        if (expression.getChildCount() == 1) {
+            evalPrimaryExpression(expression);
+        } else {
+            evalSecondaryExpression(expression);
+        }
+    }
+
+    private void assignValue() throws VMException {
+        VMObject assignValue= popValue();
+        VMObject objectId = pop();
+        push(objectId);
+        push(assignValue);
+        functions.get(VMExpressionType.ASSIGNMENT).call();
     }
 
 
@@ -177,7 +206,7 @@ public class VMMachine {
             ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
             evalExpression(initExpression);
 
-            functions.get(VMExpressionType.ASSIGNMENT).call();
+            assignValue();
         }
     }
 }

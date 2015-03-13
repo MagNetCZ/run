@@ -33,6 +33,7 @@ public class VMFrame {
 
     public void declareVariable(VMIdentifier identifier, VMType type) {
         localVariables.put(identifier, new TypeValuePair(type));
+        // TODO redeclaration exception
     }
 
     public void assignVariable(VMIdentifier identifier, VMObject value) throws NotDeclaredException {
