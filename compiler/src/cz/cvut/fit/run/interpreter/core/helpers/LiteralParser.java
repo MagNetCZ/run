@@ -44,7 +44,7 @@ public class LiteralParser {
     }
 
     public static VMStringInstance parseString(String string) {
-        String strippedString = string.substring(1, string.length() - 2); // TODO \ sequences
+        String strippedString = string.substring(1, string.length() - 1); // TODO \ sequences
         return ((VMString)VMMachine.getInstance().getClazz("String")).createInstance(strippedString);
     }
 

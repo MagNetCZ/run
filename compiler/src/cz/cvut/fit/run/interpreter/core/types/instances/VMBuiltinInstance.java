@@ -43,4 +43,3 @@ public class VMBuiltinInstance<T> extends VMObject {
         return value != null ? value.hashCode() : 0;
     }
 }
-git

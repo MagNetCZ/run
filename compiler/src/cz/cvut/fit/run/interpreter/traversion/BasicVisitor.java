@@ -32,7 +32,10 @@ public class BasicVisitor extends JavaBaseVisitor<String> {
         System.out.println(ctx.Identifier());
 
         String identifier = ctx.Identifier().toString();
-        if (identifier.equals("testMethod")) {
+//        if (identifier.equals("testMethod")) {
+//        if (identifier.equals("testIf")) {
+//        if (identifier.equals("testFor")) {
+        if (identifier.equals("testSwitch")) {
             VMMachine.getInstance().evalMethod(ctx.methodBody());
         }
 

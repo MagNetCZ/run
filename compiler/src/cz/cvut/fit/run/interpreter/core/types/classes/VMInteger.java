@@ -50,6 +50,8 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
         return new VMIntegerInstance(this, firstOperand.getValue() / secondOperand.getValue());
     }
 
+    // TODO compare operators
+
     @Override
     public List<BuiltinMethodIdentifier> getBuiltinMethods() {
         List<BuiltinMethodIdentifier> builtinMethods = new LinkedList<>();

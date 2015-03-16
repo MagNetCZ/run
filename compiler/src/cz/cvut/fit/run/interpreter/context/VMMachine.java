@@ -1,6 +1,8 @@
 package cz.cvut.fit.run.interpreter.context;
 
+import cz.cvut.fit.run.interpreter.core.exceptions.BreakException;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
@@ -12,6 +14,7 @@ import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.beans.Expression;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +42,8 @@ public class VMMachine {
         loadBuiltinFunctions();
         loadBuiltinClasses();
 
-        logger.setLevel(Level.INFO);
+//        logger.setLevel(Level.INFO);
+        logger.setLevel(Level.SEVERE);
     }
 
     public static VMMachine getInstance() {
@@ -59,6 +63,7 @@ public class VMMachine {
     private void loadBuiltinClasses() {
         classes.put("Integer", new VMInteger());
         classes.put("Boolean", new VMBoolean());
+        classes.put("String", new VMString());
         IDClass = new VMIdentifier();
         classes.put("ID", IDClass);
     }
@@ -98,9 +103,7 @@ public class VMMachine {
 
     public void evalMethod(MethodBodyContext body) {
         try {
-            for (BlockStatementContext statement : body.block().blockStatement()) {
-                evalStatement(statement);
-            }
+            evalBlock(body.block());
         } catch (VMException e) {
             throw new RuntimeException(e);
         }
@@ -126,17 +129,147 @@ public class VMMachine {
         throw new NotImplementedException();
     }
 
-    private void evalStatement(BlockStatementContext blockStatement) throws VMException {
-        if (blockStatement.statement() != null) {
-            ExpressionContext expression = blockStatement.statement().statementExpression().expression();
-            evalExpression(expression);
+    private boolean checkExpression(ExpressionContext expression) throws VMException {
+        evalExpression(expression);
+        VMBooleanInstance expressionResult = (VMBooleanInstance)popValue();
+        return expressionResult.getValue();
+    }
+
+    private boolean checkParExpression(StatementContext statement) throws VMException {
+        return checkExpression(statement.parExpression().expression());
+    }
+
+    private void evalIf(StatementContext statement) throws VMException {
+        if (checkParExpression(statement)) {
+            evalStatement(statement.statement(0));
+        } else {
+            if (statement.statement(1) != null)
+                evalStatement(statement.statement(1));
         }
+    }
+
+    private void evalWhile(StatementContext statement) throws VMException {
+        while (checkParExpression(statement)) {
+            evalStatement(statement.statement(0));
+        }
+    }
+
+    private void evalDoWhile(StatementContext statement) throws VMException {
+        evalStatement(statement.statement(0));
+        evalWhile(statement);
+    }
+
+    private void evalSwitch(StatementContext statement) throws VMException {
+        evalExpression(statement.parExpression().expression());
+        VMObject switchValue = popValue();
+
+        boolean caseEquals = false;
+        try {
+            for (SwitchBlockStatementGroupContext switchBlockStatementGroup : statement.switchBlockStatementGroup()) {
+                if (!caseEquals) {
+                    for (SwitchLabelContext switchLabel : switchBlockStatementGroup.switchLabel()) {
+                        evalExpression(switchLabel.constantExpression().expression());
+                        VMObject caseValue = popValue();
+
+                        switchValue.callMethod("==", caseValue); // TODO use equals
+                        VMBooleanInstance compResult = (VMBooleanInstance)popValue();
+                        if (compResult.getValue()) {
+                            caseEquals = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (caseEquals) {
+                    for (BlockStatementContext blockStatement : switchBlockStatementGroup.blockStatement()) {
+                        evalBlockStatement(blockStatement);
+                    }
+                }
+            }
+        } catch (BreakException ex) {
+        }
+
+        // TODO scope exit
+    }
+
+
+    private void evalFor(StatementContext statement) throws VMException {
+        ForControlContext forControl = statement.forControl();
+
+        if (forControl.forInit().localVariableDeclaration() != null) {
+            evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
+        }
+
+        while (checkExpression(forControl.expression())) {
+            evalStatement(statement.statement(0));
+            evalExpressionList(forControl.forUpdate().expressionList());
+        }
+    }
+
+    private void evalFlowControl(StatementContext statement) throws VMException {
+        String controlKeyword = statement.getChild(0).getText();
+
+        switch (controlKeyword) {
+            // TODO dynamic order
+            case "if":
+                evalIf(statement);
+                break;
+            case "while":
+                evalWhile(statement);
+                break;
+            case "switch":
+                evalSwitch(statement);
+                break;
+            case "do":
+                evalDoWhile(statement);
+                break;
+
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    private void evalBlock(BlockContext block) throws VMException {
+        for (BlockStatementContext blockStatement : block.blockStatement()) {
+            evalBlockStatement(blockStatement);
+        }
+    }
+    private void evalBlockStatement(BlockStatementContext blockStatement) throws VMException {
+        StatementContext statement = blockStatement.statement();
+        if (statement != null)
+            evalStatement(blockStatement.statement());
 
         if (blockStatement.localVariableDeclarationStatement() != null) {
             LocalVariableDeclarationContext localVariableDeclaration =
                     blockStatement.localVariableDeclarationStatement().localVariableDeclaration();
 
             evalLocalVariableDeclaration(localVariableDeclaration);
+        }
+    }
+
+    private void evalStatement(StatementContext statement) throws VMException {
+        ParExpressionContext parExpression = statement.parExpression();
+        if (parExpression != null) {
+            // Flow control
+            evalFlowControl(statement);
+        }
+
+        if (statement.forControl() != null) {
+            evalFor(statement);
+        }
+
+        StatementExpressionContext statementExpression = statement.statementExpression();
+        if (statementExpression != null) {
+            ExpressionContext expression = statementExpression.expression();
+            evalExpression(expression);
+        }
+
+        if (statement.block() != null) {
+            evalBlock(statement.block());
+        }
+
+        if (statement.getChild(0).getText().equals("break")) {
+            throw new BreakException();
         }
     }
 
@@ -185,7 +318,14 @@ public class VMMachine {
         }
     }
 
+    private void evalExpressionList(ExpressionListContext expressionList) throws VMException {
+        for (ExpressionContext expression : expressionList.expression()) {
+            evalExpression(expression);
+        }
+    }
+
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
+        // TODO ...
         evalExpression(expression.expressionList().expression(0));
         System.out.println(popValue());
     }
