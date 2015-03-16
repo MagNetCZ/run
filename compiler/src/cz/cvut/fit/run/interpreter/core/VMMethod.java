@@ -2,13 +2,13 @@ package cz.cvut.fit.run.interpreter.core;
 
 import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.VMType;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaParser;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 /**
  * Created by MagNet on 9. 3. 2015.

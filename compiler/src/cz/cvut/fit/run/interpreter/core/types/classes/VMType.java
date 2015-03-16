@@ -1,4 +1,4 @@
-package cz.cvut.fit.run.interpreter.core.types;
+package cz.cvut.fit.run.interpreter.core.types.classes;
 
 /**
  * Created by MagNet on 12. 3. 2015.

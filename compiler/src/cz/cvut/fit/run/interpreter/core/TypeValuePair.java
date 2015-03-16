@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.core;
 
-import cz.cvut.fit.run.interpreter.core.types.VMType;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
 /**
  * Created by MagNet on 12. 3. 2015.

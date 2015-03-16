@@ -1,13 +1,13 @@
 package cz.cvut.fit.run.interpreter.context;
 
-import cz.cvut.fit.run.interpreter.core.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.classes.*;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.functions.VMExpressionType;
 import cz.cvut.fit.run.interpreter.core.functions.VMStackFunction;
 import cz.cvut.fit.run.interpreter.core.functions.binary.VMAssignment;
 import cz.cvut.fit.run.interpreter.core.helpers.LiteralParser;
-import cz.cvut.fit.run.interpreter.core.types.VMIdentifier;
-import cz.cvut.fit.run.interpreter.core.types.VMType;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -17,11 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+/**
  * Created by MagNet on 12. 3. 2015.
  */
 public class VMMachine {
     private static VMMachine instance = null;
     private HashMap<VMExpressionType, VMStackFunction> functions;
+    private HashMap<String, VMClass> classes;
+
+    private VMIdentifier IDClass;
 
     public static final Logger logger = Logger.getLogger("VMMachine");
 
@@ -30,14 +34,12 @@ public class VMMachine {
     private VMMachine() {
         currentFrame = new VMFrame();
         functions = new HashMap<>();
+        classes = new HashMap<>();
 
-        loadFunctions();
+        loadBuiltinFunctions();
+        loadBuiltinClasses();
 
-        logger.setLevel(Level.SEVERE);
-    }
-
-    private void loadFunctions() {
-        functions.put(VMExpressionType.ASSIGNMENT, new VMAssignment());
+        logger.setLevel(Level.INFO);
     }
 
     public static VMMachine getInstance() {
@@ -47,6 +49,21 @@ public class VMMachine {
 
         return instance;
     }
+
+    /** VM INIT **/
+
+    private void loadBuiltinFunctions() {
+        functions.put(VMExpressionType.ASSIGNMENT, new VMAssignment());
+    }
+
+    private void loadBuiltinClasses() {
+        classes.put("Integer", new VMInteger());
+        classes.put("Boolean", new VMBoolean());
+        IDClass = new VMIdentifier();
+        classes.put("ID", IDClass);
+    }
+
+    /** ACCESSORS **/
 
     public static VMFrame getFrame() {
         return getInstance().getCurrentFrame();
@@ -58,8 +75,8 @@ public class VMMachine {
 
     public static VMObject popValue() throws VMException {
         VMObject object = pop();
-        if (object instanceof VMIdentifier) {
-            VMObject value = getFrame().getVariable((VMIdentifier)object);
+        if (object.getType() == VMType.ID) {
+            VMObject value = getFrame().getVariable((VMIdentifierInstance)object);
             logger.log(Level.INFO, "Looked up " + value);
             return value;
         }
@@ -69,6 +86,10 @@ public class VMMachine {
 
     public static void push(VMObject object) {
         getFrame().push(object);
+    }
+
+    public VMIdentifierInstance getID(String id) {
+        return IDClass.createInstance(id);
     }
 
     public VMFrame getCurrentFrame() {
@@ -127,7 +148,7 @@ public class VMMachine {
         if (primary.literal() != null) {
             value = LiteralParser.parseLiteral(primary.getText());
         } else {
-            value = new VMIdentifier(primary.getText());
+            value = getID(primary.getText());
         }
 
         push(value);
@@ -186,8 +207,6 @@ public class VMMachine {
         functions.get(VMExpressionType.ASSIGNMENT).call();
     }
 
-
-
     private void evalLocalVariableDeclaration(LocalVariableDeclarationContext variableDeclaration)
         throws VMException {
         String typeString = variableDeclaration.type().primitiveType().getChild(0).toString();
@@ -197,7 +216,7 @@ public class VMMachine {
                 : variableDeclaration.variableDeclarators().variableDeclarator()) {
             String variableId = variableDeclarator.variableDeclaratorId().getChild(0).toString();
 
-            VMIdentifier identifier = new VMIdentifier(variableId);
+            VMIdentifierInstance identifier = getID(variableId);
 
             getFrame().declareVariable(identifier, type);
 
@@ -208,5 +227,10 @@ public class VMMachine {
 
             assignValue();
         }
+    }
+
+    public VMClass getClazz(String name) {
+        return classes.get(name);
+        // TODO source lookup
     }
 }

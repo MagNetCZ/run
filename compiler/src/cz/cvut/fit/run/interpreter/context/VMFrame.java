@@ -1,12 +1,10 @@
 package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
-import cz.cvut.fit.run.interpreter.core.VMObject;
-import cz.cvut.fit.run.interpreter.core.VMReference;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
-import cz.cvut.fit.run.interpreter.core.types.VMIdentifier;
-import cz.cvut.fit.run.interpreter.core.types.VMString;
-import cz.cvut.fit.run.interpreter.core.types.VMType;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 
 import java.util.HashMap;
 import java.util.Stack;
@@ -16,7 +14,7 @@ import java.util.logging.Level;
  * Created by MagNet on 9. 3. 2015.
  */
 public class VMFrame {
-    private HashMap<VMIdentifier, TypeValuePair> localVariables;
+    private HashMap<VMIdentifierInstance, TypeValuePair> localVariables;
     private Stack<VMObject> opStack;
     
     VMFrame parent;
@@ -31,23 +29,23 @@ public class VMFrame {
         this.parent = parent;
     }
 
-    public void declareVariable(VMIdentifier identifier, VMType type) {
+    public void declareVariable(VMIdentifierInstance identifier, VMType type) {
         localVariables.put(identifier, new TypeValuePair(type));
         // TODO redeclaration exception
     }
 
-    public void assignVariable(VMIdentifier identifier, VMObject value) throws NotDeclaredException {
+    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws NotDeclaredException {
         getFullVariable(identifier).setValue(value);
     }
 
-    public TypeValuePair getFullVariable(VMIdentifier identifier) throws NotDeclaredException {
+    public TypeValuePair getFullVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
         if (!localVariables.containsKey(identifier))
             throw new NotDeclaredException("The variable " + identifier + " has not been yet declared.");
 
         return localVariables.get(identifier);
     }
 
-    public VMObject getVariable(VMIdentifier identifier) throws NotDeclaredException {
+    public VMObject getVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
         return getFullVariable(identifier).getValue();
     }
 
