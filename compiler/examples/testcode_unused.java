@@ -76,20 +76,7 @@ int number = 3, sec, third = 5;
         }
     }
 
-    public static void testCompare() {
-        int i = 10;
-        console(i == 10); // True
-        console(i != 10); // False
-        console(i != 5); // True
-        console(i > 5); // True
-        console(i > 10); // False
-        console(i < 5); // False
-        console(i < 10); // False
-        console(i <= 5); // False
-        console(i >= 5); // True
-        console(i <= 10); // True
-        console(i >= 10); // True
-    }
+    
 
     public static void testBoolean() {
         boolean a = false;
@@ -98,6 +85,38 @@ int number = 3, sec, third = 5;
         console(a == a); // True
         console(a == b); // False
         console(!a == a); // False
+    }
+
+    // Curly bracket scope basic
+    public static void testVariableScope() {
+        if (true) {
+            int a = 10;
+            console(a);
+        }
+
+        console(a); // Exception, should not be found
+    }
+
+    // Curly bracket and for scope
+    public static void testVariableScope2() {
+        for (int i = 1; i < 10; i++) {
+            console(i); // 1
+            i = 15; // Should be ok
+            console(i); // 15
+        }
+
+        i = 20; // Should not be found
+    }
+
+    // Scope redeclaration
+    public static void testVariableScope3() {
+        // TODO
+    }
+
+    public static void testFor() {
+        for (int i = 1; i < 10; i++) {
+            console(i);
+        }
     }
 
     

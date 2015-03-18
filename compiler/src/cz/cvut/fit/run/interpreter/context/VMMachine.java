@@ -42,7 +42,7 @@ public class VMMachine {
         loadBuiltinFunctions();
 
         try {
-            loadBuiltinClasses();
+            registerBuiltinClasses();
         } catch (VMException ex) {
             throw new RuntimeException(ex);
         }
@@ -65,12 +65,25 @@ public class VMMachine {
         functions.put(VMExpressionType.ASSIGNMENT, new VMAssignment());
     }
 
-    private void loadBuiltinClasses() throws VMException {
-        classes.put("Integer", new VMInteger());
-        classes.put("Boolean", new VMBoolean());
-        classes.put("String", new VMString());
+    private void registerClass(VMClass clazz) {
+        classes.put(clazz.getType().getName(), clazz);
+    }
+
+    private void registerClassAlias(String className, String alias) {
+        classes.put(alias, classes.get(className));
+    }
+
+    private void registerBuiltinClasses() throws VMException {
+        registerClass(new VMInteger());
+        registerClassAlias("Integer", "int");
+
+        registerClass(new VMBoolean());
+        registerClassAlias("Boolean", "boolean");
+
+        registerClass(new VMString());
+
         IDClass = new VMIdentifier();
-        classes.put("ID", IDClass);
+        registerClass(IDClass);
     }
 
     /** ACCESSORS **/
@@ -388,7 +401,7 @@ public class VMMachine {
     private void evalLocalVariableDeclaration(LocalVariableDeclarationContext variableDeclaration)
         throws VMException {
         String typeString = variableDeclaration.type().primitiveType().getChild(0).toString();
-        VMType type = VMType.valueOf(typeString.toUpperCase());
+        VMType type = getClazz(typeString).getType();
 
         for (VariableDeclaratorContext variableDeclarator
                 : variableDeclaration.variableDeclarators().variableDeclarator()) {

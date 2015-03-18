@@ -5,35 +5,29 @@ package cz.fit.cvut.cz.run.examples;
  */
 public class Test {
 
-    // Curly bracket scope basic
-    public static void testVariableScope() {
-        if (true) {
-            int a = 10;
-            console(a);
-        }
-
-        console(a); // Exception, should not be found
+    public static void testNew() {
+        Integer a = new Integer(5);
+        int a = false;
+        Integer b = new Boolean(false);
     }
 
-    // Curly bracket and for scope
-    public static void testVariableScope2() {
-        for (int i = 1; i < 10; i++) {
-            console(i); // 1
-            i = 15; // Should be ok
-            console(i); // 15
-        }
-
-        i = 20; // Should not be found
+    public static void testArray() {
+        boolean[] boolArray = new Boolean[10];
+        // TODO accessing
     }
 
-    // Scope redeclaration
-    public static void testVariableScope3() {
-        // TODO
-    }
-
-    public static void testFor() {
-        for (int i = 1; i < 10; i++) {
-            console(i);
-        }
+    public static void testCompare() {
+        int i = 10;
+        console(i == 10); // True
+        console(i != 10); // False
+        console(i != 5); // True
+        console(i > 5); // True
+        console(i > 10); // False
+        console(i < 5); // False
+        console(i < 10); // False
+        console(i <= 5); // False
+        console(i >= 5); // True
+        console(i <= 10); // True
+        console(i >= 10); // True
     }
 }

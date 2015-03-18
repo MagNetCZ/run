@@ -23,7 +23,7 @@ public class VMBuiltinInstance<T> extends VMObject {
 
     @Override
     public String toString() {
-        return "<" + getType().toString() + ": " + value.toString() + ">";
+        return "<" + getType().getName() + ": " + value.toString() + ">";
     }
 
     @Override
