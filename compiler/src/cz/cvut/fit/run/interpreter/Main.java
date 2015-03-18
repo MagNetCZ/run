@@ -13,7 +13,8 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("hello");
+        System.out.println("VMMachine Starting up...");
+        System.out.println("***************************");
 
         ANTLRInputStream input = new ANTLRFileStream("examples/testcode.java");
         JavaLexer lexer = new JavaLexer(input);

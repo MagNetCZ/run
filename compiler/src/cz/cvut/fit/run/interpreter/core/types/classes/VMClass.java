@@ -81,6 +81,6 @@ public class VMClass extends VMBaseObject {
     }
 
     public VMObject createInstance(VMObject ... args) {
-        return new VMObject(this); // TODO constructor arguments
+        return new VMObject(this, args);
     }
 }

@@ -67,4 +67,9 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
             this.argTypes = argTypes;
         }
     }
+
+    @Override
+    public VMObject createInstance(VMObject... args) {
+        return createInstance(((InstanceType)args[0]).getValue());
+    }
 }

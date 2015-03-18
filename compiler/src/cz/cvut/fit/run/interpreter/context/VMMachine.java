@@ -11,11 +11,13 @@ import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.parser.JavaParser;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -134,6 +136,9 @@ public class VMMachine {
         String operator = expression.getChild(expression.getChildCount() - 2).toString();
 
         // Binary expressions
+        if (expression.creator() != null)
+            return VMExpressionType.CREATOR;
+
         switch (operator) {
             case "=": return VMExpressionType.ASSIGNMENT;
             case ".": return VMExpressionType.DOT_ACCESS;
@@ -362,11 +367,29 @@ public class VMMachine {
                 VMObject unObject = popValue();
                 unObject.callMethod(unOperator);
                 break;
+            case CREATOR:
+                evalCreator(expression.creator());
+                break;
             case DOT_ACCESS:
                 throw new NotImplementedException();
             case FUNCTION_CALL:
                 evalFunctionCall(expression);
+                break;
         }
+    }
+
+    private void evalCreator(CreatorContext creator) throws VMException {
+        String typeName = creator.createdName().getText();
+        VMClass clazz = getClazz(typeName);
+
+        ExpressionListContext argumentExpressionList = creator.classCreatorRest().arguments().expressionList();
+        LinkedList<VMObject> argList = new LinkedList<>();
+        for (ExpressionContext expression : argumentExpressionList.expression()) {
+            evalExpression(expression);
+            argList.add(popValue());
+        }
+
+        push(clazz.createInstance(argList.toArray(new VMObject[argList.size()])));
     }
 
     private void evalExpressionList(ExpressionListContext expressionList) throws VMException {

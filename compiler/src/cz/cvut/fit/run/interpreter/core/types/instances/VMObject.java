@@ -22,10 +22,12 @@ public class VMObject extends VMBaseObject {
         return getClazz().getType();
     }
 
-    public VMObject(VMClass clazz) {
+    public VMObject(VMClass clazz, VMObject ... args) {
         this.clazz = clazz;
 
         instance_fields = new HashMap<>();
+
+        // TODO assign variables from args based on class constructor definition
     }
 
     public void callMethod(String name, VMObject ... args) throws VMException {
