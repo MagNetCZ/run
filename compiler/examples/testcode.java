@@ -12,6 +12,7 @@ public class Test {
 
     public static void testArray() {
         Boolean[] a = new Boolean[20];
+        a[0] = 1;
         console(a[0]);
     }
 

@@ -10,6 +10,7 @@ import cz.cvut.fit.run.interpreter.core.helpers.LiteralParser;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaParser;
 import cz.cvut.fit.run.parser.JavaParser.*;
@@ -378,7 +379,7 @@ public class VMMachine {
         }
     }
 
-    private void evalCreator(CreatorContext creator) throws VMException {
+    private void evalObjectCreator(CreatorContext creator) throws VMException {
         String typeName = creator.createdName().getText();
         VMClass clazz = getClazz(typeName);
 
@@ -390,6 +391,29 @@ public class VMMachine {
         }
 
         push(clazz.createInstance(argList.toArray(new VMObject[argList.size()])));
+    }
+
+    private void evalArrayCreator(CreatorContext creator) throws VMException {
+        String typeName = creator.createdName().getText();
+        VMClass clazz = getClazz(typeName);
+
+        evalExpression(creator.arrayCreatorRest().expression(0));
+        // TODO check if there could be anything else than one expression
+
+        VMIntegerInstance arraySizeInstance = (VMIntegerInstance)popValue();
+        VMArray arrayClass = getArrayClazz(clazz.getType());
+
+        VMObject newArray = arrayClass.createInstance(arraySizeInstance.getValue());
+        push(newArray);
+    }
+
+    private void evalCreator(CreatorContext creator) throws VMException {
+        if (creator.classCreatorRest() != null) {
+            evalObjectCreator(creator);
+            return;
+        }
+
+        evalArrayCreator(creator);
     }
 
     private void evalExpressionList(ExpressionListContext expressionList) throws VMException {
@@ -423,8 +447,7 @@ public class VMMachine {
 
     private void evalLocalVariableDeclaration(LocalVariableDeclarationContext variableDeclaration)
         throws VMException {
-        String typeString = variableDeclaration.type().getText();
-        VMType type = getClazz(typeString).getType();
+        VMType type = getClazz(variableDeclaration.type()).getType();
 
         for (VariableDeclaratorContext variableDeclarator
                 : variableDeclaration.variableDeclarators().variableDeclarator()) {
@@ -441,6 +464,21 @@ public class VMMachine {
 
             assignValue();
         }
+    }
+
+    public VMArray getArrayClazz(VMType contentType) throws VMException {
+        return new VMArray(contentType);
+        // TODO register array class
+    }
+
+    public VMClass getClazz(TypeContext type) throws VMException {
+        VMClass clazz = getClazz(type.getChild(0).getText());
+
+        if (type.getChildCount() == 1)
+            return clazz;
+
+        // Array
+        return getArrayClazz(clazz.getType());
     }
 
     public VMClass getClazz(String name) {
