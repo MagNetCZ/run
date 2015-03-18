@@ -21,15 +21,7 @@ int number = 3, sec, third = 5;
     }
 
 
-    public static void testMethod() {
-        boolean a = false;
-        boolean b = true;
-        console(!a);
-        console(a == a);
-        console(a == b);
-        console(!a == a);
-        //a = !a;
-    }
+    
 
     public static void testIf() {
         boolean a = true;

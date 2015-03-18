@@ -33,14 +33,13 @@ public class Test {
     }
 
     public static void testFor() {
-        for (int i = 1; true; i = i + 1) {
+        for (int i = 1; i < 10; i++) {
             console(i);
         }
     }
 
     public static void testIf() {
-
-        for (int i = 1; true; i = i + 1) {
+        for (int i = 0; true; i = i + 1) {
             console(i);
         }
     }
@@ -58,6 +57,15 @@ public class Test {
         console(i >= 5); // True
         console(i <= 10); // True
         console(i >= 10); // True
+    }
+
+    public static void testBoolean() {
+        boolean a = false;
+        boolean b = true;
+        console(!a); // True
+        console(a == a); // True
+        console(a == b); // False
+        console(!a == a); // False
     }
 
 }

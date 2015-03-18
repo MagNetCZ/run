@@ -3,6 +3,7 @@ package cz.cvut.fit.run.interpreter.core.types.classes;
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
+import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaParser;
@@ -61,8 +62,10 @@ public class VMClass extends VMBaseObject {
         }
     }
 
-    public VMMethod lookupMethod(String name) {
+    public VMMethod lookupMethod(String name) throws VMException {
         // TODO static vs instance methods
+        if (!methods.containsKey(name))
+            throw new NotDeclaredException(name); // TODO method lookup in source
         return methods.get(name);
     };
 

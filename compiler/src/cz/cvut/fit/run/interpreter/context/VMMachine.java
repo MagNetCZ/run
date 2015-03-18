@@ -336,7 +336,8 @@ public class VMMachine {
                 object.callMethod(binOperator, operand);
                 break;
             case DIRECT_UNARY_METHOD:
-                String unOperator = expression.getChild(0).toString();
+                int operandIndex = expression.getChild(0) instanceof ExpressionContext ? 1 : 0;
+                String unOperator = expression.getChild(operandIndex).getText();
                 VMObject unObject = popValue();
                 unObject.callMethod(unOperator);
                 break;
