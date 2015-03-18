@@ -400,7 +400,7 @@ public class VMMachine {
 
     private void evalLocalVariableDeclaration(LocalVariableDeclarationContext variableDeclaration)
         throws VMException {
-        String typeString = variableDeclaration.type().primitiveType().getChild(0).toString();
+        String typeString = variableDeclaration.type().getText();
         VMType type = getClazz(typeString).getType();
 
         for (VariableDeclaratorContext variableDeclarator

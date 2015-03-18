@@ -2,6 +2,7 @@ package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
+import cz.cvut.fit.run.interpreter.core.exceptions.TypeMismatchException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
@@ -60,8 +61,15 @@ public class VMFrame {
         localVariableStack.peek().put(identifier, new TypeValuePair(type));
     }
 
-    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws NotDeclaredException {
-        getFullVariable(identifier).setValue(value);
+    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws VMException {
+        TypeValuePair tvp = getFullVariable(identifier);
+
+        if (!value.getType().equals(tvp.getType())) {
+            throw new TypeMismatchException();
+            // TODO inherited type checking (iterate through object type and its super types)
+        }
+
+        tvp.setValue(value);
     }
 
     private TypeValuePair getVariablePair(VMIdentifierInstance identifier) {

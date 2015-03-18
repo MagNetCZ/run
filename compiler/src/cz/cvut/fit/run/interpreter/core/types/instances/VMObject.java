@@ -19,7 +19,7 @@ public class VMObject extends VMBaseObject {
 
     @Override
     public VMType getType() {
-        return VMType.REFERENCE;
+        return getClazz().getType();
     }
 
     public VMObject(VMClass clazz) {

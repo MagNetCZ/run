@@ -5,10 +5,16 @@ package cz.fit.cvut.cz.run.examples;
  */
 public class Test {
 
+    public static void testTypeMismatch() {
+        Integer a = 5;
+        console(a);
+        a = false;
+        console(a);
+    }
+
     public static void testNew() {
-        Integer a = new Integer(5);
-        int a = false;
         Integer b = new Boolean(false);
+        console(b);
     }
 
     public static void testArray() {

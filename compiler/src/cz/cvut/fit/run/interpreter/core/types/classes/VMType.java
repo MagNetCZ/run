@@ -38,5 +38,30 @@ public class VMType {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return "VMType{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
     // TODO equals for type checking
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VMType)) return false;
+
+        VMType vmType = (VMType) o;
+
+        if (!name.equals(vmType.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }
