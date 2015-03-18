@@ -5,31 +5,30 @@ package cz.fit.cvut.cz.run.examples;
  */
 public class Test {
 
-    public static void testSwitch() {
-        boolean b = true;
-        switch (b) {
-            case true:
-                console("true");
-            case false:
-                console("false");
-                break;
-            default:
-                console("default");
+    // Curly bracket scope basic
+    public static void testVariableScope() {
+        if (true) {
+            int a = 10;
+            console(a);
         }
+
+        console(a); // Exception, should not be found
     }
 
-    public static void testWhile() {
-        boolean a = true;
-        int i = 0;
-        while (a) {
-            console(i);
-            i = i + 1;
-            a = false;
+    // Curly bracket and for scope
+    public static void testVariableScope2() {
+        for (int i = 1; i < 10; i++) {
+            console(i); // 1
+            i = 15; // Should be ok
+            console(i); // 15
         }
 
-        do {
-            console(2);
-        } while (false);
+        i = 20; // Should not be found
+    }
+
+    // Scope redeclaration
+    public static void testVariableScope3() {
+        // TODO
     }
 
     public static void testFor() {
@@ -37,35 +36,4 @@ public class Test {
             console(i);
         }
     }
-
-    public static void testIf() {
-        for (int i = 0; true; i = i + 1) {
-            console(i);
-        }
-    }
-
-    public static void testCompare() {
-        int i = 10;
-        console(i == 10); // True
-        console(i != 10); // False
-        console(i != 5); // True
-        console(i > 5); // True
-        console(i > 10); // False
-        console(i < 5); // False
-        console(i < 10); // False
-        console(i <= 5); // False
-        console(i >= 5); // True
-        console(i <= 10); // True
-        console(i >= 10); // True
-    }
-
-    public static void testBoolean() {
-        boolean a = false;
-        boolean b = true;
-        console(!a); // True
-        console(a == a); // True
-        console(a == b); // False
-        console(!a == a); // False
-    }
-
 }

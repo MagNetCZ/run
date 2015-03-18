@@ -199,13 +199,13 @@ public class VMMachine {
             }
         } catch (BreakException ex) {
         }
-
-        // TODO finally scope exit
     }
 
 
     private void evalFor(StatementContext statement) throws VMException {
         ForControlContext forControl = statement.forControl();
+
+        getFrame().enterScope();
 
         if (forControl.forInit().localVariableDeclaration() != null) {
             evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
@@ -220,7 +220,7 @@ public class VMMachine {
             }
         } catch (BreakException ex) {}
 
-        // TODO finally scope exit
+        getFrame().exitScope();
     }
 
     private void evalFlowControl(StatementContext statement) throws VMException {
@@ -247,9 +247,13 @@ public class VMMachine {
     }
 
     private void evalBlock(BlockContext block) throws VMException {
+        getFrame().enterScope();
+
         for (BlockStatementContext blockStatement : block.blockStatement()) {
             evalBlockStatement(blockStatement);
         }
+
+        getFrame().exitScope();
     }
     private void evalBlockStatement(BlockStatementContext blockStatement) throws VMException {
         StatementContext statement = blockStatement.statement();
