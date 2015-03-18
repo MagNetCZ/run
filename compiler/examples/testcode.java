@@ -18,4 +18,46 @@ public class Test {
         }
     }
 
+    public static void testWhile() {
+        boolean a = true;
+        int i = 0;
+        while (a) {
+            console(i);
+            i = i + 1;
+            a = false;
+        }
+
+        do {
+            console(2);
+        } while (false);
+    }
+
+    public static void testFor() {
+        for (int i = 1; true; i = i + 1) {
+            console(i);
+        }
+    }
+
+    public static void testIf() {
+
+        for (int i = 1; true; i = i + 1) {
+            console(i);
+        }
+    }
+
+    public static void testCompare() {
+        int i = 10;
+        console(i == 10); // True
+        console(i != 10); // False
+        console(i != 5); // True
+        console(i > 5); // True
+        console(i > 10); // False
+        console(i < 5); // False
+        console(i < 10); // False
+        console(i <= 5); // False
+        console(i >= 5); // True
+        console(i <= 10); // True
+        console(i >= 10); // True
+    }
+
 }

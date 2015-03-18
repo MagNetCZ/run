@@ -35,7 +35,8 @@ public class BasicVisitor extends JavaBaseVisitor<String> {
 //        if (identifier.equals("testMethod")) {
 //        if (identifier.equals("testIf")) {
 //        if (identifier.equals("testFor")) {
-        if (identifier.equals("testSwitch")) {
+        if (identifier.equals("testWhile")) {
+//        if (identifier.equals("testSwitch")) {
             VMMachine.getInstance().evalMethod(ctx.methodBody());
         }
 

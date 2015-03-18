@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.exceptions.BreakException;
+import cz.cvut.fit.run.interpreter.core.exceptions.ContinueException;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
@@ -149,14 +150,24 @@ public class VMMachine {
     }
 
     private void evalWhile(StatementContext statement) throws VMException {
-        while (checkParExpression(statement)) {
-            evalStatement(statement.statement(0));
+        try {
+            while (checkParExpression(statement)) {
+                try {
+                    evalStatement(statement.statement(0));
+                } catch (ContinueException ex) {}
+            }
+        } catch (BreakException ex) {
+
         }
     }
 
     private void evalDoWhile(StatementContext statement) throws VMException {
-        evalStatement(statement.statement(0));
-        evalWhile(statement);
+        try {
+            try {
+                evalStatement(statement.statement(0));
+            } catch (ContinueException ex) {}
+            evalWhile(statement);
+        } catch (BreakException ex) {}
     }
 
     private void evalSwitch(StatementContext statement) throws VMException {
@@ -189,7 +200,7 @@ public class VMMachine {
         } catch (BreakException ex) {
         }
 
-        // TODO scope exit
+        // TODO finally scope exit
     }
 
 
@@ -200,10 +211,16 @@ public class VMMachine {
             evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
         }
 
-        while (checkExpression(forControl.expression())) {
-            evalStatement(statement.statement(0));
-            evalExpressionList(forControl.forUpdate().expressionList());
-        }
+        try {
+            while (checkExpression(forControl.expression())) {
+                try {
+                    evalStatement(statement.statement(0));
+                } catch (ContinueException ex) {}
+                evalExpressionList(forControl.forUpdate().expressionList());
+            }
+        } catch (BreakException ex) {}
+
+        // TODO finally scope exit
     }
 
     private void evalFlowControl(StatementContext statement) throws VMException {
@@ -252,24 +269,36 @@ public class VMMachine {
         if (parExpression != null) {
             // Flow control
             evalFlowControl(statement);
+            return;
         }
 
         if (statement.forControl() != null) {
             evalFor(statement);
+            return;
         }
 
         StatementExpressionContext statementExpression = statement.statementExpression();
         if (statementExpression != null) {
             ExpressionContext expression = statementExpression.expression();
             evalExpression(expression);
+            return;
         }
 
         if (statement.block() != null) {
             evalBlock(statement.block());
+            return;
         }
 
-        if (statement.getChild(0).getText().equals("break")) {
-            throw new BreakException();
+        // Keywords
+        String keyword = statement.getChild(0).getText();
+        switch (keyword) {
+            case "break":
+                throw new BreakException();
+            case "continue":
+                throw new ContinueException();
+            // TODO return
+            default:
+                throw new NotImplementedException();
         }
     }
 

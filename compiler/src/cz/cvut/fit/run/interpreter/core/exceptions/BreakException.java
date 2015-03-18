@@ -3,7 +3,7 @@ package cz.cvut.fit.run.interpreter.core.exceptions;
 /**
  * Created by MagNet on 16. 3. 2015.
  */
-public class BreakException extends VMException {
+public class BreakException extends FlowException {
     public BreakException() {
     }
 

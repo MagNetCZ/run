@@ -52,20 +52,4 @@ int number = 3, sec, third = 5;
         }
     }
 
-    public static void testWhile() {
-        boolean a = true;
-        while (a) {
-            console(1);
-            a = false;
-        }
-
-        do {
-            console(2);
-        } while (false);
-    }
-
-    public static void testFor() {
-        for (int i = 0; true; i = i + 1) {
-            console(i);
-        }
-    }
+    
