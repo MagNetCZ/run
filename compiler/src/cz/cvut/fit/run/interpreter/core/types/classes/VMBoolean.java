@@ -18,38 +18,38 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
         TRUE = new VMBooleanInstance(this, true);
     }
 
-    public VMBooleanInstance getFor(boolean value) {
+    public static VMBooleanInstance getBool(boolean value) {
         return value ? TRUE : FALSE;
     }
 
     public VMBooleanInstance negate(VMObject instance) {
         VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getFor(!boolInstance.getValue());
+        return getBool(!boolInstance.getValue());
     }
 
     public VMBooleanInstance boolEquals(VMObject instance, VMObject other) {
         VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getFor(boolInstance.getValue() == ((VMBooleanInstance)other).getValue());
+        return getBool(boolInstance.getValue() == ((VMBooleanInstance) other).getValue());
     }
 
     public VMBooleanInstance boolNotEquals(VMObject instance, VMObject other) {
         VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getFor(boolInstance.getValue() != ((VMBooleanInstance)other).getValue());
+        return getBool(boolInstance.getValue() != ((VMBooleanInstance) other).getValue());
     }
 
     public VMBooleanInstance or(VMObject instance, VMObject other) {
         VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getFor(boolInstance.getValue() || ((VMBooleanInstance)other).getValue());
+        return getBool(boolInstance.getValue() || ((VMBooleanInstance) other).getValue());
     }
 
     public VMBooleanInstance and(VMObject instance, VMObject other) {
         VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getFor(boolInstance.getValue() && ((VMBooleanInstance)other).getValue());
+        return getBool(boolInstance.getValue() && ((VMBooleanInstance) other).getValue());
     }
 
     public VMBooleanInstance xor(VMObject instance, VMObject other) {
         VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getFor(boolInstance.getValue() ^ ((VMBooleanInstance)other).getValue());
+        return getBool(boolInstance.getValue() ^ ((VMBooleanInstance) other).getValue());
     }
 
     @Override

@@ -2,6 +2,7 @@ package cz.cvut.fit.run.interpreter.core.types.classes;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
@@ -50,16 +51,65 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
         return new VMIntegerInstance(this, firstOperand.getValue() / secondOperand.getValue());
     }
 
-    // TODO compare operators
+    public VMBooleanInstance compareEquals(VMObject instance, VMObject operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+        VMIntegerInstance secondOperand = convertToInt(operand);
+
+        return VMBoolean.getBool(firstOperand.getValue() == secondOperand.getValue());
+    }
+
+    public VMBooleanInstance compareNotEquals(VMObject instance, VMObject operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+        VMIntegerInstance secondOperand = convertToInt(operand);
+
+        return VMBoolean.getBool(firstOperand.getValue() != secondOperand.getValue());
+    }
+
+    public VMBooleanInstance compareGreaterThan(VMObject instance, VMObject operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+        VMIntegerInstance secondOperand = convertToInt(operand);
+
+        return VMBoolean.getBool(firstOperand.getValue() > secondOperand.getValue());
+    }
+
+    public VMBooleanInstance compareLessThan(VMObject instance, VMObject operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+        VMIntegerInstance secondOperand = convertToInt(operand);
+
+        return VMBoolean.getBool(firstOperand.getValue() < secondOperand.getValue());
+    }
+
+    public VMBooleanInstance compareGreaterEquals(VMObject instance, VMObject operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+        VMIntegerInstance secondOperand = convertToInt(operand);
+
+        return VMBoolean.getBool(firstOperand.getValue() >= secondOperand.getValue());
+    }
+
+    public VMBooleanInstance compareLessEquals(VMObject instance, VMObject operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+        VMIntegerInstance secondOperand = convertToInt(operand);
+
+        return VMBoolean.getBool(firstOperand.getValue() <= secondOperand.getValue());
+    }
 
     @Override
     public List<BuiltinMethodIdentifier> getBuiltinMethods() {
         List<BuiltinMethodIdentifier> builtinMethods = new LinkedList<>();
 
+        // Math
         builtinMethods.add(new BuiltinMethodIdentifier("sum", "+", VMType.INT, VMType.INT));
         builtinMethods.add(new BuiltinMethodIdentifier("subtract", "-", VMType.INT, VMType.INT));
         builtinMethods.add(new BuiltinMethodIdentifier("multiply", "*", VMType.INT, VMType.INT));
         builtinMethods.add(new BuiltinMethodIdentifier("divide", "/", VMType.INT, VMType.INT));
+
+        // Comparison
+        builtinMethods.add(new BuiltinMethodIdentifier("compareEquals", "==", VMType.BOOLEAN, VMType.INT));
+        builtinMethods.add(new BuiltinMethodIdentifier("compareNotEquals", "!=", VMType.BOOLEAN, VMType.INT));
+        builtinMethods.add(new BuiltinMethodIdentifier("compareGreaterThan", ">", VMType.BOOLEAN, VMType.INT));
+        builtinMethods.add(new BuiltinMethodIdentifier("compareLessThan", "<", VMType.BOOLEAN, VMType.INT));
+        builtinMethods.add(new BuiltinMethodIdentifier("compareGreaterEquals", ">=", VMType.BOOLEAN, VMType.INT));
+        builtinMethods.add(new BuiltinMethodIdentifier("compareLessEquals", "<=", VMType.BOOLEAN, VMType.INT));
 
         return builtinMethods;
     }

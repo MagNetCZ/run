@@ -51,6 +51,8 @@ public class VMClass extends VMBaseObject {
     public void callMethod(String name, VMObject target, VMObject ... args) throws VMException {
         VMMethod method = lookupMethod(name);
 
+        // TODO check argument types
+
         VMObject[] injectedArgs = injectTarget(target, args);
         if (method.getReturnType() == VMType.VOID) {
             method.invoke(this, injectedArgs);
