@@ -16,6 +16,7 @@ public class Main {
         System.out.println("VMMachine Starting up...");
         System.out.println("***************************");
 
+        // TODO load file based on args
         ANTLRInputStream input = new ANTLRFileStream("examples/testcode.java");
         JavaLexer lexer = new JavaLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

@@ -6,8 +6,8 @@ import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 /**
  * Created by MagNet on 16. 3. 2015.
  */
-public class VMBooleanInstance extends VMBuiltinInstance<Boolean> {
-    public VMBooleanInstance(VMClass clazz, Boolean value) {
-        super(clazz, value);
+public class VMArrayInstance extends VMBuiltinInstance<VMObject[]> {
+    public VMArrayInstance(VMClass clazz, Integer size) {
+        super(clazz, new VMObject[size]);
     }
 }

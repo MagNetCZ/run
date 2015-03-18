@@ -15,6 +15,8 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
     public static VMBooleanInstance TRUE;
 
     public VMBoolean() throws VMException {
+        super(VMType.BOOLEAN);
+
         FALSE = new VMBooleanInstance(this, false);
         TRUE = new VMBooleanInstance(this, true);
     }

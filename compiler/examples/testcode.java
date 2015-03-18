@@ -8,10 +8,11 @@ public class Test {
     public static void testNew() {
         Boolean a = new Boolean(false);
         console(a);
-        // Boolean[] a = new Boolean[20];
-        // console(a);
-        // a = new Integer(5);
-        // console(a);
+    }
+
+    public static void testArray() {
+        Boolean[] a = new Boolean[20];
+        console(a[0]);
     }
 
 }

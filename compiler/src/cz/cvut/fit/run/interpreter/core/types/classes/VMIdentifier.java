@@ -9,6 +9,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
  */
 public class VMIdentifier extends VMBuiltinType<String, VMIdentifierInstance> {
     public VMIdentifier() throws VMException {
+        super(VMType.ID);
     }
 
     @Override

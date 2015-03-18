@@ -18,16 +18,14 @@ public class VMClass extends VMBaseObject {
 
     private VMClass superClass = null;
 
-    @Override
-    public VMType getType() {
-        return VMType.CLASS;
-    }
+    private VMType type;
 
     HashMap<String, VMObject> static_fields;
-    HashMap<String, VMMethod> methods;
 
-    public VMClass(VMClass superClass) throws VMException {
+    HashMap<String, VMMethod> methods;
+    public VMClass(VMType type, VMClass superClass) throws VMException {
         this.superClass = superClass;
+        this.type = type;
 
         static_fields = new HashMap<>();
         methods = new HashMap<>();
@@ -35,8 +33,16 @@ public class VMClass extends VMBaseObject {
         initMethods();
     }
 
-    public VMClass() throws VMException {
-        this(null);
+    private VMClass() throws VMException {
+        this(VMType.CLASS, null);
+    }
+
+    public VMClass(VMType type) throws VMException {
+        this(type, null);
+    }
+
+    public VMType getType() {
+        return type;
     }
 
     private VMObject[] injectTarget(VMObject instance, VMObject ... args) {

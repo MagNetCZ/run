@@ -8,6 +8,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
  */
 public class VMString extends VMBuiltinType<String, VMStringInstance> {
     public VMString() throws VMException {
+        super(VMType.STRING);
     }
 
     @Override

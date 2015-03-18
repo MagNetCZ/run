@@ -13,7 +13,8 @@ import java.util.List;
  * Created by MagNet on 12. 3. 2015.
  */
 public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>> extends VMClass {
-    public VMBuiltinType() throws VMException {
+    protected VMBuiltinType(VMType type) throws VMException {
+        super(type);
     }
 
     public void registerBuiltinMethods() throws VMException {

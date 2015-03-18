@@ -15,6 +15,7 @@ import java.util.logging.Level;
  */
 public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     public VMInteger() throws VMException {
+        super(VMType.INT);
     }
 
     public static VMIntegerInstance convertToInt(VMObject object) {
