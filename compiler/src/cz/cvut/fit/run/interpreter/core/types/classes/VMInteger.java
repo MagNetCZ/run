@@ -14,6 +14,9 @@ import java.util.logging.Level;
  * Created by MagNet on 12. 3. 2015.
  */
 public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
+    public VMInteger() throws VMException {
+    }
+
     public static VMIntegerInstance convertToInt(VMObject object) {
         // TODO support for other numeric types
         return (VMIntegerInstance)object;

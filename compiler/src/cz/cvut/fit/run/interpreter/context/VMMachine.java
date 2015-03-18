@@ -2,20 +2,19 @@ package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.exceptions.BreakException;
 import cz.cvut.fit.run.interpreter.core.exceptions.ContinueException;
-import cz.cvut.fit.run.interpreter.core.types.classes.*;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.functions.VMExpressionType;
 import cz.cvut.fit.run.interpreter.core.functions.VMStackFunction;
 import cz.cvut.fit.run.interpreter.core.functions.binary.VMAssignment;
 import cz.cvut.fit.run.interpreter.core.helpers.LiteralParser;
+import cz.cvut.fit.run.interpreter.core.types.classes.*;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.beans.Expression;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +40,12 @@ public class VMMachine {
         classes = new HashMap<>();
 
         loadBuiltinFunctions();
-        loadBuiltinClasses();
+
+        try {
+            loadBuiltinClasses();
+        } catch (VMException ex) {
+            throw new RuntimeException(ex);
+        }
 
 //        logger.setLevel(Level.INFO);
         logger.setLevel(Level.SEVERE);
@@ -61,7 +65,7 @@ public class VMMachine {
         functions.put(VMExpressionType.ASSIGNMENT, new VMAssignment());
     }
 
-    private void loadBuiltinClasses() {
+    private void loadBuiltinClasses() throws VMException {
         classes.put("Integer", new VMInteger());
         classes.put("Boolean", new VMBoolean());
         classes.put("String", new VMString());

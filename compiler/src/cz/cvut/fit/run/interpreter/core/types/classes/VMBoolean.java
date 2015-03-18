@@ -1,5 +1,6 @@
 package cz.cvut.fit.run.interpreter.core.types.classes;
 
+import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
@@ -13,7 +14,7 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
     public static VMBooleanInstance FALSE;
     public static VMBooleanInstance TRUE;
 
-    public VMBoolean() {
+    public VMBoolean() throws VMException {
         FALSE = new VMBooleanInstance(this, false);
         TRUE = new VMBooleanInstance(this, true);
     }

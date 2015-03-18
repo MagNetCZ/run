@@ -26,7 +26,7 @@ public class VMClass extends VMBaseObject {
     HashMap<String, VMObject> static_fields;
     HashMap<String, VMMethod> methods;
 
-    public VMClass(VMClass superClass) {
+    public VMClass(VMClass superClass) throws VMException {
         this.superClass = superClass;
 
         static_fields = new HashMap<>();
@@ -35,7 +35,7 @@ public class VMClass extends VMBaseObject {
         initMethods();
     }
 
-    public VMClass() {
+    public VMClass() throws VMException {
         this(null);
     }
 
@@ -72,7 +72,7 @@ public class VMClass extends VMBaseObject {
     /**
      * Initialize builtin methods
      */
-    public void initMethods() {
+    public void initMethods() throws VMException {
 
     }
 

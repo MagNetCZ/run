@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.core.types.classes;
 
 import cz.cvut.fit.run.interpreter.core.VMMethod;
+import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBuiltinInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
@@ -12,10 +13,10 @@ import java.util.List;
  * Created by MagNet on 12. 3. 2015.
  */
 public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>> extends VMClass {
-    public VMBuiltinType() {
+    public VMBuiltinType() throws VMException {
     }
 
-    public void registerBuiltinMethods() {
+    public void registerBuiltinMethods() throws VMException {
         Class<?> c = this.getClass();
 
         try {
@@ -37,15 +38,14 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
             }
 
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            // TODO propagate
+            throw new VMException(e);
         }
     }
 
     public abstract InstanceType createInstance(T value);
 
     @Override
-    public void initMethods() {
+    public void initMethods() throws VMException {
         registerBuiltinMethods();
         super.initMethods();
     }
