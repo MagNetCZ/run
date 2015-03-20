@@ -8,6 +8,8 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
  * Created by MagNet on 12. 3. 2015.
  */
 public class VMIdentifier extends VMBuiltinType<String, VMIdentifierInstance> {
+    // TODO PRIORITY expand to support array index
+
     public VMIdentifier() throws VMException {
         super(VMType.ID);
     }

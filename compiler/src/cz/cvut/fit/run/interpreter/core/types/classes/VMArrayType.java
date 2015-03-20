@@ -30,4 +30,8 @@ public class VMArrayType extends VMType {
         result = 31 * result + contentType.hashCode();
         return result;
     }
+
+    public VMType getContentType() {
+        return contentType;
+    }
 }

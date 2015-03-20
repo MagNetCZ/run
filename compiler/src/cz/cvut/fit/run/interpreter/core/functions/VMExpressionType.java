@@ -9,5 +9,6 @@ public enum VMExpressionType {
     DIRECT_UNARY_METHOD,
     DOT_ACCESS,
     FUNCTION_CALL,
+    ARRAY_ACCESS,
     CREATOR;
 }

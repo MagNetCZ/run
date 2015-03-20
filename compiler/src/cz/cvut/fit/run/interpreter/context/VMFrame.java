@@ -4,6 +4,8 @@ import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.TypeMismatchException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMArrayType;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
@@ -61,15 +63,38 @@ public class VMFrame {
         localVariableStack.peek().put(identifier, new TypeValuePair(type));
     }
 
-    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws VMException {
-        TypeValuePair tvp = getFullVariable(identifier);
-
-        if (!value.getType().equals(tvp.getType())) {
-            throw new TypeMismatchException();
+    public boolean canAssignTo(VMObject value, VMType type) {
+        if (!value.getType().equals(type)) {
+            return false;
             // TODO inherited type checking (iterate through object type and its super types)
         }
 
-        tvp.setValue(value);
+        return true;
+    }
+
+    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws VMException {
+        // TODO array
+
+        TypeValuePair tvp = getFullVariable(identifier);
+
+        if (!identifier.isArrayIndex()) {
+            // Non arrays
+            if (!canAssignTo(value, tvp.getType())) {
+                throw new TypeMismatchException();
+            }
+
+            tvp.setValue(value);
+        } else {
+            // Array index assignment
+            VMArrayType arrayType = (VMArrayType)tvp.getType();
+            if (!canAssignTo(value, arrayType.getContentType())) {
+                throw new TypeMismatchException();
+            }
+
+            VMArrayInstance array = (VMArrayInstance)tvp.getValue();
+            array.set(identifier.getArrayIndex(), value);
+        }
+
     }
 
     private TypeValuePair getVariablePair(VMIdentifierInstance identifier) {
@@ -91,7 +116,17 @@ public class VMFrame {
     }
 
     public VMObject getVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
-        return getFullVariable(identifier).getValue();
+        // TODO use array
+        TypeValuePair fullVariable =  getFullVariable(identifier);
+
+        if (!identifier.isArrayIndex()) {
+            // Non arrays
+            return fullVariable.getValue();
+        } else {
+            // Array index access
+            VMArrayInstance array = (VMArrayInstance)fullVariable.getValue();
+            return array.get(identifier.getArrayIndex());
+        }
     }
 
     public void push(VMObject value) {

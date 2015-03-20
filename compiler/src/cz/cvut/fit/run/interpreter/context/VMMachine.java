@@ -131,8 +131,17 @@ public class VMMachine {
     }
 
     private VMExpressionType getExpressionType(ExpressionContext expression) {
-        if (expression.getChildCount() == 4)
-            return VMExpressionType.FUNCTION_CALL;
+        if (expression.getChildCount() == 4) {
+            String bracket = expression.getChild(1).getText();
+            switch (bracket) {
+                case "(":
+                    return VMExpressionType.FUNCTION_CALL;
+                case "[":
+                    return VMExpressionType.ARRAY_ACCESS;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
         String operator = expression.getChild(expression.getChildCount() - 2).toString();
 
@@ -376,7 +385,19 @@ public class VMMachine {
             case FUNCTION_CALL:
                 evalFunctionCall(expression);
                 break;
+            case ARRAY_ACCESS:
+                evalArrayAccess(expression);
+                break;
         }
+    }
+
+    private void evalArrayAccess(ExpressionContext expression) throws VMException {
+        VMIntegerInstance arrayIndex = (VMIntegerInstance)(evalReturnExpressionValue(expression.expression(1)));
+        VMIdentifierInstance arrayIdentifier = (VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
+
+        arrayIdentifier.setArrayIndex(arrayIndex.getValue());
+
+        push(arrayIdentifier);
     }
 
     private void evalObjectCreator(CreatorContext creator) throws VMException {
@@ -484,5 +505,21 @@ public class VMMachine {
     public VMClass getClazz(String name) {
         return classes.get(name);
         // TODO source lookup
+    }
+
+    /**
+     * Evaluate expression and return result. The default evalExpression leaves its result on the stack.
+     * @param expression
+     * @return
+     * @throws VMException
+     */
+    public VMObject evalReturnExpression(ExpressionContext expression) throws VMException {
+        evalExpression(expression);
+        return pop();
+    }
+
+    public VMObject evalReturnExpressionValue(ExpressionContext expression) throws VMException {
+        evalExpression(expression);
+        return popValue();
     }
 }
