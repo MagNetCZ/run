@@ -50,8 +50,8 @@ public class VMMachine {
             throw new RuntimeException(ex);
         }
 
-//        logger.setLevel(Level.INFO);
-        logger.setLevel(Level.SEVERE);
+        logger.setLevel(Level.INFO);
+//        logger.setLevel(Level.SEVERE);
     }
 
     public static VMMachine getInstance() {
@@ -87,6 +87,16 @@ public class VMMachine {
 
         IDClass = new VMIdentifier();
         registerClass(IDClass);
+    }
+
+    public void registerType(TypeDeclarationContext typeDeclaration) {
+        ClassDeclarationContext classDeclaration = typeDeclaration.classDeclaration();
+        String className = classDeclaration.Identifier().getText();
+
+        VMType newType = new VMType(className);
+        // TODO superclass (extends)
+        VMClass newClass = new VMClass(newType, null, classDeclaration.classBody());
+        registerClass(newClass);
     }
 
     /** ACCESSORS **/
@@ -381,7 +391,8 @@ public class VMMachine {
                 evalCreator(expression.creator());
                 break;
             case DOT_ACCESS:
-                throw new NotImplementedException();
+                evalDotAccess(expression);
+                break;
             case FUNCTION_CALL:
                 evalFunctionCall(expression);
                 break;
@@ -389,6 +400,19 @@ public class VMMachine {
                 evalArrayAccess(expression);
                 break;
         }
+    }
+
+    private void evalDotAccess(ExpressionContext expression) throws VMException {
+        String classOrInstanceName = expression.getChild(0).getText();
+        String fieldOrMethodName = expression.getChild(2).getText();
+        // TODO instance
+        // TODO methods
+
+        // Class (static access)
+        VMClass clazz = getClazz(classOrInstanceName);
+        clazz.initialize();
+
+        push(clazz.getField(getID(fieldOrMethodName)));
     }
 
     private void evalArrayAccess(ExpressionContext expression) throws VMException {
@@ -480,6 +504,7 @@ public class VMMachine {
 
             push(identifier);
 
+            // TODO declaration without initializer
             ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
             evalExpression(initExpression);
 
@@ -505,6 +530,7 @@ public class VMMachine {
     public VMClass getClazz(String name) {
         return classes.get(name);
         // TODO source lookup
+        // TODO class initialize
     }
 
     /**

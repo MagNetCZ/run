@@ -64,4 +64,11 @@ public class VMObject extends VMBaseObject {
         result = 31 * result + (instance_fields != null ? instance_fields.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "<" + getType().getName() + ">";
+    }
+
+    // TODO initialize
 }

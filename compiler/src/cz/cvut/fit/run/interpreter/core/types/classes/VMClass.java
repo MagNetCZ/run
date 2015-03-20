@@ -6,6 +6,7 @@ import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.traversion.ObjectInitializeVisitorBuilder;
 import cz.cvut.fit.run.parser.JavaParser;
 
 import java.util.HashMap;
@@ -14,7 +15,8 @@ import java.util.HashMap;
  * Created by MagNet on 9. 3. 2015.
  */
 public class VMClass extends VMBaseObject {
-    JavaParser.ClassBodyContext source;
+    private JavaParser.ClassBodyContext source;
+    private boolean initialized;
 
     private VMClass superClass = null;
 
@@ -39,6 +41,12 @@ public class VMClass extends VMBaseObject {
 
     public VMClass(VMType type) throws VMException {
         this(type, null);
+    }
+
+    public VMClass(VMType type, VMClass superClass, JavaParser.ClassBodyContext source) {
+        this.source = source;
+        this.superClass = superClass;
+        this.type = type;
     }
 
     public VMType getType() {
@@ -78,7 +86,7 @@ public class VMClass extends VMBaseObject {
     /**
      * Initialize builtin methods
      */
-    public void initMethods() throws VMException {
+    protected void initMethods() throws VMException {
 
     }
 
@@ -86,7 +94,21 @@ public class VMClass extends VMBaseObject {
         methods.put(method.getName(), method);
     }
 
-    public VMObject createInstance(VMObject ... args) {
+    public VMObject createInstance(VMObject ... args) throws VMException {
         return new VMObject(this, args);
+    }
+
+    public void initialize() throws VMException {
+        if (initialized)
+            return;
+
+        // TODO get static fields and methods from source
+
+        ObjectInitializeVisitorBuilder builder = new ObjectInitializeVisitorBuilder(this, "static");
+        VMException ex = builder.visit(source);
+        if (ex != null)
+            throw ex;
+
+        initialized = true;
     }
 }

@@ -145,3 +145,29 @@ int number = 3, sec, third = 5;
         console(i <= 10); // True
         console(i >= 10); // True
     }
+
+public static void testNew() {
+        Boolean a = new Boolean(false);
+        console(a);
+        }
+
+public static void testArray() {
+        Boolean[] a = new Boolean[20];
+        console(a[0]);
+        a[0] = true;
+        console(a[0]);
+        console(a);
+        }
+
+public static void testIntegerArray() {
+        int size = 10;
+        Integer[] a = new Integer[size];
+
+        for (int i = 0; i < size; i++) {
+        a[i] = size - i;
+        }
+
+        for (int i = 0; i < size; i++) {
+        console(a[i]);
+        }
+        }

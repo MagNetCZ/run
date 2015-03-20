@@ -5,15 +5,25 @@ package cz.fit.cvut.cz.run.examples;
  */
 public class Test {
 
-    public static void testNew() {
-        Boolean a = new Boolean(false);
-        console(a);
-    }
+    public static int staticVariable;
+    public int instanceVariable;
 
-    public static void testArray() {
-        Boolean[] a = new Boolean[20];
-        a[0] = 1;
-        console(a[0]);
-    }
+//    public static int staticInitializedVariable = 0;
+//    public int instanceInitializedVariable = 10;
 
+}
+
+public class Main {
+    public static void main(String[] args) {
+        console(Test.staticVariable);
+        Test.staticVariable = 5;
+        // console(Test.staticVariable);
+
+        // Test testInstance = new Test();
+
+        // testInstance.instanceVariable = 5;
+        // testInstance.staticVariable = 5; // Should throw error
+
+        // TODO scopes
+    }
 }

@@ -1,5 +1,7 @@
 package cz.cvut.fit.run.interpreter.core.types.classes;
 
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+
 /**
  * Created by MagNet on 12. 3. 2015.
  */
@@ -12,6 +14,7 @@ public class VMType {
 
     public final static VMType REFERENCE = new VMType("<<REFERENCE>>");
     public final static VMType VOID = new VMType("<<VOID>>");
+    public final static VMType NULL = new VMType("<<NULL>>");
 
 //    VOID(""),
 //    REFERENCE(""),
@@ -30,7 +33,7 @@ public class VMType {
 
     // TODO nested type (for array)
 
-    VMType(String name) {
+    public VMType(String name) {
         this.name = name;
     }
 
@@ -63,5 +66,15 @@ public class VMType {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    public boolean canBeAssignedTo(VMObject value) {
+        if (!value.getType().equals(this)) {
+            return false;
+            // TODO inherited type checking (iterate through object type and its super types)
+            // TODO null can be assigned to anything
+        }
+
+        return true;
     }
 }

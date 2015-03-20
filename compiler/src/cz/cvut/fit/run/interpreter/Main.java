@@ -1,5 +1,6 @@
 package cz.cvut.fit.run.interpreter;
 
+import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.traversion.BasicVisitor;
 import cz.cvut.fit.run.parser.JavaLexer;
 import cz.cvut.fit.run.parser.JavaParser;
@@ -22,7 +23,13 @@ public class Main {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaParser parser = new JavaParser(tokens);
 
-        ParseTree tree = parser.compilationUnit().getChild(1);
+        JavaParser.CompilationUnitContext compilationUnit = parser.compilationUnit();
+
+        ParseTree tree = compilationUnit.getChild(2); // TODO set main class by name
+
+        for (JavaParser.TypeDeclarationContext type : compilationUnit.typeDeclaration()) {
+            VMMachine.getInstance().registerType(type); // TODO inner classes -> visitor?
+        }
 
         BasicVisitor visitor = new BasicVisitor();
         visitor.visit(tree);
