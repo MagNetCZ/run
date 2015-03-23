@@ -134,7 +134,7 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     }
 
     @Override
-    public VMIntegerInstance createInstance(Integer value) {
+    public VMIntegerInstance createInstance(Integer value) throws VMException {
         return new VMIntegerInstance(this, value);
     }
 

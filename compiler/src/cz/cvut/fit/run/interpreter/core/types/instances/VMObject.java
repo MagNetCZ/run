@@ -5,6 +5,8 @@ import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
+import cz.cvut.fit.run.interpreter.traversion.ObjectInitializeVisitorBuilder;
 
 import java.util.HashMap;
 
@@ -13,20 +15,16 @@ import java.util.HashMap;
  */
 public class VMObject extends VMBaseObject {
     VMClass clazz;
-    boolean nil;
-
-    HashMap<String, VMMethod> instance_fields;
 
     @Override
     public VMType getType() {
         return getClazz().getType();
     }
 
-    public VMObject(VMClass clazz, VMObject ... args) {
+    public VMObject(VMClass clazz, VMObject ... args) throws VMException {
         this.clazz = clazz;
 
-        instance_fields = new HashMap<>();
-
+        initialize();
         // TODO assign variables from args based on class constructor definition
     }
 
@@ -38,10 +36,6 @@ public class VMObject extends VMBaseObject {
         return clazz;
     }
 
-    public boolean isNil() {
-        return nil;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,20 +43,16 @@ public class VMObject extends VMBaseObject {
 
         VMObject vmObject = (VMObject) o;
 
-        if (nil != vmObject.nil) return false;
         if (!clazz.equals(vmObject.clazz)) return false;
-        if (instance_fields != null ? !instance_fields.equals(vmObject.instance_fields) : vmObject.instance_fields != null)
-            return false;
 
         return true;
+
+        // TODO equals should use superclass (fields)
     }
 
     @Override
     public int hashCode() {
-        int result = clazz.hashCode();
-        result = 31 * result + (nil ? 1 : 0);
-        result = 31 * result + (instance_fields != null ? instance_fields.hashCode() : 0);
-        return result;
+        return clazz.hashCode();
     }
 
     @Override
@@ -71,4 +61,15 @@ public class VMObject extends VMBaseObject {
     }
 
     // TODO initialize
+    public void initialize() throws VMException {
+        // TODO get methods from source
+        if (getClazz().getSource() == null)
+            return;
+
+        ObjectInitializeVisitorBuilder builder =
+                new ObjectInitializeVisitorBuilder(this, new ModifierFilter("static", true));
+        VMException ex = builder.visit(getClazz().getSource());
+        if (ex != null)
+            throw ex;
+    }
 }

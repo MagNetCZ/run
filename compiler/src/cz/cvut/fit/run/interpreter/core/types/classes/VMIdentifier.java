@@ -15,7 +15,7 @@ public class VMIdentifier extends VMBuiltinType<String, VMIdentifierInstance> {
     }
 
     @Override
-    public VMIdentifierInstance createInstance(String value) {
+    public VMIdentifierInstance createInstance(String value) throws VMException {
         return new VMIdentifierInstance(this, value);
     }
 }

@@ -38,7 +38,7 @@ public class LiteralParser {
         // TODO  floats  ^[-+]?[0-9]*\.?[0-9]+$
     }
 
-    public static VMBooleanInstance parseBoolean(String string) {
+    public static VMBooleanInstance parseBoolean(String string) throws VMException {
         switch (string) {
             case "false": return VMBoolean.FALSE;
             case "true": return VMBoolean.TRUE;
@@ -46,12 +46,12 @@ public class LiteralParser {
         }
     }
 
-    public static VMStringInstance parseString(String string) {
+    public static VMStringInstance parseString(String string) throws VMException {
         String strippedString = string.substring(1, string.length() - 1); // TODO \ sequences
         return ((VMString)VMMachine.getInstance().getClazz("String")).createInstance(strippedString);
     }
 
-    public static VMIntegerInstance parseInt(String string) {
+    public static VMIntegerInstance parseInt(String string) throws VMException {
         int intValue = Integer.parseInt(string);
         return ((VMInteger)VMMachine.getInstance().getClazz("Integer")).createInstance(intValue);
     }

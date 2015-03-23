@@ -1,5 +1,6 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
+import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.IDType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 
@@ -10,7 +11,7 @@ public class VMIdentifierInstance extends VMBuiltinInstance<String> {
     private Integer arrayIndex = null;
     private VMIdentifierInstance field = null;
 
-    public VMIdentifierInstance(VMClass clazz, String value) {
+    public VMIdentifierInstance(VMClass clazz, String value) throws VMException {
         super(clazz, value);
     }
 

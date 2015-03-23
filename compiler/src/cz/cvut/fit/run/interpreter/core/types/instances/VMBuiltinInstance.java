@@ -1,5 +1,6 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
+import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 
 /**
@@ -8,7 +9,7 @@ import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 public class VMBuiltinInstance<T> extends VMObject {
     protected T value;
 
-    public VMBuiltinInstance(VMClass clazz, T value) {
+    public VMBuiltinInstance(VMClass clazz, T value) throws VMException {
         super(clazz);
         this.value = value;
     }

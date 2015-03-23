@@ -75,7 +75,7 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
     }
 
     @Override
-    public VMBooleanInstance createInstance(Boolean value) {
+    public VMBooleanInstance createInstance(Boolean value) throws VMException {
         return new VMBooleanInstance(this, value);
     }
 }

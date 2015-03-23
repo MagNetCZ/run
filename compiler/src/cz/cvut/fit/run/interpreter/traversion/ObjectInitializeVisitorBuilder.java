@@ -14,9 +14,9 @@ import org.antlr.v4.runtime.misc.NotNull;
  */
 public class ObjectInitializeVisitorBuilder extends JavaBaseVisitor<VMException> {
     private VMBaseObject buildObject;
-    private String modifierFilter = null;
+    private ModifierFilter modifierFilter = null;
 
-    public ObjectInitializeVisitorBuilder(@NotNull VMBaseObject buildObject, String modifierFilter) {
+    public ObjectInitializeVisitorBuilder(@NotNull VMBaseObject buildObject, ModifierFilter modifierFilter) {
         this.buildObject = buildObject;
         this.modifierFilter = modifierFilter;
     }
@@ -73,10 +73,10 @@ public class ObjectInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
 
         for (ModifierContext modifier : ctx.modifier()) {
             if (modifier.getText().equals(modifierFilter))
-                return true;
+                return !modifierFilter.isReversed();
         }
 
-        return false;
+        return modifierFilter.isReversed();
     }
 
 

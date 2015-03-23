@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
+import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.traversion.BasicVisitor;
 import cz.cvut.fit.run.parser.JavaLexer;
 import cz.cvut.fit.run.parser.JavaParser;
@@ -13,7 +14,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, VMException {
         System.out.println("VMMachine Starting up...");
         System.out.println("***************************");
 

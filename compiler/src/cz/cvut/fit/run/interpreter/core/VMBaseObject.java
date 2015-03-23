@@ -18,7 +18,7 @@ import java.util.logging.Level;
 public abstract class VMBaseObject extends VMReference {
     private VariableHash fields;
 
-    protected VMBaseObject() {
+    protected VMBaseObject() throws VMException {
         fields = new VariableHash();
     }
 
@@ -32,12 +32,5 @@ public abstract class VMBaseObject extends VMReference {
 
     public TypeValuePair getField(VMIdentifierInstance identifier) throws VMException {
         return fields.getPair(identifier);
-    }
-
-    public void assignField(VMIdentifierInstance identifier, VMObject value) throws VMException {
-        throw new NotImplementedException();
-//        fields.assignVariable(identifier, value);
-
-        // TODO REMOVE
     }
 }

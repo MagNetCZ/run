@@ -6,6 +6,7 @@ import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
 import cz.cvut.fit.run.interpreter.traversion.ObjectInitializeVisitorBuilder;
 import cz.cvut.fit.run.parser.JavaParser;
 
@@ -43,7 +44,7 @@ public class VMClass extends VMBaseObject {
         this(type, null);
     }
 
-    public VMClass(VMType type, VMClass superClass, JavaParser.ClassBodyContext source) {
+    public VMClass(VMType type, VMClass superClass, JavaParser.ClassBodyContext source) throws VMException {
         this.source = source;
         this.superClass = superClass;
         this.type = type;
@@ -102,13 +103,18 @@ public class VMClass extends VMBaseObject {
         if (initialized)
             return;
 
-        // TODO get static fields and methods from source
+        // TODO get methods from source
 
-        ObjectInitializeVisitorBuilder builder = new ObjectInitializeVisitorBuilder(this, "static");
+        ObjectInitializeVisitorBuilder builder =
+                new ObjectInitializeVisitorBuilder(this, new ModifierFilter("static", false));
         VMException ex = builder.visit(source);
         if (ex != null)
             throw ex;
 
         initialized = true;
+    }
+
+    public JavaParser.ClassBodyContext getSource() {
+        return source;
     }
 }

@@ -81,7 +81,7 @@ public class VMMachine {
         registerClass(IDClass);
     }
 
-    public void registerType(TypeDeclarationContext typeDeclaration) {
+    public void registerType(TypeDeclarationContext typeDeclaration) throws VMException {
         ClassDeclarationContext classDeclaration = typeDeclaration.classDeclaration();
         String className = classDeclaration.Identifier().getText();
 
@@ -145,7 +145,7 @@ public class VMMachine {
         getFrame().push(object);
     }
 
-    public VMIdentifierInstance getID(String id) {
+    public VMIdentifierInstance getID(String id) throws VMException {
         return IDClass.createInstance(id);
     }
 
@@ -448,10 +448,11 @@ public class VMMachine {
 
         ExpressionListContext argumentExpressionList = creator.classCreatorRest().arguments().expressionList();
         LinkedList<VMObject> argList = new LinkedList<>();
-        for (ExpressionContext expression : argumentExpressionList.expression()) {
-            evalExpression(expression);
-            argList.add(popValue());
-        }
+        if (argumentExpressionList != null)
+            for (ExpressionContext expression : argumentExpressionList.expression()) {
+                evalExpression(expression);
+                argList.add(popValue());
+            }
 
         push(clazz.createInstance(argList.toArray(new VMObject[argList.size()])));
     }

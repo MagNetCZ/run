@@ -43,7 +43,7 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
         }
     }
 
-    public abstract InstanceType createInstance(T value);
+    public abstract InstanceType createInstance(T value) throws VMException;
 
     @Override
     public void initMethods() throws VMException {
@@ -70,7 +70,7 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
     }
 
     @Override
-    public VMObject createInstance(VMObject... args) {
+    public VMObject createInstance(VMObject... args) throws VMException {
         return createInstance(((InstanceType)args[0]).getValue());
     }
 }

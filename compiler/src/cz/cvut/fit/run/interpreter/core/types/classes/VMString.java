@@ -12,7 +12,7 @@ public class VMString extends VMBuiltinType<String, VMStringInstance> {
     }
 
     @Override
-    public VMStringInstance createInstance(String value) {
+    public VMStringInstance createInstance(String value) throws VMException {
         return new VMStringInstance(this, value);
     }
 }
