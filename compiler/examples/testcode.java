@@ -15,8 +15,17 @@ public class Test {
 
 public class Main {
     public static void main(String[] args) {
-        console(Test.staticVariable);
+//        console(Test.staticVariable);
+        int a = 10;
+        console(a);
+
         Test.staticVariable = 5;
+        console(Test.staticVariable);
+
+        int[] array = new int[a];
+        array[5] = 1;
+        console(array[5]);
+
         // console(Test.staticVariable);
 
         // Test testInstance = new Test();

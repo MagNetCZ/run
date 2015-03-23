@@ -3,11 +3,8 @@ package cz.cvut.fit.run.interpreter.core.helpers;
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
-import cz.cvut.fit.run.interpreter.core.exceptions.TypeMismatchException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMArrayType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
@@ -37,48 +34,21 @@ public class VariableHash extends HashMap<VMIdentifierInstance, TypeValuePair> {
         return containsKey(identifier);
     }
 
-    public void declareVariable(VMIdentifierInstance identifier, VMType type) throws VMException {
+    public TypeValuePair declareVariable(VMIdentifierInstance identifier, VMType type) throws VMException {
         if (isVariableDeclared(identifier)) {
             throw new RedeclarationException(identifier.getValue());
         }
 
-        put(identifier, new TypeValuePair(type));
-    }
+        TypeValuePair newPair = new TypeValuePair(type);
+        put(identifier, newPair);
 
-    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws VMException {
-        TypeValuePair tvp = getFullVariable(identifier);
-
-        if (!identifier.isArrayIndex()) {
-            // Non arrays
-            if (!tvp.getType().canBeAssignedTo(value)) {
-                throw new TypeMismatchException();
-            }
-
-            tvp.setValue(value);
-        } else {
-            // Array index assignment
-            VMArrayType arrayType = (VMArrayType)tvp.getType();
-            if (!arrayType.getContentType().canBeAssignedTo(value)) {
-                throw new TypeMismatchException();
-            }
-
-            VMArrayInstance array = (VMArrayInstance)tvp.getValue();
-            array.set(identifier.getArrayIndex(), value);
-        }
-
+        return newPair;
     }
 
     public VMObject getVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
-        TypeValuePair fullVariable =  getFullVariable(identifier);
+        TypeValuePair fullVariable =  getPair(identifier);
 
-        if (!identifier.isArrayIndex()) {
-            // Non arrays
-            return fullVariable.getValue();
-        } else {
-            // Array index access
-            VMArrayInstance array = (VMArrayInstance)fullVariable.getValue();
-            return array.get(identifier.getArrayIndex());
-        }
+        return fullVariable.getValue();
     }
 
     protected TypeValuePair getVariablePair(VMIdentifierInstance identifier) {
@@ -88,7 +58,7 @@ public class VariableHash extends HashMap<VMIdentifierInstance, TypeValuePair> {
         return null;
     }
 
-    protected TypeValuePair getFullVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
+    public TypeValuePair getPair(VMIdentifierInstance identifier) throws NotDeclaredException {
         TypeValuePair variablePair = getVariablePair(identifier);
 
         if (variablePair == null)

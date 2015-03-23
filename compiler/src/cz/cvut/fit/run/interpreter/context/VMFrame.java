@@ -2,20 +2,13 @@ package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
-import cz.cvut.fit.run.interpreter.core.exceptions.TypeMismatchException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.helpers.VariableHash;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMArrayType;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMIdentifier;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Level;
 
@@ -39,16 +32,12 @@ public class VMFrame {
         enterScope();
     }
 
-    public void declareVariable(VMIdentifierInstance identifier, VMType type) throws VMException {
+    public TypeValuePair declareVariable(VMIdentifierInstance identifier, VMType type) throws VMException {
         if (isVariableDeclared(identifier)) {
             throw new RedeclarationException(identifier.getValue());
         }
 
-        localVariableStack.peek().declareVariable(identifier, type);
-    }
-
-    public void assignVariable(VMIdentifierInstance identifier, VMObject value) throws VMException {
-        getHashWithVariable(identifier).assignVariable(identifier, value);
+        return localVariableStack.peek().declareVariable(identifier, type);
     }
 
     private boolean isVariableDeclared(VMIdentifierInstance identifier) {
@@ -73,6 +62,10 @@ public class VMFrame {
         return getHashWithVariable(identifier).getVariable(identifier);
     }
 
+    public TypeValuePair getPair(VMIdentifierInstance identifier) throws NotDeclaredException {
+        return getHashWithVariable(identifier).getPair(identifier);
+    }
+
     public void push(VMObject value) {
         VMMachine.logger.log(Level.INFO, "Push " + value);
         opStack.push(value);
@@ -83,6 +76,11 @@ public class VMFrame {
         VMMachine.logger.log(Level.INFO, "Pop " + object);
         return object;
     }
+
+    public VMObject peek() {
+        return opStack.peek();
+    }
+
 
     public void enterScope() {
         localVariableStack.push(new VariableHash());

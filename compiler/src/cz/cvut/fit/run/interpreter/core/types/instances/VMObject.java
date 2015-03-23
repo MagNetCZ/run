@@ -1,9 +1,9 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 
 import java.util.HashMap;

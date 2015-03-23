@@ -7,6 +7,7 @@ import cz.cvut.fit.run.interpreter.core.types.classes.VMIdentifier;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Stack;
 import java.util.logging.Level;
@@ -29,11 +30,14 @@ public abstract class VMBaseObject extends VMReference {
         fields.declareVariable(identifier, type);
     }
 
-    public VMObject getField(VMIdentifierInstance identifier) throws VMException {
-        return fields.getVariable(identifier);
+    public TypeValuePair getField(VMIdentifierInstance identifier) throws VMException {
+        return fields.getPair(identifier);
     }
 
     public void assignField(VMIdentifierInstance identifier, VMObject value) throws VMException {
-        fields.assignVariable(identifier, value);
+        throw new NotImplementedException();
+//        fields.assignVariable(identifier, value);
+
+        // TODO REMOVE
     }
 }

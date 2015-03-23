@@ -1,5 +1,6 @@
 package cz.cvut.fit.run.interpreter.core;
 
+import cz.cvut.fit.run.interpreter.core.exceptions.TypeMismatchException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMNullInstance;
@@ -17,7 +18,11 @@ public class TypeValuePair {
         this.value = VMNullInstance.getInstance();
     }
 
-    public void setValue(VMObject value) {
+    public void setValue(VMObject value) throws VMException {
+        if (!getType().canBeAssignedTo(value)) {
+            throw new TypeMismatchException();
+        }
+
         this.value = value;
     }
 
