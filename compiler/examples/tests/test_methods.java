@@ -13,7 +13,6 @@ public class Test {
     public void instanceMethod() {
         console("Instance method");
         console(this.instanceVar);
-        console(instanceVar);
     }
 }
 

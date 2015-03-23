@@ -7,7 +7,6 @@ import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaParser;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,44 +19,62 @@ public class VMMethod extends VMReference {
     private VMType returnType;
     private JavaParser.MethodBodyContext code;
     private Method nativeCode;
-    private VMType[] arguments;
+
+    private VMType[] argTypes;
+    private String[] argNames; // Separated because names are used only for VM methods
 
     private Modifiers modifiers;
 
     boolean nativeMethod;
 
     public VMMethod(String name, Modifiers modifiers,
-                    VMType returnType, JavaParser.MethodBodyContext code, VMType ... arguments) {
+                    VMType returnType, JavaParser.MethodBodyContext code, VMType[] argTypes, String[] argNames) {
         this.name = name;
         this.modifiers = modifiers;
         this.returnType = returnType;
         this.code = code;
-        this.arguments = arguments;
+        this.argTypes = argTypes;
+        this.argNames = argNames;
 
         nativeMethod = false;
     }
 
     public VMMethod(String name, Modifiers modifiers,
-                    VMType returnType, Method nativeCode, VMType ... arguments) {
+                    VMType returnType, Method nativeCode, VMType ... argTypes) {
         this.name = name;
         this.modifiers = modifiers;
         this.returnType = returnType;
         this.nativeCode = nativeCode;
-        this.arguments = arguments;
+        this.argTypes = argTypes;
 
         nativeMethod = true;
     }
 
     public VMObject invoke(VMBaseObject onObject, VMObject ... args) throws VMException {
+        // TODO create frame (check)
+
         if (nativeMethod) {
             return invokeNative(onObject, args);
         } else {
-            return invokeVM(onObject, args);
+            return invokeVM(args);
         }
     }
 
-    private VMObject invokeVM(VMBaseObject onObject, VMObject ... args) throws VMException {
+    private void loadArgs(VMObject ... args) throws VMException {
         VMMachine vm = VMMachine.getInstance();
+
+        for (int i = 0; i < args.length; i++) {
+            String argName = argNames[i];
+            vm.getCurrentFrame().
+                    declareVariable(vm.getID(argName), argTypes[i]).
+                    setValue(args[i]);
+        }
+    }
+
+    private VMObject invokeVM(VMObject ... args) throws VMException {
+        VMMachine vm = VMMachine.getInstance();
+
+        loadArgs(args);
 
         vm.evalMethod(code);
         if (returnType != VMType.VOID) {

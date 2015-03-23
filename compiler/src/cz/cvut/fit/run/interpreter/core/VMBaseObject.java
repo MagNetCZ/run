@@ -24,10 +24,10 @@ public abstract class VMBaseObject extends VMReference {
 
     public abstract VMType getType();
 
-    public void declareField(VMIdentifierInstance identifier, VMType type) throws VMException {
+    public TypeValuePair declareField(VMIdentifierInstance identifier, VMType type) throws VMException {
         VMMachine.logger.info("Declaring field " + identifier);
 
-        fields.declareVariable(identifier, type);
+        return fields.declareVariable(identifier, type);
     }
 
     public TypeValuePair getField(VMIdentifierInstance identifier) throws VMException {

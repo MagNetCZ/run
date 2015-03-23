@@ -142,7 +142,7 @@ public class VMMachine {
 //                    logger.log(Level.INFO, "Looked up array " + value);
                     return array.get(id.getArrayIndex());
                 case FIELD_ACCESS:
-                    getObjectOrClass(id).getField(id.getField());
+                    return getObjectOrClass(id).getField(id.getField());
             }
         }
 

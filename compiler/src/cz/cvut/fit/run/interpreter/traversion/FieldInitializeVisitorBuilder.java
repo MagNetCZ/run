@@ -1,10 +1,12 @@
 package cz.cvut.fit.run.interpreter.traversion;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
+import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaBaseVisitor;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -57,14 +59,15 @@ public class FieldInitializeVisitorBuilder extends JavaBaseVisitor<VMException> 
 
             VMIdentifierInstance identifier = vm.getID(variableId);
 
-            buildObject.declareField(identifier, type);
+            TypeValuePair newPair = buildObject.declareField(identifier, type);
 
-            // TODO initializer
+            if (variableDeclarator.variableInitializer() == null)
+                return;
 
-//            ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
-//            evalExpression(initExpression);
-//
-//            assignValue();
+            ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
+            VMObject initValue = vm.evalReturnExpressionValue(initExpression);
+
+            newPair.setValue(initValue);
         }
     }
 

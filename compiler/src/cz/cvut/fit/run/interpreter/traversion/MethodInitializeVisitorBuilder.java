@@ -13,6 +13,8 @@ import cz.cvut.fit.run.parser.JavaParser;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.LinkedList;
+
 /**
  * Created by MagNet on 20. 3. 2015.
  */
@@ -73,11 +75,22 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
 
         String methodName = methodDeclarationContext.getChild(1).getText();
 
-        // TODO args
+        LinkedList<VMType> argTypes = new LinkedList<>();
+        LinkedList<String> argNames = new LinkedList<>();
+
+        if (!modifiers.isStaticFlag()) {
+            argTypes.add(buildObject.getType());
+            argNames.add("this");
+        }
+
+        // TODO rest args
 
         MethodBodyContext methodSource = methodDeclarationContext.methodBody();
 
-        VMMethod method = new VMMethod(methodName, modifiers, returnType, methodSource);
+        VMType[] argTypeArray = argTypes.toArray(new VMType[argTypes.size()]);
+        String[] argNameArray = argNames.toArray(new String[argNames.size()]);
+
+        VMMethod method = new VMMethod(methodName, modifiers, returnType, methodSource, argTypeArray, argNameArray);
 
         buildObject.declareMethod(method);
     }
