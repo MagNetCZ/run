@@ -2,6 +2,8 @@ package cz.cvut.fit.run.interpreter.core.types.classes;
 
 import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
+import cz.cvut.fit.run.interpreter.core.modifiers.Scope;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBuiltinInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
@@ -32,7 +34,10 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
 
                 Method method = c.getDeclaredMethod(builtinMethod.nameNative, argClasses);
 
-                VMMethod vmMethod = new VMMethod(builtinMethod.nameVM,
+                Modifiers modifiers = new Modifiers();
+                modifiers.setScope(Scope.PUBLIC); // TODO different modifiers for builtins
+
+                VMMethod vmMethod = new VMMethod(builtinMethod.nameVM, modifiers,
                         builtinMethod.returnType, method, builtinMethod.argTypes);
 
                 declareMethod(vmMethod);

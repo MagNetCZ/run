@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.misc.NotNull;
 /**
  * Created by MagNet on 20. 3. 2015.
  */
-public class ObjectInitializeVisitorBuilder extends JavaBaseVisitor<VMException> {
+public class FieldInitializeVisitorBuilder extends JavaBaseVisitor<VMException> {
     private VMBaseObject buildObject;
     private ModifierFilter modifierFilter = null;
 
-    public ObjectInitializeVisitorBuilder(@NotNull VMBaseObject buildObject, ModifierFilter modifierFilter) {
+    public FieldInitializeVisitorBuilder(@NotNull VMBaseObject buildObject, ModifierFilter modifierFilter) {
         this.buildObject = buildObject;
         this.modifierFilter = modifierFilter;
     }
@@ -58,6 +58,8 @@ public class ObjectInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
             VMIdentifierInstance identifier = vm.getID(variableId);
 
             buildObject.declareField(identifier, type);
+
+            // TODO initializer
 
 //            ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
 //            evalExpression(initExpression);

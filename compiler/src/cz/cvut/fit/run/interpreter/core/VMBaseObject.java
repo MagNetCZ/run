@@ -33,4 +33,6 @@ public abstract class VMBaseObject extends VMReference {
     public TypeValuePair getField(VMIdentifierInstance identifier) throws VMException {
         return fields.getPair(identifier);
     }
+
+    public abstract void callMethod(String name, VMObject ... args) throws VMException;
 }

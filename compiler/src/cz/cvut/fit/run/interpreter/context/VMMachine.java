@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
+import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.BreakException;
 import cz.cvut.fit.run.interpreter.core.exceptions.ContinueException;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
@@ -113,6 +114,20 @@ public class VMMachine {
         }
     }
 
+    private static VMBaseObject getObjectOrClass(VMIdentifierInstance id) throws VMException {
+        try {
+            VMObject accessedObject = getFrame().getVariable(id);
+            return accessedObject;
+        } catch (NotDeclaredException ex) {
+            VMClass accessedClass = VMMachine.getInstance().getClazz(id.getValue());
+
+            if (accessedClass == null)
+                throw new NotDeclaredException("No such object or class - " + id.getValue());
+
+            return accessedClass;
+        }
+    }
+
     public static TypeValuePair popPair() throws VMException {
         VMObject object = pop();
         if (object.getType() == VMType.ID) {
@@ -127,14 +142,7 @@ public class VMMachine {
 //                    logger.log(Level.INFO, "Looked up array " + value);
                     return array.get(id.getArrayIndex());
                 case FIELD_ACCESS:
-                    try {
-                        VMObject accessedObject = getFrame().getVariable(id);
-                        return accessedObject.getField(id.getField());
-                    } catch (NotDeclaredException ex) {
-                        VMClass accessedClass = VMMachine.getInstance().getClazz(id.getValue());
-                        accessedClass.initialize();
-                        return accessedClass.getField(id.getField());
-                    }
+                    getObjectOrClass(id).getField(id.getField());
             }
         }
 
@@ -162,7 +170,7 @@ public class VMMachine {
     }
 
     private VMExpressionType getExpressionType(ExpressionContext expression) {
-        if (expression.getChildCount() == 4) {
+        if (expression.getChildCount() == 4 || expression.getChildCount() == 3) {
             String bracket = expression.getChild(1).getText();
             switch (bracket) {
                 case "(":
@@ -170,7 +178,8 @@ public class VMMachine {
                 case "[":
                     return VMExpressionType.ARRAY_ACCESS;
                 default:
-                    throw new NotImplementedException();
+                    if (expression.getChildCount() == 4)
+                        throw new NotImplementedException();
             }
         }
 
@@ -487,9 +496,18 @@ public class VMMachine {
     }
 
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
+        if (expression.getChild(0).getText().equals("console")) {
+            ExpressionContext expressionToPrint = expression.expressionList().expression(0);
+            VMObject printContents = evalReturnExpressionValue(expressionToPrint);
+            System.out.println(printContents);
+            return;
+        }
+
         // TODO ...
-        evalExpression(expression.expressionList().expression(0));
-        System.out.println(popValue());
+        VMObject expressionResult = evalReturnExpression(expression.expression(0));
+        VMIdentifierInstance id = (VMIdentifierInstance)expressionResult;
+
+        getObjectOrClass(id).callMethod(id.getField().getValue());
     }
 
     private void evalExpression(ExpressionContext expression) throws VMException {
@@ -545,10 +563,21 @@ public class VMMachine {
         return getArrayClazz(clazz.getType());
     }
 
-    public VMClass getClazz(String name) {
-        return classes.get(name);
+    public VMClass getClazz(String name) throws VMException {
+        VMClass clazz = classes.get(name);
+        clazz.initialize();
+        return clazz;
         // TODO source lookup
-        // TODO class initialize
+    }
+
+    public VMType getType(String name) throws VMException {
+        if (name.equals("void"))
+            return VMType.VOID;
+
+        VMClass clazz = getClazz(name);
+        if (clazz == null)
+            throw new NotDeclaredException("No such type - " + name);
+        return clazz.getType();
     }
 
     /**

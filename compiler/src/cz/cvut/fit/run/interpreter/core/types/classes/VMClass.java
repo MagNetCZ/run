@@ -3,11 +3,13 @@ package cz.cvut.fit.run.interpreter.core.types.classes;
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
+import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
+import cz.cvut.fit.run.interpreter.traversion.MethodInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
-import cz.cvut.fit.run.interpreter.traversion.ObjectInitializeVisitorBuilder;
 import cz.cvut.fit.run.parser.JavaParser;
 
 import java.util.HashMap;
@@ -23,14 +25,12 @@ public class VMClass extends VMBaseObject {
 
     private VMType type;
 
-    HashMap<String, VMObject> static_fields;
-
     HashMap<String, VMMethod> methods;
+
     public VMClass(VMType type, VMClass superClass) throws VMException {
         this.superClass = superClass;
         this.type = type;
 
-        static_fields = new HashMap<>();
         methods = new HashMap<>();
 
         initMethods();
@@ -45,9 +45,8 @@ public class VMClass extends VMBaseObject {
     }
 
     public VMClass(VMType type, VMClass superClass, JavaParser.ClassBodyContext source) throws VMException {
+        this(type, superClass);
         this.source = source;
-        this.superClass = superClass;
-        this.type = type;
     }
 
     public VMType getType() {
@@ -64,16 +63,29 @@ public class VMClass extends VMBaseObject {
         return injectedArgs;
     }
 
+    public void callMethod(String name, VMObject ... args) throws VMException {
+        VMMethod method = lookupMethod(name);
+        if (!method.isStaticMethod())
+            throw new MethodNotFoundException("Trying to call instance method from static context");
+
+        invokeMethod(method, args);
+    }
+
     public void callMethod(String name, VMObject target, VMObject ... args) throws VMException {
         VMMethod method = lookupMethod(name);
-
-        // TODO check argument types
+        if (method.isStaticMethod())
+            throw new MethodNotFoundException("Trying to call static method from instance context");
 
         VMObject[] injectedArgs = injectTarget(target, args);
+        invokeMethod(method, injectedArgs);
+    }
+
+    private void invokeMethod(VMMethod method, VMObject ... args) throws VMException {
+        // TODO check argument types
         if (method.getReturnType() == VMType.VOID) {
-            method.invoke(this, injectedArgs);
+            method.invoke(this, args);
         } else {
-            VMMachine.push(method.invoke(this, injectedArgs));
+            VMMachine.push(method.invoke(this, args));
         }
     }
 
@@ -104,12 +116,19 @@ public class VMClass extends VMBaseObject {
             return;
 
         // TODO get methods from source
+        if (source != null) {
+            FieldInitializeVisitorBuilder builder =
+                    new FieldInitializeVisitorBuilder(this, new ModifierFilter("static", false));
+            VMException ex = builder.visit(source);
+            if (ex != null)
+                throw ex;
 
-        ObjectInitializeVisitorBuilder builder =
-                new ObjectInitializeVisitorBuilder(this, new ModifierFilter("static", false));
-        VMException ex = builder.visit(source);
-        if (ex != null)
-            throw ex;
+            MethodInitializeVisitorBuilder methodBuilder =
+                    new MethodInitializeVisitorBuilder(this);
+            ex = methodBuilder.visit(source);
+            if (ex != null)
+                throw ex;
+        }
 
         initialized = true;
     }
