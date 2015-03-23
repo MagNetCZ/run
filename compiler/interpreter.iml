@@ -17,6 +17,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="antlr-4.4-complete" level="project" />
+    <orderEntry type="library" name="commons-cli-1.2" level="project" />
   </component>
 </module>
 

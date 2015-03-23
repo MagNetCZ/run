@@ -7,6 +7,8 @@ public class Test {
 
     public static int staticVariable;
     public int instanceVariable;
+    public Integer[] array;
+
 
 //    public static int staticInitializedVariable = 0;
 //    public int instanceInitializedVariable = 10;
@@ -31,20 +33,23 @@ public class Main {
         // console(Test.staticVariable);
 
         Test testInstance = new Test();
+        testInstance.array = new Integer[10];
+        testInstance.array[1] = 5;
+        console(testInstance.array[1])
 //
-        testInstance.instanceVariable = 5;
-        console(testInstance.instanceVariable);
-
-        Test testInstance2 = new Test();
-
-        testInstance2.instanceVariable = 10;
-        console(testInstance2.instanceVariable);
-
-        testInstance.instanceVariable++;
-        console(testInstance.instanceVariable);
-
-        testInstance = testInstance2;
-        console(testInstance.instanceVariable);
+//        testInstance.instanceVariable = 5;
+//        console(testInstance.instanceVariable);
+//
+//        Test testInstance2 = new Test();
+//
+//        testInstance2.instanceVariable = 10;
+//        console(testInstance2.instanceVariable);
+//
+//        testInstance.instanceVariable++;
+//        console(testInstance.instanceVariable);
+//
+//        testInstance = testInstance2;
+//        console(testInstance.instanceVariable);
 
 //        testInstance.staticVariable = 5; // Should throw error
 
