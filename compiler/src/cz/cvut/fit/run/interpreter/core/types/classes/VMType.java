@@ -69,7 +69,7 @@ public class VMType {
     }
 
     public boolean canBeAssignedTo(VMObject value) {
-        if (!value.getType().equals(this)) {
+        if (value.getType() != NULL && !value.getType().equals(this)) {
             return false;
             // TODO inherited type checking (iterate through object type and its super types)
             // TODO null can be assigned to anything

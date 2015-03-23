@@ -1,13 +1,12 @@
 package cz.cvut.fit.run.interpreter.core.helpers;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMNull;
+import cz.cvut.fit.run.interpreter.core.types.instances.*;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMBoolean;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +18,11 @@ public class LiteralParser {
     private static final Pattern STRING_PATTERN = Pattern.compile("^\".*\"$"); // TODO '
     private static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(false|true)$");
 
-    public static VMObject parseLiteral(String literalString) {
+    public static VMObject parseLiteral(String literalString) throws VMException {
+        // Null
+        if (literalString.equals("null"))
+            return VMNullInstance.getInstance();
+
         // String
         Matcher m = STRING_PATTERN.matcher(literalString);
         if (m.matches()) return parseString(literalString);

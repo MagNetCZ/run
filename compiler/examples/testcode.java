@@ -17,6 +17,8 @@ public class Main {
     public static void main(String[] args) {
 //        console(Test.staticVariable);
         int a = 10;
+        a = null;
+        a = 10;
         console(a);
 
         Test.staticVariable = 5;
