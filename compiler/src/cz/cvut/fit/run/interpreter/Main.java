@@ -16,9 +16,6 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException, VMException, ParseException {
-        System.out.println("VMMachine Starting up...");
-        System.out.println("***************************");
-
         PosixParser cliParser = new PosixParser();
         Options parseOptions = new Options();
         parseOptions.addOption("f", "file", true, "The source code to interpret.");
@@ -34,6 +31,9 @@ public class Main {
             helpFormatter.printHelp("-f \"Path to source\" -c \"Main class name\"", parseOptions);
             return;
         }
+
+        System.out.println("VMMachine Starting up...");
+        System.out.println("***************************");
 
         ANTLRInputStream input = new ANTLRFileStream(sourceFilename);
         JavaLexer lexer = new JavaLexer(input);

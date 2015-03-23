@@ -35,7 +35,7 @@ public class Main {
         Test testInstance = new Test();
         testInstance.array = new Integer[10];
         testInstance.array[1] = 5;
-        console(testInstance.array[1])
+        console(testInstance.array[1]);
 //
 //        testInstance.instanceVariable = 5;
 //        console(testInstance.instanceVariable);
