@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4adb53e-696f-4e76-82f3-503cb0616c0a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/helpers/LiteralParser.java" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/helpers/LiteralParser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/testcode.java" afterPath="$PROJECT_DIR$/examples/testcode.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="compiler.iws" />
@@ -124,8 +122,8 @@
       <file leaf-file-name="VMType.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3234547" vertical-offset="179" max-vertical-offset="1360">
-              <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.2303133" vertical-offset="0" max-vertical-offset="1181">
+              <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -247,8 +245,8 @@
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/helpers/VariableHash.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/helpers/LiteralParser.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java" />
         <option value="$PROJECT_DIR$/examples/testcode.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java" />
       </list>
     </option>
   </component>
@@ -956,7 +954,7 @@
       <workItem from="1426544291846" duration="406000" />
       <workItem from="1426671552088" duration="20343000" />
       <workItem from="1426844307169" duration="18270000" />
-      <workItem from="1427101579969" duration="4320000" />
+      <workItem from="1427101579969" duration="4361000" />
     </task>
     <task id="LOCAL-00001" summary="Array access, getting and setting values through an index">
       <created>1426847521512</created>
@@ -970,11 +968,15 @@
       <created>1427105630209</created>
       <updated>1427105630209</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Support for null assignment.">
+      <created>1427105916843</created>
+      <updated>1427105916843</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110636000" />
+    <option name="totallyTimeSpent" value="110677000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1074,7 +1076,8 @@
     <MESSAGE value="Array access, getting and setting values through an index" />
     <MESSAGE value="Object field support base, todo assignment rewrite" />
     <MESSAGE value="Getting of actual TypeValuePairs and assigning on them." />
-    <option name="LAST_COMMIT_MESSAGE" value="Getting of actual TypeValuePairs and assigning on them." />
+    <MESSAGE value="Support for null assignment." />
+    <option name="LAST_COMMIT_MESSAGE" value="Support for null assignment." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1526,8 +1529,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3234547" vertical-offset="179" max-vertical-offset="1360">
-          <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.2303133" vertical-offset="0" max-vertical-offset="1181">
+          <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
           <folding />
         </state>
       </provider>

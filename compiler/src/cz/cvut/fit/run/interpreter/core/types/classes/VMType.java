@@ -16,19 +16,6 @@ public class VMType {
     public final static VMType VOID = new VMType("<<VOID>>");
     public final static VMType NULL = new VMType("<<NULL>>");
 
-//    VOID(""),
-//    REFERENCE(""),
-//    INT("int"),
-//    CHAR("char"),
-//    BYTE("byte"),
-//    DOUBLE("double"),
-//    LONG("long"),
-//    STRING("string"),
-//    BOOLEAN("boolean"),
-//    ARRAY("array"),
-//    ID(""),
-//    CLASS("");
-
     private String name;
 
     // TODO nested type (for array)
