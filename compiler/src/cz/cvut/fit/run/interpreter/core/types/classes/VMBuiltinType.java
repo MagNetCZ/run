@@ -92,7 +92,7 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
             this.nameVM = nameVM;
             this.returnType = returnType;
             this.argTypes = argTypes;
-            this.modifiers = new Modifiers(staticFlag, Scope.PUBLIC);
+            this.modifiers = new Modifiers(staticFlag, true, Scope.PUBLIC);
         }
     }
 

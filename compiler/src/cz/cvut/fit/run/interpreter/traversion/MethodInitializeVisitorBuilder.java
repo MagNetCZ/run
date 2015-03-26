@@ -24,30 +24,7 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
     }
 
     private Modifiers getModifiers(ClassBodyDeclarationContext ctx) {
-        // TODO move to some helper class
-
-        Modifiers modifiers = new Modifiers();
-        for (ModifierContext modifier : ctx.modifier()) {
-            switch (modifier.getText()) {
-                case "public":
-                    modifiers.setScope(Scope.PUBLIC);
-                    break;
-                case "protected":
-                    modifiers.setScope(Scope.PROTECTED);
-                    break;
-                case "private":
-                    modifiers.setScope(Scope.PRIVATE);
-                    break;
-                case "static":
-                    modifiers.setStatic(true);
-                    break;
-                case "final":
-                    modifiers.setFinal(true);
-                    break;
-            }
-        }
-
-        return modifiers;
+        return Modifiers.getFor(ctx.modifier());
     }
 
     @Override
