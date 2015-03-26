@@ -59,6 +59,7 @@ public class VMMethod extends VMReference {
     public VMObject invoke(VMBaseObject onObject, VMObject ... args) throws VMException {
         // TODO create frame (check)
 
+
         checkNumberOfArguments(args);
 
         if (nativeMethod) {

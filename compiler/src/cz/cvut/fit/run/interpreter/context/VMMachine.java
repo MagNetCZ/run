@@ -13,8 +13,6 @@ import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.beans.Expression;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -36,7 +34,7 @@ public class VMMachine {
     private VMFrame currentFrame;
 
     private VMMachine() {
-        currentFrame = new VMFrame();
+//        currentFrame = new VMFrame();
         functions = new HashMap<>();
         classes = new HashMap<>();
 
@@ -609,7 +607,7 @@ public class VMMachine {
         currentFrame = new VMFrame(lastFrame);
     }
 
-    public void leaveFrame() throws VMException {
+    public void exitFrame() throws VMException {
         // TODO return value
         currentFrame = currentFrame.parent;
         if (currentFrame == null)

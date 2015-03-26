@@ -81,18 +81,20 @@ public class VMClass extends VMBaseObject {
     }
 
     private void invokeMethod(VMMethod method, VMObject ... args) throws VMException {
-        // TODO check argument types
-        if (method.getReturnType() == VMType.VOID) {
-            method.invoke(this, args);
-        } else {
-            VMMachine.push(method.invoke(this, args));
-        }
+        VMMachine vm = VMMachine.getInstance();
+        vm.enterFrame();
+
+        VMObject methodResult = method.invoke(this, args);
+
+        vm.exitFrame();
+
+        if (method.getReturnType() != VMType.VOID)
+            VMMachine.push(methodResult);
     }
 
     public VMMethod lookupMethod(String name) throws VMException {
-        // TODO static vs instance methods
         if (!methods.containsKey(name))
-            throw new NotDeclaredException(name); // TODO method lookup in source
+            throw new NotDeclaredException(name);
         return methods.get(name);
     };
 
@@ -115,7 +117,6 @@ public class VMClass extends VMBaseObject {
         if (initialized)
             return;
 
-        // TODO get methods from source
         if (source != null) {
             FieldInitializeVisitorBuilder builder =
                     new FieldInitializeVisitorBuilder(this, new ModifierFilter("static", false));
