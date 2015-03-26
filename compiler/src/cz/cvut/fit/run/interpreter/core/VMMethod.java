@@ -1,9 +1,7 @@
 package cz.cvut.fit.run.interpreter.core;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
-import cz.cvut.fit.run.interpreter.core.exceptions.ArgumentException;
-import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
-import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
@@ -57,9 +55,6 @@ public class VMMethod extends VMReference {
     }
 
     public VMObject invoke(VMBaseObject onObject, VMObject ... args) throws VMException {
-        // TODO create frame (check)
-
-
         checkNumberOfArguments(args);
 
         if (nativeMethod) {
@@ -85,12 +80,21 @@ public class VMMethod extends VMReference {
 
         loadArgs(args);
 
-        vm.evalMethod(code);
-        if (returnType != VMType.VOID) {
-            return vm.popValue();
+        try {
+            vm.evalMethod(code);
+        } catch (ReturnException ret) {
+            if (returnType != VMType.VOID) {
+                if (ret.getValue() == null)
+                    throw new MissingReturnException();
+
+                if (!returnType.canBeAssignedTo(ret.getValue()))
+                    throw new TypeMismatchException("Wrong return type");
+            }
+
+            return ret.getValue();
         }
 
-        return null;
+        throw new RuntimeException("Should not ever get here");
     }
 
     private VMObject invokeNative(VMBaseObject onObject, VMObject ... args) throws VMException {

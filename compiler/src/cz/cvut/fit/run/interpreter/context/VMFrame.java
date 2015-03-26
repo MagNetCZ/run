@@ -85,6 +85,10 @@ public class VMFrame {
         return opStack.peek();
     }
 
+    public void clearStack() {
+        opStack.clear();
+    }
+
 
     public void enterScope() {
         localVariableStack.push(new VariableHash());

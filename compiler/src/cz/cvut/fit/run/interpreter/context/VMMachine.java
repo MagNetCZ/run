@@ -158,12 +158,9 @@ public class VMMachine {
         return currentFrame;
     }
 
-    public void evalMethod(MethodBodyContext body) {
-        try {
-            evalBlock(body.block());
-        } catch (VMException e) {
-            throw new RuntimeException(e);
-        }
+    public void evalMethod(MethodBodyContext body) throws VMException {
+        evalBlock(body.block());
+        throw new ReturnException(null); // Implicit return
     }
 
     private VMExpressionType getExpressionType(ExpressionContext expression) {
@@ -326,8 +323,10 @@ public class VMMachine {
     }
     private void evalBlockStatement(BlockStatementContext blockStatement) throws VMException {
         StatementContext statement = blockStatement.statement();
-        if (statement != null)
+        if (statement != null) {
             evalStatement(blockStatement.statement());
+            currentFrame.clearStack();
+        }
 
         if (blockStatement.localVariableDeclarationStatement() != null) {
             LocalVariableDeclarationContext localVariableDeclaration =
@@ -370,9 +369,20 @@ public class VMMachine {
             case "continue":
                 throw new ContinueException();
             // TODO return
+            case "return":
+                evalReturn(statement);
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    private void evalReturn(StatementContext statement) throws VMException {
+        ExpressionContext returnExpression = statement.expression(0);
+        VMObject returnValue = null;
+        if (returnExpression != null)
+            returnValue = evalReturnExpressionValue(statement.expression(0));
+
+        throw new ReturnException(returnValue);
     }
 
     private void evalPrimaryExpression(ExpressionContext expression) throws VMException {

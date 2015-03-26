@@ -14,6 +14,11 @@ public class Test {
         console("Instance method");
         console(this.instanceVar);
         console(arg);
+        return;
+    }
+
+    public String returnMethod() {
+        return "What what";
     }
 }
 
@@ -22,7 +27,8 @@ public class Main {
 //        Test a = new Test();
         Test.staticMethod();
         Test testInstance = new Test();
-        String argument = "Hello";
+        String argument = testInstance.returnMethod();
+//        String argument = testInstance.returnMethod();
         testInstance.instanceMethod(argument);
     }
 }
