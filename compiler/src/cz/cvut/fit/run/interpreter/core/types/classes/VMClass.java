@@ -7,6 +7,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.MethodInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;

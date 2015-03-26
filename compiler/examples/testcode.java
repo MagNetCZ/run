@@ -52,7 +52,5 @@ public class Main {
 //        console(testInstance.instanceVariable);
 
 //        testInstance.staticVariable = 5; // Should throw error
-
-        // TODO scopes
     }
 }

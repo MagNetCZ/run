@@ -6,6 +6,7 @@ import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.modifiers.Scope;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBuiltinInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -28,9 +29,7 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
 
             for (BuiltinMethodIdentifier builtinMethod : builtinMethods) {
                 Modifiers modifiers = builtinMethod.modifiers;
-                boolean instanceMethod = !modifiers.isStaticFlag();
-
-                int argsSize = builtinMethod.argTypes.length; // TODO +1 only for instance methods
+                boolean instanceMethod = !modifiers.isStatic();
 
                 LinkedList<Class<?>> argClasses = new LinkedList<Class<?>>();
                 LinkedList<VMType> argTypes = new LinkedList<>();

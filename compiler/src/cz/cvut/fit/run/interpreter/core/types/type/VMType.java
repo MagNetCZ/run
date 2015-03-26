@@ -1,4 +1,4 @@
-package cz.cvut.fit.run.interpreter.core.types.classes;
+package cz.cvut.fit.run.interpreter.core.types.type;
 
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
@@ -18,8 +18,6 @@ public class VMType {
 
     private String name;
 
-    // TODO nested type (for array)
-
     public VMType(String name) {
         this.name = name;
     }
@@ -34,9 +32,6 @@ public class VMType {
                 "name='" + name + '\'' +
                 '}';
     }
-
-    // TODO equals for type checking
-
 
     @Override
     public boolean equals(Object o) {
@@ -59,7 +54,6 @@ public class VMType {
         if (value.getType() != NULL && !value.getType().equals(this)) {
             return false;
             // TODO inherited type checking (iterate through object type and its super types)
-            // TODO null can be assigned to anything
         }
 
         return true;

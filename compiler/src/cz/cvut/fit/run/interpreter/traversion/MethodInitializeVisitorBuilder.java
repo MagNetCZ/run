@@ -6,10 +6,8 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.modifiers.Scope;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.parser.JavaBaseVisitor;
-import cz.cvut.fit.run.parser.JavaParser;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -41,10 +39,11 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
                     modifiers.setScope(Scope.PRIVATE);
                     break;
                 case "static":
-                    modifiers.setStaticFlag(true);
+                    modifiers.setStatic(true);
                     break;
-
-                // TODO final
+                case "final":
+                    modifiers.setFinal(true);
+                    break;
             }
         }
 
@@ -78,7 +77,7 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
         LinkedList<VMType> argTypes = new LinkedList<>();
         LinkedList<String> argNames = new LinkedList<>();
 
-        if (!modifiers.isStaticFlag()) {
+        if (!modifiers.isStatic()) {
             argTypes.add(buildObject.getType());
             argNames.add("this");
         }
@@ -91,8 +90,6 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
                 String argName = parameter.variableDeclaratorId().getText();
                 argNames.add(argName);
             }
-
-        // TODO rest args
 
         MethodBodyContext methodSource = ctx.methodBody();
 

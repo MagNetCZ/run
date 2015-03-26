@@ -2,7 +2,7 @@ package cz.cvut.fit.run.interpreter;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaLexer;

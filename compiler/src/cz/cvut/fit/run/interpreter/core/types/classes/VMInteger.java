@@ -5,6 +5,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 
 import java.util.LinkedList;
 import java.util.List;

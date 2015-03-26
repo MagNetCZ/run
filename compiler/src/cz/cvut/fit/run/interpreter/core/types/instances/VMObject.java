@@ -3,7 +3,7 @@ package cz.cvut.fit.run.interpreter.core.types.instances;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
 
@@ -57,9 +57,7 @@ public class VMObject extends VMBaseObject {
         return "<" + getType().getName() + ">";
     }
 
-    // TODO initialize
     public void initialize() throws VMException {
-        // TODO get methods from source
         if (getClazz().getSource() == null)
             return;
 

@@ -108,11 +108,6 @@ int number = 3, sec, third = 5;
         i = 20; // Should not be found
     }
 
-    // Scope redeclaration
-    public static void testVariableScope3() {
-        // TODO
-    }
-
     public static void testFor() {
         for (int i = 1; i < 10; i++) {
             console(i);
@@ -128,7 +123,6 @@ int number = 3, sec, third = 5;
 
     public static void testArray() {
         boolean[] boolArray = new Boolean[10];
-        // TODO accessing
     }
 
     public static void testCompare() {

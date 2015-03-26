@@ -3,9 +3,9 @@ package cz.cvut.fit.run.interpreter.core.types.instances;
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMOutOfBoundsException;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMArrayType;
+import cz.cvut.fit.run.interpreter.core.types.type.VMArrayType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 
 /**
  * Created by MagNet on 16. 3. 2015.

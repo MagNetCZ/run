@@ -5,24 +5,24 @@ package cz.cvut.fit.run.interpreter.core.modifiers;
  */
 public class Modifiers {
     private boolean staticFlag;
+    private boolean finalFlag;
     private Scope scope;
 
-    // TODO final
-
-    public Modifiers(boolean staticFlag, Scope scope) {
+    public Modifiers(boolean staticFlag, boolean finalFlag, Scope scope) {
         this.staticFlag = staticFlag;
+        this.finalFlag = finalFlag;
         this.scope = scope;
     }
 
     public Modifiers() {
-        this(false, Scope.DEFAULT);
+        this(false, false, Scope.DEFAULT);
     }
 
-    public boolean isStaticFlag() {
+    public boolean isStatic() {
         return staticFlag;
     }
 
-    public void setStaticFlag(boolean staticFlag) {
+    public void setStatic(boolean staticFlag) {
         this.staticFlag = staticFlag;
     }
 
@@ -32,5 +32,13 @@ public class Modifiers {
 
     public void setScope(Scope scope) {
         this.scope = scope;
+    }
+
+    public boolean isFinal() {
+        return finalFlag;
+    }
+
+    public void setFinal(boolean finalFlag) {
+        this.finalFlag = finalFlag;
     }
 }

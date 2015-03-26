@@ -3,7 +3,7 @@ package cz.cvut.fit.run.interpreter.core;
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaParser;
 
@@ -116,7 +116,7 @@ public class VMMethod extends VMReference {
     }
 
     public boolean isStaticMethod() {
-        return modifiers.isStaticFlag();
+        return modifiers.isStatic();
     }
 
     public Modifiers getModifiers() {

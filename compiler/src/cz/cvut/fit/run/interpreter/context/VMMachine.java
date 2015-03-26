@@ -9,6 +9,7 @@ import cz.cvut.fit.run.interpreter.core.helpers.LiteralParser;
 import cz.cvut.fit.run.interpreter.core.types.IDType;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.*;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -293,7 +294,6 @@ public class VMMachine {
         String controlKeyword = statement.getChild(0).getText();
 
         switch (controlKeyword) {
-            // TODO dynamic order
             case "if":
                 evalIf(statement);
                 break;
@@ -368,7 +368,6 @@ public class VMMachine {
                 throw new BreakException();
             case "continue":
                 throw new ContinueException();
-            // TODO return
             case "return":
                 evalReturn(statement);
             default:
@@ -512,11 +511,7 @@ public class VMMachine {
             return;
         }
 
-        // TODO ...
         // Method invocation
-//        VMObject expressionResult = evalReturnExpression(expression.expression(0));
-//        VMIdentifierInstance id = (VMIdentifierInstance)expressionResult;
-
         LinkedList<VMObject> args = new LinkedList<>();
         if (expression.expressionList() != null)
             for (ExpressionContext argExpression : expression.expressionList().expression()) {
@@ -590,7 +585,6 @@ public class VMMachine {
         VMClass clazz = classes.get(name);
         clazz.initialize();
         return clazz;
-        // TODO source lookup
     }
 
     public VMType getType(TypeContext type) throws VMException {
@@ -620,7 +614,6 @@ public class VMMachine {
     }
 
     public void exitFrame() throws VMException {
-        // TODO return value
         logger.info("Exiting frame, stack size " + currentFrame.stackSize());
 
         currentFrame = currentFrame.parent;
