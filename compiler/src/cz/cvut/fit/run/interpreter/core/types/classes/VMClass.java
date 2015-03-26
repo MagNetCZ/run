@@ -27,6 +27,7 @@ public class VMClass extends VMBaseObject {
     private VMType type;
 
     HashMap<String, VMMethod> methods;
+    VMMethod constructor;
 
     public VMClass(VMType type, VMClass superClass) throws VMException {
         this.superClass = superClass;
@@ -74,6 +75,10 @@ public class VMClass extends VMBaseObject {
 
     public void callMethod(String name, VMObject target, VMObject ... args) throws VMException {
         VMMethod method = lookupMethod(name);
+        callMethod(method, target, args);
+    }
+
+    public void callMethod(VMMethod method, VMObject target, VMObject ... args) throws VMException {
         if (method.isStaticMethod())
             throw new MethodNotFoundException("Trying to call static method from instance context");
 
@@ -110,8 +115,17 @@ public class VMClass extends VMBaseObject {
         methods.put(method.getName(), method);
     }
 
+    public void setConstructor(VMMethod constructor) {
+        this.constructor = constructor;
+    }
+
     public VMObject createInstance(VMObject ... args) throws VMException {
-        return new VMObject(this, args);
+        VMObject newInstance = new VMObject(this, args);
+
+        if (constructor != null)
+            callMethod(constructor, newInstance, args);
+
+        return newInstance;
     }
 
     public void initialize() throws VMException {

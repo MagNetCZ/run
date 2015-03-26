@@ -159,8 +159,8 @@ public class VMMachine {
         return currentFrame;
     }
 
-    public void evalMethod(MethodBodyContext body) throws VMException {
-        evalBlock(body.block());
+    public void evalMethod(BlockContext body) throws VMException {
+        evalBlock(body);
         throw new ReturnException(null); // Implicit return
     }
 

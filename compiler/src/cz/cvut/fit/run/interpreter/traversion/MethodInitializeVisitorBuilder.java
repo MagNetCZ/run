@@ -32,6 +32,7 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
         try {
             Modifiers modifiers = getModifiers(ctx);
             evalMethodDeclaration(ctx.memberDeclaration().methodDeclaration(), modifiers);
+            evalConstructorDeclaration(ctx.memberDeclaration().constructorDeclaration(), modifiers);
         } catch (VMException ex) {
             return ex;
         }
@@ -51,6 +52,31 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
 
         String methodName = ctx.getChild(1).getText();
 
+        BlockContext methodSource = ctx.methodBody().block();
+
+        VMMethod method = getMethod(methodName, modifiers, returnType, methodSource, ctx.formalParameters());
+
+        buildObject.declareMethod(method);
+    }
+
+    private void evalConstructorDeclaration(ConstructorDeclarationContext ctx, Modifiers modifiers)
+            throws VMException {
+        if (ctx == null)
+            return;
+
+        VMType returnType = VMType.VOID;
+        BlockContext methodSource = ctx.constructorBody().block();
+
+        VMMethod method = getMethod("<<CONSTRUCTOR>>", modifiers, returnType, methodSource, ctx.formalParameters());
+
+        buildObject.setConstructor(method);
+    }
+
+    private VMMethod getMethod(String methodName, Modifiers modifiers, VMType returnType,
+                               BlockContext methodSource, FormalParametersContext formalParameters)
+        throws VMException {
+        VMMachine vm = VMMachine.getInstance();
+
         LinkedList<VMType> argTypes = new LinkedList<>();
         LinkedList<String> argNames = new LinkedList<>();
 
@@ -59,8 +85,8 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
             argNames.add("this");
         }
 
-        if (ctx.formalParameters().formalParameterList() != null)
-            for (FormalParameterContext parameter : ctx.formalParameters().formalParameterList().formalParameter()) {
+        if (formalParameters.formalParameterList() != null)
+            for (FormalParameterContext parameter : formalParameters.formalParameterList().formalParameter()) {
                 VMType argType = vm.getType(parameter.type());
                 argTypes.add(argType);
 
@@ -68,13 +94,11 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
                 argNames.add(argName);
             }
 
-        MethodBodyContext methodSource = ctx.methodBody();
+
 
         VMType[] argTypeArray = argTypes.toArray(new VMType[argTypes.size()]);
         String[] argNameArray = argNames.toArray(new String[argNames.size()]);
 
-        VMMethod method = new VMMethod(methodName, modifiers, returnType, methodSource, argTypeArray, argNameArray);
-
-        buildObject.declareMethod(method);
+        return new VMMethod(methodName, modifiers, returnType, methodSource, argTypeArray, argNameArray);
     }
 }

@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 public class VMMethod extends VMReference {
     private String name;
     private VMType returnType;
-    private JavaParser.MethodBodyContext code;
+    private JavaParser.BlockContext code;
     private Method nativeCode;
 
     private VMType[] argTypes;
@@ -27,7 +27,7 @@ public class VMMethod extends VMReference {
     boolean nativeMethod;
 
     public VMMethod(String name, Modifiers modifiers,
-                    VMType returnType, JavaParser.MethodBodyContext code, VMType[] argTypes, String[] argNames) {
+                    VMType returnType, JavaParser.BlockContext code, VMType[] argTypes, String[] argNames) {
         this.name = name;
         this.modifiers = modifiers;
         this.returnType = returnType;
