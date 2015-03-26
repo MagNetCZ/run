@@ -1,5 +1,6 @@
 package cz.cvut.fit.run.interpreter.core.types.type;
 
+import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 
 /**
@@ -48,14 +49,5 @@ public class VMType {
     @Override
     public int hashCode() {
         return name.hashCode();
-    }
-
-    public boolean canBeAssignedTo(VMObject value) {
-        if (value.getType() != NULL && !value.getType().equals(this)) {
-            return false;
-            // TODO inherited type checking (iterate through object type and its super types)
-        }
-
-        return true;
     }
 }

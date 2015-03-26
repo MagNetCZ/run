@@ -87,7 +87,7 @@ public class VMMethod extends VMReference {
                 if (ret.getValue() == null)
                     throw new MissingReturnException();
 
-                if (!returnType.canBeAssignedTo(ret.getValue()))
+                if (!ret.getValue().canBeAssignedTo(returnType))
                     throw new TypeMismatchException("Wrong return type");
             }
 

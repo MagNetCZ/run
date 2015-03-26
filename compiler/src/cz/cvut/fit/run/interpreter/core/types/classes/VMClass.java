@@ -5,6 +5,7 @@ import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
+import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
@@ -99,8 +100,12 @@ public class VMClass extends VMBaseObject {
     }
 
     public VMMethod lookupMethod(String name) throws VMException {
-        if (!methods.containsKey(name))
-            throw new NotDeclaredException(name);
+        if (!methods.containsKey(name)) {
+            if (superClass == null)
+                throw new NotDeclaredException(name);
+
+            return superClass.lookupMethod(name);
+        }
         return methods.get(name);
     };
 
@@ -112,6 +117,7 @@ public class VMClass extends VMBaseObject {
     }
 
     public void declareMethod(VMMethod method) {
+        // TODO check overriding methods for matching headers
         methods.put(method.getName(), method);
     }
 
@@ -149,7 +155,34 @@ public class VMClass extends VMBaseObject {
         initialized = true;
     }
 
+    public void setSuperClass(VMClass superClass) throws VMException {
+        if (hasSuper())
+            throw new RedeclarationException("Super class already defined");
+        this.superClass = superClass;
+    }
+
+    public VMClass getSuperClass() {
+        return superClass;
+    }
+
     public JavaParser.ClassBodyContext getSource() {
         return source;
+    }
+
+    public boolean canBeAssignedTo(VMType type) {
+        if (getType() == VMType.NULL)
+            return true;
+
+        if (getType().equals(type))
+            return true;
+
+        if (hasSuper())
+            return superClass.canBeAssignedTo(type);
+
+        return false;
+    }
+
+    public boolean hasSuper() {
+        return superClass != null;
     }
 }

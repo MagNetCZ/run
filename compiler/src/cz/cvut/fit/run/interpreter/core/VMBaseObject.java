@@ -26,6 +26,7 @@ public abstract class VMBaseObject extends VMReference {
     }
 
     public TypeValuePair getField(VMIdentifierInstance identifier) throws VMException {
+        // TODO deal with inheritance
         return fields.getPair(identifier);
     }
 

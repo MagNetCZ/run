@@ -47,6 +47,10 @@ public class Main {
             VMMachine.getInstance().registerType(type); // TODO inner classes -> visitor?
         }
 
+        for (JavaParser.TypeDeclarationContext type : compilationUnit.typeDeclaration()) {
+            VMMachine.getInstance().registerSuperType(type);
+        }
+
         VMMachine vm = VMMachine.getInstance();
         VMArrayInstance vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(0);
         VMObject[] vmArgArray = { vmArguments };

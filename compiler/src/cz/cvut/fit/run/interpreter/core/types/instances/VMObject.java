@@ -67,4 +67,8 @@ public class VMObject extends VMBaseObject {
         if (ex != null)
             throw ex;
     }
+
+    public boolean canBeAssignedTo(VMType type) {
+        return clazz.canBeAssignedTo(type);
+    }
 }

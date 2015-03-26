@@ -19,7 +19,7 @@ public class TypeValuePair {
     }
 
     public void setValue(VMObject value) throws VMException {
-        if (!getType().canBeAssignedTo(value)) {
+        if (!value.canBeAssignedTo(getType())) {
             throw new TypeMismatchException();
         }
 
