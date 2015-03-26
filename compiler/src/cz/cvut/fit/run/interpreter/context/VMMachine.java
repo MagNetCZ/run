@@ -433,7 +433,7 @@ public class VMMachine {
 //        String classOrInstanceName = expression.getChild(0).getText();
 
         String fieldOrMethodName = expression.getChild(2).getText();
-        VMIdentifierInstance objectId = (VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
+        VMIdentifierInstance objectId = (VMIdentifierInstance)pop();//VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
         objectId.setField(getID(fieldOrMethodName));
 
         push(objectId);
@@ -493,7 +493,9 @@ public class VMMachine {
     }
 
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
-        if (expression.getChild(0).getText().equals("console")) {
+        VMIdentifierInstance id = (VMIdentifierInstance)pop();
+
+        if (id.getValue().equals("console")) {
             ExpressionContext expressionToPrint = expression.expressionList().expression(0);
             VMObject printContents = evalReturnExpressionValue(expressionToPrint);
             System.out.println(printContents);
@@ -502,8 +504,8 @@ public class VMMachine {
 
         // TODO ...
         // Method invocation
-        VMObject expressionResult = evalReturnExpression(expression.expression(0));
-        VMIdentifierInstance id = (VMIdentifierInstance)expressionResult;
+//        VMObject expressionResult = evalReturnExpression(expression.expression(0));
+//        VMIdentifierInstance id = (VMIdentifierInstance)expressionResult;
 
         LinkedList<VMObject> args = new LinkedList<>();
         if (expression.expressionList() != null)
@@ -609,6 +611,8 @@ public class VMMachine {
 
     public void exitFrame() throws VMException {
         // TODO return value
+        logger.info("Exiting frame, stack size " + currentFrame.stackSize());
+
         currentFrame = currentFrame.parent;
         if (currentFrame == null)
             throw new ProgramEndException();

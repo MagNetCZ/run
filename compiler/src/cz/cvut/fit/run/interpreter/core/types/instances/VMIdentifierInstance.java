@@ -48,4 +48,13 @@ public class VMIdentifierInstance extends VMBuiltinInstance<String> {
 
         return IDType.LOCAL_VARIABLE;
     }
+
+    @Override
+    public String toString() {
+        return "<ID: " +
+                value +
+                ", ai=" + arrayIndex +
+                ", f=" + field +
+                '>';
+    }
 }

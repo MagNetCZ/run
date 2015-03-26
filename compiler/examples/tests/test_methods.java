@@ -19,6 +19,7 @@ public class Test {
 
 public class Main {
     public static void main(String[] args) {
+//        Test a = new Test();
         Test.staticMethod();
         Test testInstance = new Test();
         String argument = "Hello";

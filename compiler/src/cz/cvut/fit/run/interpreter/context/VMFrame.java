@@ -77,6 +77,10 @@ public class VMFrame {
         return object;
     }
 
+    public int stackSize() {
+        return opStack.size();
+    }
+
     public VMObject peek() {
         return opStack.peek();
     }
