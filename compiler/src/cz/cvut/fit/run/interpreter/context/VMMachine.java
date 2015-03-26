@@ -16,6 +16,8 @@ import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.beans.Expression;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -504,10 +506,20 @@ public class VMMachine {
         }
 
         // TODO ...
+        // Method invocation
         VMObject expressionResult = evalReturnExpression(expression.expression(0));
         VMIdentifierInstance id = (VMIdentifierInstance)expressionResult;
 
-        getObjectOrClass(id).callMethod(id.getField().getValue());
+        LinkedList<VMObject> args = new LinkedList<>();
+        if (expression.expressionList() != null)
+            for (ExpressionContext argExpression : expression.expressionList().expression()) {
+                args.add(evalReturnExpressionValue(argExpression));
+            }
+
+        VMObject[] argArray = args.toArray(new VMObject[args.size()]);
+
+        String methodName = id.getField().getValue();
+        getObjectOrClass(id).callMethod(methodName, argArray);
     }
 
     private void evalExpression(ExpressionContext expression) throws VMException {
@@ -554,7 +566,11 @@ public class VMMachine {
     }
 
     public VMClass getClazz(TypeContext type) throws VMException {
-        VMClass clazz = getClazz(type.getChild(0).getText());
+        String typeName = type.getChild(0).getText();
+        VMClass clazz = getClazz(typeName);
+
+        if (clazz == null)
+            throw new NotDeclaredException("No such type - " + typeName);
 
         if (type.getChildCount() == 1)
             return clazz;
@@ -570,13 +586,8 @@ public class VMMachine {
         // TODO source lookup
     }
 
-    public VMType getType(String name) throws VMException {
-        if (name.equals("void"))
-            return VMType.VOID;
-
-        VMClass clazz = getClazz(name);
-        if (clazz == null)
-            throw new NotDeclaredException("No such type - " + name);
+    public VMType getType(TypeContext type) throws VMException {
+        VMClass clazz = getClazz(type);
         return clazz.getType();
     }
 

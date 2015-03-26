@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.core;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
+import cz.cvut.fit.run.interpreter.core.exceptions.ArgumentException;
 import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
@@ -50,8 +51,15 @@ public class VMMethod extends VMReference {
         nativeMethod = true;
     }
 
+    private void checkNumberOfArguments(VMObject ... args) throws ArgumentException {
+        if (args.length != argTypes.length)
+            throw new ArgumentException("Given " + args.length + " arguments, but " + argTypes.length + " are required.");
+    }
+
     public VMObject invoke(VMBaseObject onObject, VMObject ... args) throws VMException {
         // TODO create frame (check)
+
+        checkNumberOfArguments(args);
 
         if (nativeMethod) {
             return invokeNative(onObject, args);

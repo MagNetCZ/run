@@ -10,9 +10,10 @@ public class Test {
         console("Static method");
     }
 
-    public void instanceMethod() {
+    public void instanceMethod(String arg) {
         console("Instance method");
         console(this.instanceVar);
+        console(arg);
     }
 }
 
@@ -20,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
 //        Test.staticMethod();
         Test testInstance = new Test();
-        testInstance.instanceMethod();
+        testInstance.instanceMethod("Hello");
 //        testInstance.instanceMethod(a);
 //        testInstance.instanceMethod(a, b);
     }

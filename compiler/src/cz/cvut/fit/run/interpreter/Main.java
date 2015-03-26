@@ -2,13 +2,14 @@ package cz.cvut.fit.run.interpreter;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.traversion.BasicVisitor;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMType;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.parser.JavaLexer;
 import cz.cvut.fit.run.parser.JavaParser;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
@@ -42,15 +43,13 @@ public class Main {
 
         JavaParser.CompilationUnitContext compilationUnit = parser.compilationUnit();
 
-        JavaParser.TypeDeclarationContext mainClass = null;
-
         for (JavaParser.TypeDeclarationContext type : compilationUnit.typeDeclaration()) {
             VMMachine.getInstance().registerType(type); // TODO inner classes -> visitor?
-            if (type.classDeclaration().Identifier().getText().equals(mainClassName))
-                mainClass = type;
         }
 
-        BasicVisitor visitor = new BasicVisitor();
-        visitor.visit(mainClass);
+        VMMachine vm = VMMachine.getInstance();
+        VMArrayInstance vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(0);
+        VMObject[] vmArgArray = { vmArguments };
+        vm.getClazz(mainClassName).callMethod("main", vmArgArray);
     }
 }

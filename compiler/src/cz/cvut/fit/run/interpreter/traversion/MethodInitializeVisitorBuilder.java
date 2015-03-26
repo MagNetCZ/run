@@ -63,17 +63,17 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
         return super.visitClassBodyDeclaration(ctx);
     }
 
-    private void evalMethodDeclaration(MethodDeclarationContext methodDeclarationContext, Modifiers modifiers)
+    private void evalMethodDeclaration(MethodDeclarationContext ctx, Modifiers modifiers)
             throws VMException {
-        if (methodDeclarationContext == null)
+        if (ctx == null)
             return;
 
         VMMachine vm = VMMachine.getInstance();
 
-        String returnTypeName = methodDeclarationContext.getChild(0).getText();
-        VMType returnType = vm.getType(returnTypeName);
+        TypeContext type = ctx.type();
+        VMType returnType = type == null ? VMType.VOID : vm.getType(type);
 
-        String methodName = methodDeclarationContext.getChild(1).getText();
+        String methodName = ctx.getChild(1).getText();
 
         LinkedList<VMType> argTypes = new LinkedList<>();
         LinkedList<String> argNames = new LinkedList<>();
@@ -83,9 +83,18 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
             argNames.add("this");
         }
 
+        if (ctx.formalParameters().formalParameterList() != null)
+            for (FormalParameterContext parameter : ctx.formalParameters().formalParameterList().formalParameter()) {
+                VMType argType = vm.getType(parameter.type());
+                argTypes.add(argType);
+
+                String argName = parameter.variableDeclaratorId().getText();
+                argNames.add(argName);
+            }
+
         // TODO rest args
 
-        MethodBodyContext methodSource = methodDeclarationContext.methodBody();
+        MethodBodyContext methodSource = ctx.methodBody();
 
         VMType[] argTypeArray = argTypes.toArray(new VMType[argTypes.size()]);
         String[] argNameArray = argNames.toArray(new String[argNames.size()]);
