@@ -75,6 +75,7 @@ public class VMMachine {
         registerClassAlias("Boolean", "boolean");
 
         registerClass(new VMString());
+        registerClass(new VMFile());
 
         IDClass = new VMIdentifier();
         registerClass(IDClass);

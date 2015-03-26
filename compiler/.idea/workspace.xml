@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4adb53e-696f-4e76-82f3-503cb0616c0a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/tests/satsolver/Main.java" afterPath="$PROJECT_DIR$/examples/tests/satsolver/Main.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMFileInstance.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMFileNotFoundException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMIOException.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/tests/test_file.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../testing/testing.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="compiler.iws" />
@@ -48,11 +54,11 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
+            <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/examples/tests/satsolver/Main.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.45670104" vertical-offset="1563" max-vertical-offset="2533">
-                    <caret line="118" column="31" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
+                  <state vertical-scroll-proportion="0.0" vertical-offset="1512" max-vertical-offset="2533">
+                    <caret line="129" column="26" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="27" />
                     <folding>
                       <element signature="imports" expanded="true" />
                       <element signature="e#382#383#0" expanded="true" />
@@ -62,6 +68,16 @@
                       <element signature="e#2640#2641#0" expanded="true" />
                       <element signature="e#2678#2679#0" expanded="true" />
                     </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="test_file.java" pinned="false" current="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/examples/tests/test_file.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state vertical-scroll-proportion="0.070103094" vertical-offset="0" max-vertical-offset="970">
+                    <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+                    <folding />
                   </state>
                 </provider>
               </entry>
@@ -80,42 +96,105 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="VMMachine.java" pinned="false" current="false" current-in-tab="true">
+      <file leaf-file-name="VMMachine.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5464912" vertical-offset="1077" max-vertical-offset="10710">
-              <caret line="102" column="9" selection-start-line="102" selection-start-column="9" selection-end-line="102" selection-end-column="9" />
+            <state vertical-scroll-proportion="-8.535714" vertical-offset="9587" max-vertical-offset="10727">
+              <caret line="590" column="38" selection-start-line="590" selection-start-column="38" selection-end-line="590" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1884#1885#0" expanded="true" />
                 <element signature="e#1945#1946#0" expanded="true" />
-                <element signature="e#5345#5346#0" expanded="true" />
-                <element signature="e#5384#5385#0" expanded="true" />
+                <element signature="e#5382#5383#0" expanded="true" />
+                <element signature="e#5421#5422#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java">
+      <file leaf-file-name="VMFile.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="901">
-              <caret line="50" column="60" selection-start-line="50" selection-start-column="60" selection-end-line="50" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MethodInitializeVisitorBuilder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/traversion/MethodInitializeVisitorBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1819">
-              <caret line="78" column="54" selection-start-line="78" selection-start-column="54" selection-end-line="78" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.6113463" vertical-offset="26" max-vertical-offset="1207">
+              <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#915#916#0" expanded="true" />
-                <element signature="e#970#971#0" expanded="true" />
+                <element signature="e#926#927#0" expanded="true" />
+                <element signature="e#960#961#0" expanded="true" />
+                <element signature="e#1059#1060#0" expanded="true" />
+                <element signature="e#1113#1114#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VMIOException.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMIOException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+              <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+              <folding>
+                <element signature="e#225#226#0" expanded="true" />
+                <element signature="e#255#256#0" expanded="true" />
+                <element signature="e#316#317#0" expanded="true" />
+                <element signature="e#353#354#0" expanded="true" />
+                <element signature="e#398#399#0" expanded="true" />
+                <element signature="e#426#427#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VMFileNotFoundException.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMFileNotFoundException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+              <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
+              <folding>
+                <element signature="e#255#256#0" expanded="true" />
+                <element signature="e#285#286#0" expanded="true" />
+                <element signature="e#356#357#0" expanded="true" />
+                <element signature="e#393#394#0" expanded="true" />
+                <element signature="e#448#449#0" expanded="true" />
+                <element signature="e#476#477#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VMFileInstance.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMFileInstance.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+              <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#418#419#0" expanded="true" />
+                <element signature="e#453#454#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VMBooleanInstance.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMBooleanInstance.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+              <caret line="8" column="65" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="65" />
+              <folding>
+                <element signature="e#378#379#0" expanded="true" />
+                <element signature="e#413#414#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="VMInteger.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMInteger.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1161" max-vertical-offset="2329">
+              <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="134" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -130,36 +209,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VMObject.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMObject.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
-              <caret line="71" column="43" selection-start-line="71" selection-start-column="43" selection-end-line="71" selection-end-column="43" />
-              <folding>
-                <element signature="e#1016#1017#0" expanded="true" />
-                <element signature="e#1044#1045#0" expanded="true" />
-                <element signature="e#1975#1976#0" expanded="true" />
-                <element signature="e#2025#2026#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VMMethod.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/VMMethod.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="824" max-vertical-offset="1955">
-              <caret line="89" column="33" selection-start-line="89" selection-start-column="33" selection-end-line="89" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="VMType.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="901">
-              <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
+              <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -170,8 +224,8 @@
       <file leaf-file-name="VMClass.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="2924">
-              <caret line="128" column="40" selection-start-line="128" selection-start-column="40" selection-end-line="128" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1722" max-vertical-offset="2924">
+              <caret line="186" column="5" selection-start-line="186" selection-start-column="5" selection-end-line="186" selection-end-column="5" />
               <folding>
                 <element signature="e#3974#3975#0" expanded="true" />
                 <element signature="e#4020#4021#0" expanded="true" />
@@ -180,16 +234,6 @@
                 <element signature="e#5615#5616#0" expanded="true" />
                 <element signature="e#5656#5657#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TypeValuePair.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/TypeValuePair.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-              <caret line="23" column="9" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -207,12 +251,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/functions/VMExpressionType.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMArrayType.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/traversion/ObjectInitializeVisitor.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/traversion/ClassRegisterVisitor.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMNullInstance.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMNull.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMArray.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/IDType.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/functions/binary/VMAssignment.java" />
@@ -249,15 +287,21 @@
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/traversion/MethodInitializeVisitorBuilder.java" />
         <option value="$PROJECT_DIR$/examples/tests/test_constructor.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/VMMethod.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMObject.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/TypeValuePair.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java" />
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/VMBaseObject.java" />
         <option value="$PROJECT_DIR$/examples/tests/test_inheritance.java" />
         <option value="$PROJECT_DIR$/examples/tests/satsolver/Main.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMFIle.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMFileInstance.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMFileNotFoundException.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMIOException.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java" />
+        <option value="$PROJECT_DIR$/examples/tests/test_file.java" />
+        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMFile.java" />
       </list>
     </option>
   </component>
@@ -403,32 +447,6 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="traversion" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cz" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="core" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -460,40 +478,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="types" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cz" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="types" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="type" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -695,19 +679,7 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cz" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="interpreter" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="context" />
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -722,46 +694,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="examples" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="examples" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="examples" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="satsolver" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -794,7 +726,7 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="registerTyp&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#registerType&#10;register&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#registerClass&#10;vmcla&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java&#10;vmclass&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java&#10;vmme&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/VMMethod.java&#10;basicvi&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/traversion/BasicVisitor.java&#10;main&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/Main.java&#10;vmmac&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/context/VMMachine.java&#10;field&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/traversion/FieldInitializeVisitorBuilder.java&#10;evalFunc&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalFunctionCall&#10;vmma&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/context/VMMachine.java&#10;getObject&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#getObjectOrClass&#10;evalBlock&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalBlock&#10;evalDot&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalDotAccess&#10;vmtype&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java&#10;variablehas&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/helpers/VariableHash.java&#10;base&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/VMBaseObject.java&#10;builder&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/traversion/ObjectInitializeVisitorBuilder.java&#10;evalExpress&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalExpression&#10;evalexpre&#9;PSI&#9;JAVA://org.stringtemplate.v4.debug.EvalExprEvent&#10;popvalue&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#popValue&#10;evalCreat&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalCreator&#10;evalExpres&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalExpression&#10;stat&#9;ACTION&#9;ActivateStatisticToolWindow&#10;plugins&#9;ACTION&#9;WelcomeScreen.Plugins&#10;evalstate&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalStatement&#10;evalfor&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalFor&#10;evalIf&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalIf" />
+    <property name="SearchEverywhereHistoryKey" value="vmcla&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java&#10;vmty&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java&#10;registerTyp&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#registerType&#10;register&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#registerClass&#10;vmclass&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java&#10;vmme&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/VMMethod.java&#10;basicvi&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/traversion/BasicVisitor.java&#10;main&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/Main.java&#10;vmmac&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/context/VMMachine.java&#10;field&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/traversion/FieldInitializeVisitorBuilder.java&#10;evalFunc&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalFunctionCall&#10;vmma&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/context/VMMachine.java&#10;getObject&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#getObjectOrClass&#10;evalBlock&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalBlock&#10;evalDot&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalDotAccess&#10;vmtype&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/types/classes/VMType.java&#10;variablehas&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/helpers/VariableHash.java&#10;base&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/core/VMBaseObject.java&#10;builder&#9;FILE&#9;file://E:/dev/run/compiler/src/cz/cvut/fit/run/interpreter/traversion/ObjectInitializeVisitorBuilder.java&#10;evalExpress&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalExpression&#10;evalexpre&#9;PSI&#9;JAVA://org.stringtemplate.v4.debug.EvalExprEvent&#10;popvalue&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#popValue&#10;evalCreat&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalCreator&#10;evalExpres&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalExpression&#10;stat&#9;ACTION&#9;ActivateStatisticToolWindow&#10;plugins&#9;ACTION&#9;WelcomeScreen.Plugins&#10;evalstate&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalStatement&#10;evalfor&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalFor&#10;evalIf&#9;PSI&#9;JAVA://cz.cvut.fit.run.interpreter.context.VMMachine#evalIf" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -814,7 +746,7 @@
       <recent name="E:\dev\run\compiler\examples" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Inheritance 01">
+  <component name="RunManager" selected="Application.File">
     <configuration default="false" name="Methods" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -1071,10 +1003,37 @@
       <ConfigurationWrapper RunnerId="Debug" />
       <method />
     </configuration>
-    <list size="3">
+    <configuration default="false" name="File" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cz.cvut.fit.run.interpreter.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="cz.cvut.fit.run.interpreter.Main" />
+      <option name="VM_PARAMETERS" value="-Djava.util.logging.SimpleFormatter.format=%5$s%6$s%n" />
+      <option name="PROGRAM_PARAMETERS" value="-f &quot;examples/tests/test_file.java&quot; -c &quot;Main&quot;" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="interpreter" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <ConfigurationWrapper RunnerId="Debug" />
+      <method />
+    </configuration>
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Application.Constructor" />
       <item index="1" class="java.lang.String" itemvalue="Application.Inheritance 01" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Methods" />
+      <item index="2" class="java.lang.String" itemvalue="Application.File" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Methods" />
     </list>
     <recent_temporary>
       <list size="2">
@@ -1125,7 +1084,7 @@
       <workItem from="1426844307169" duration="18270000" />
       <workItem from="1427101579969" duration="17453000" />
       <workItem from="1427360594964" duration="1613000" />
-      <workItem from="1427365208560" duration="15526000" />
+      <workItem from="1427365208560" duration="16835000" />
     </task>
     <task id="LOCAL-00001" summary="Array access, getting and setting values through an index">
       <created>1426847521512</created>
@@ -1211,11 +1170,15 @@
       <created>1427382400750</created>
       <updated>1427382400750</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Test code edits">
+      <created>1427382689345</created>
+      <updated>1427382689345</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140908000" />
+    <option name="totallyTimeSpent" value="142217000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1333,7 +1296,8 @@
     <MESSAGE value="Import cleanup" />
     <MESSAGE value="Inheritance 1 - Supertypes, methods base" />
     <MESSAGE value="Added SATSolver test code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added SATSolver test code" />
+    <MESSAGE value="Test code edits" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test code edits" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1341,7 +1305,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="methodName.equals(&quot;console&quot;)&#13;&#13;JAVA" />
           <url>file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java</url>
-          <line>536</line>
+          <line>537</line>
           <properties />
           <option name="timeStamp" value="101" />
         </line-breakpoint>
@@ -1352,7 +1316,7 @@
           <option name="timeStamp" value="118" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="119" />
+      <option name="time" value="120" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1360,41 +1324,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMArrayType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-          <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../parser/out/production/parser/cz/cvut/fit/run/parser/JavaVisitor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.4" vertical-offset="0" max-vertical-offset="3621">
-          <caret line="6" column="75" selection-start-line="6" selection-start-column="75" selection-end-line="6" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/antlr-4.4-complete.jar!/org/antlr/v4/runtime/tree/ParseTreeVisitor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="323">
-          <caret line="9" column="100" selection-start-line="9" selection-start-column="100" selection-end-line="9" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMNullInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <caret line="18" column="65" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMNull.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
-          <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMArray.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
@@ -1438,13 +1367,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMIntegerInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-          <caret line="9" column="77" selection-start-line="9" selection-start-column="77" selection-end-line="9" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMBooleanInstance.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
           <caret line="9" column="77" selection-start-line="9" selection-start-column="77" selection-end-line="9" selection-end-column="77" />
@@ -1622,14 +1544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMInteger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2329">
-          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/helpers/LiteralParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="935">
@@ -1761,31 +1675,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="901">
-          <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="2924">
-          <caret line="128" column="40" selection-start-line="128" selection-start-column="40" selection-end-line="128" selection-end-column="40" />
-          <folding>
-            <element signature="e#3974#3975#0" expanded="true" />
-            <element signature="e#4020#4021#0" expanded="true" />
-            <element signature="e#5183#5184#0" expanded="true" />
-            <element signature="e#5216#5217#0" expanded="true" />
-            <element signature="e#5615#5616#0" expanded="true" />
-            <element signature="e#5656#5657#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/tests/test_inheritance.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="595">
@@ -1802,24 +1691,110 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMBooleanInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <caret line="8" column="65" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="65" />
+          <folding>
+            <element signature="e#378#379#0" expanded="true" />
+            <element signature="e#413#414#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/instances/VMFileInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="357">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#418#419#0" expanded="true" />
+            <element signature="e#453#454#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMFileNotFoundException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
+          <folding>
+            <element signature="e#255#256#0" expanded="true" />
+            <element signature="e#285#286#0" expanded="true" />
+            <element signature="e#356#357#0" expanded="true" />
+            <element signature="e#393#394#0" expanded="true" />
+            <element signature="e#448#449#0" expanded="true" />
+            <element signature="e#476#477#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/type/VMType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
+          <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/VMIOException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+          <folding>
+            <element signature="e#225#226#0" expanded="true" />
+            <element signature="e#255#256#0" expanded="true" />
+            <element signature="e#316#317#0" expanded="true" />
+            <element signature="e#353#354#0" expanded="true" />
+            <element signature="e#398#399#0" expanded="true" />
+            <element signature="e#426#427#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1722" max-vertical-offset="2924">
+          <caret line="186" column="5" selection-start-line="186" selection-start-column="5" selection-end-line="186" selection-end-column="5" />
+          <folding>
+            <element signature="e#3974#3975#0" expanded="true" />
+            <element signature="e#4020#4021#0" expanded="true" />
+            <element signature="e#5183#5184#0" expanded="true" />
+            <element signature="e#5216#5217#0" expanded="true" />
+            <element signature="e#5615#5616#0" expanded="true" />
+            <element signature="e#5656#5657#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMInteger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1161" max-vertical-offset="2329">
+          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="134" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5464912" vertical-offset="1077" max-vertical-offset="10710">
-          <caret line="102" column="9" selection-start-line="102" selection-start-column="9" selection-end-line="102" selection-end-column="9" />
+        <state vertical-scroll-proportion="-8.535714" vertical-offset="9587" max-vertical-offset="10727">
+          <caret line="590" column="38" selection-start-line="590" selection-start-column="38" selection-end-line="590" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1884#1885#0" expanded="true" />
             <element signature="e#1945#1946#0" expanded="true" />
-            <element signature="e#5345#5346#0" expanded="true" />
-            <element signature="e#5384#5385#0" expanded="true" />
+            <element signature="e#5382#5383#0" expanded="true" />
+            <element signature="e#5421#5422#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/tests/satsolver/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45670104" vertical-offset="1563" max-vertical-offset="2533">
-          <caret line="118" column="31" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1512" max-vertical-offset="2533">
+          <caret line="129" column="26" selection-start-line="129" selection-start-column="26" selection-end-line="129" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#382#383#0" expanded="true" />
@@ -1828,6 +1803,28 @@
             <element signature="e#1687#1688#0" expanded="true" />
             <element signature="e#2640#2641#0" expanded="true" />
             <element signature="e#2678#2679#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/tests/test_file.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.070103094" vertical-offset="0" max-vertical-offset="970">
+          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6113463" vertical-offset="26" max-vertical-offset="1207">
+          <caret line="44" column="55" selection-start-line="44" selection-start-column="55" selection-end-line="44" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#926#927#0" expanded="true" />
+            <element signature="e#960#961#0" expanded="true" />
+            <element signature="e#1059#1060#0" expanded="true" />
+            <element signature="e#1113#1114#0" expanded="true" />
           </folding>
         </state>
       </provider>
