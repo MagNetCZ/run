@@ -4,6 +4,6 @@ public class Main {
     public static void main(String[] args) {
         File file = new File("examples/testcode.java");
         String line = file.readLine();
-        console(line);
+        System.println(line);
     }
 }

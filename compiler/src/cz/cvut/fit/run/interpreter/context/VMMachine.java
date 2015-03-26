@@ -76,6 +76,7 @@ public class VMMachine {
 
         registerClass(new VMString());
         registerClass(new VMFile());
+        registerClass(new VMSystem());
 
         IDClass = new VMIdentifier();
         registerClass(IDClass);
@@ -518,12 +519,13 @@ public class VMMachine {
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
         VMIdentifierInstance id = (VMIdentifierInstance)pop();
 
-        if (id.getValue().equals("console")) {
-            ExpressionContext expressionToPrint = expression.expressionList().expression(0);
-            VMObject printContents = evalReturnExpressionValue(expressionToPrint);
-            System.out.println(printContents);
-            return;
-        }
+//        if (id.getValue().equals("console")) {
+//            ExpressionContext expressionToPrint = expression.expressionList().expression(0);
+//            VMObject printContents = evalReturnExpressionValue(expressionToPrint);
+//            System.out.println(printContents);
+//            return;
+//        }
+        // TODO REMOVE
 
         // Method invocation
         LinkedList<VMObject> args = new LinkedList<>();
