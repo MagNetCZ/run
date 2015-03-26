@@ -19,10 +19,9 @@ public class Test {
 
 public class Main {
     public static void main(String[] args) {
-//        Test.staticMethod();
+        Test.staticMethod();
         Test testInstance = new Test();
-        testInstance.instanceMethod("Hello");
-//        testInstance.instanceMethod(a);
-//        testInstance.instanceMethod(a, b);
+        String argument = "Hello";
+        testInstance.instanceMethod(argument);
     }
 }

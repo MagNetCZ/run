@@ -2,10 +2,7 @@ package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
-import cz.cvut.fit.run.interpreter.core.exceptions.BreakException;
-import cz.cvut.fit.run.interpreter.core.exceptions.ContinueException;
-import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
-import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.functions.VMExpressionType;
 import cz.cvut.fit.run.interpreter.core.functions.VMStackFunction;
 import cz.cvut.fit.run.interpreter.core.helpers.LiteralParser;
@@ -605,5 +602,17 @@ public class VMMachine {
     public VMObject evalReturnExpressionValue(ExpressionContext expression) throws VMException {
         evalExpression(expression);
         return popValue();
+    }
+
+    public void enterFrame() {
+        VMFrame lastFrame = currentFrame;
+        currentFrame = new VMFrame(lastFrame);
+    }
+
+    public void leaveFrame() throws VMException {
+        // TODO return value
+        currentFrame = currentFrame.parent;
+        if (currentFrame == null)
+            throw new ProgramEndException();
     }
 }
