@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4adb53e-696f-4e76-82f3-503cb0616c0a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/tests/satsolver/Main.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/tests/satsolver/sat_1.inst.dat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/tests/satsolver/Main.java" afterPath="$PROJECT_DIR$/examples/tests/satsolver/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="compiler.iws" />
@@ -49,12 +48,20 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="true">
+            <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/examples/tests/satsolver/Main.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2397">
-                    <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                    <folding />
+                  <state vertical-scroll-proportion="0.45670104" vertical-offset="1563" max-vertical-offset="2533">
+                    <caret line="118" column="31" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
+                    <folding>
+                      <element signature="imports" expanded="true" />
+                      <element signature="e#382#383#0" expanded="true" />
+                      <element signature="e#435#436#0" expanded="true" />
+                      <element signature="e#1649#1650#0" expanded="true" />
+                      <element signature="e#1687#1688#0" expanded="true" />
+                      <element signature="e#2640#2641#0" expanded="true" />
+                      <element signature="e#2678#2679#0" expanded="true" />
+                    </folding>
                   </state>
                 </provider>
               </entry>
@@ -73,7 +80,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="VMMachine.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="VMMachine.java" pinned="false" current="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.5464912" vertical-offset="1077" max-vertical-offset="10710">
@@ -200,7 +207,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/exceptions/TypeMismatchException.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/functions/VMExpressionType.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMArrayType.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/traversion/ObjectInitializeVisitor.java" />
@@ -251,6 +257,7 @@
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/types/classes/VMClass.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/core/VMBaseObject.java" />
         <option value="$PROJECT_DIR$/examples/tests/test_inheritance.java" />
+        <option value="$PROJECT_DIR$/examples/tests/satsolver/Main.java" />
       </list>
     </option>
   </component>
@@ -1118,7 +1125,7 @@
       <workItem from="1426844307169" duration="18270000" />
       <workItem from="1427101579969" duration="17453000" />
       <workItem from="1427360594964" duration="1613000" />
-      <workItem from="1427365208560" duration="15238000" />
+      <workItem from="1427365208560" duration="15526000" />
     </task>
     <task id="LOCAL-00001" summary="Array access, getting and setting values through an index">
       <created>1426847521512</created>
@@ -1200,11 +1207,15 @@
       <created>1427382151525</created>
       <updated>1427382151525</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Added SATSolver test code">
+      <created>1427382400750</created>
+      <updated>1427382400750</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140620000" />
+    <option name="totallyTimeSpent" value="140908000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1321,7 +1332,8 @@
     <MESSAGE value="Single constructor support" />
     <MESSAGE value="Import cleanup" />
     <MESSAGE value="Inheritance 1 - Supertypes, methods base" />
-    <option name="LAST_COMMIT_MESSAGE" value="Inheritance 1 - Supertypes, methods base" />
+    <MESSAGE value="Added SATSolver test code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added SATSolver test code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1790,14 +1802,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/tests/satsolver/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2397">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5464912" vertical-offset="1077" max-vertical-offset="10710">
@@ -1808,6 +1812,22 @@
             <element signature="e#1945#1946#0" expanded="true" />
             <element signature="e#5345#5346#0" expanded="true" />
             <element signature="e#5384#5385#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/tests/satsolver/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45670104" vertical-offset="1563" max-vertical-offset="2533">
+          <caret line="118" column="31" selection-start-line="118" selection-start-column="31" selection-end-line="118" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#382#383#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+            <element signature="e#1649#1650#0" expanded="true" />
+            <element signature="e#1687#1688#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+            <element signature="e#2678#2679#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -92,13 +92,11 @@ class BruteForce {
     public boolean isSolution(boolean[] clauseValuation) {
         boolean result = true;
         for (Clauses clause : this.listOfClauses) {
-            result &= clause.isSatisfiable(clauseValuation);
-            if (!result) {
-                break;
-            }
+            if (!clause.isSatisfiable(clauseValuation))
+                return false;
         }
 
-        return result;
+        return true;
     }
 
     public int getLiterals() {
