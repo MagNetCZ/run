@@ -12,7 +12,9 @@ public class VMType {
     public final static VMType BOOLEAN = new VMType("Boolean");
     public final static VMType ID = new VMType("ID");
     public final static VMType CLASS = new VMType("Class");
+
     public final static VMType FILE = new VMType("File");
+    public final static VMType SYSTEM = new VMType("System");
 
     public final static VMType REFERENCE = new VMType("<<REFERENCE>>");
     public final static VMType VOID = new VMType("<<VOID>>");
