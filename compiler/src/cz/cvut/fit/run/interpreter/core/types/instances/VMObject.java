@@ -22,7 +22,6 @@ public class VMObject extends VMBaseObject {
         this.clazz = clazz;
 
         initialize();
-        // TODO assign variables from args based on class constructor definition
     }
 
     public void callMethod(String name, VMObject ... args) throws VMException {

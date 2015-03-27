@@ -34,4 +34,9 @@ public class VMArrayType extends VMType {
     public VMType getContentType() {
         return contentType;
     }
+
+    @Override
+    public String getName() {
+        return super.getName() + "[" + contentType.getName() + "]";
+    }
 }

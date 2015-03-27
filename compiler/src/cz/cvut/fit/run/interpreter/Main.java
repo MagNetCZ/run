@@ -47,7 +47,7 @@ public class Main {
         JavaParser.CompilationUnitContext compilationUnit = parser.compilationUnit();
 
         for (JavaParser.TypeDeclarationContext type : compilationUnit.typeDeclaration()) {
-            VMMachine.getInstance().registerType(type); // TODO inner classes -> visitor?
+            VMMachine.getInstance().registerType(type);
         }
 
         for (JavaParser.TypeDeclarationContext type : compilationUnit.typeDeclaration()) {

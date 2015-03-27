@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * Created by MagNet on 13. 3. 2015.
  */
 public class LiteralParser {
-    private static final Pattern STRING_PATTERN = Pattern.compile("^\".*\"$"); // TODO '
+    private static final Pattern STRING_PATTERN = Pattern.compile("^\".*\"$");
     private static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(false|true)$");
 
     public static VMObject parseLiteral(String literalString) throws VMException {
@@ -33,9 +33,6 @@ public class LiteralParser {
 
         // Integer
         return parseInt(literalString);
-
-        // TODO  Ints    ^[-+]?\d+$
-        // TODO  floats  ^[-+]?[0-9]*\.?[0-9]+$
     }
 
     public static VMBooleanInstance parseBoolean(String string) throws VMException {

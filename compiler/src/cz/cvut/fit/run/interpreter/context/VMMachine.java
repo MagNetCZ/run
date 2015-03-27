@@ -60,7 +60,8 @@ public class VMMachine {
     /** VM INIT **/
 
     private void registerClass(VMClass clazz) {
-        classes.put(clazz.getType().getName(), clazz);
+        String className = clazz.getType().getName();
+        classes.put(className, clazz);
     }
 
     private void registerClassAlias(String className, String alias) {
@@ -492,7 +493,6 @@ public class VMMachine {
         VMClass clazz = getClazz(typeName);
 
         evalExpression(creator.arrayCreatorRest().expression(0));
-        // TODO check if there could be anything else than one expression
 
         VMIntegerInstance arraySizeInstance = (VMIntegerInstance)popValue();
         VMArray arrayClass = getArrayClazz(clazz.getType());
@@ -518,14 +518,6 @@ public class VMMachine {
 
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
         VMIdentifierInstance id = (VMIdentifierInstance)pop();
-
-//        if (id.getValue().equals("console")) {
-//            ExpressionContext expressionToPrint = expression.expressionList().expression(0);
-//            VMObject printContents = evalReturnExpressionValue(expressionToPrint);
-//            System.out.println(printContents);
-//            return;
-//        }
-        // TODO REMOVE
 
         // Method invocation
         LinkedList<VMObject> args = new LinkedList<>();
@@ -579,8 +571,13 @@ public class VMMachine {
     }
 
     public VMArray getArrayClazz(VMType contentType) throws VMException {
-        return new VMArray(contentType);
-        // TODO register array class
+        String arrayTypeId = "Array[" + contentType.getName() + "]";
+        if (classes.get(arrayTypeId) == null) {
+            VMArray arrayClass = new VMArray(contentType);
+            registerClass(arrayClass);
+        }
+
+        return (VMArray)getClazz(arrayTypeId);
     }
 
     public VMClass getClazz(TypeContext type) throws VMException {
