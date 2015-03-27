@@ -17,7 +17,9 @@ class Clauses {
     }
 
     public void addLiteral(int literal) {
-        literals[literalsCounter++] = literal;
+        int[] literals = this.literals;
+        literals[this.literalsCounter] = literal;
+        this.literalsCounter++;
     }
 
     public int getCLauseWeight(int[] weights) {
@@ -31,20 +33,22 @@ class Clauses {
     }
 
     public boolean isSatisfiable(boolean[] clauseValuation) {
-        boolean result = false;
-        for (Integer literal : literals) {
-            if (literal < 0) {
-                if (clauseValuation[Math.abs(literal) - 1] == false) {
+        int[] literals = this.literals;
+        for (int i = 0; i < literals.length; i++) {
+            int literalIndex = literals[i];
+            if (literalIndex < 0) {
+                int negativeOne = 0 - 1;
+                if (clauseValuation[negativeOne * literalIndex - 1] == false) {
                     return true;
                 }
             } else {
-                if (clauseValuation[Math.abs(literal) - 1] == true) {
+                if (clauseValuation[literalIndex - 1] == true) {
                     return true;
                 }
             }
         }
 
-        return result;
+        return false;
     }
 }
 
@@ -65,55 +69,59 @@ class BruteForce {
     }
 
     public void execute() {
-        generateCombination(0);
+        this.generateCombination(0);
     }
 
     private void generateCombination(int position) {
-        if (this.getLiterals() == position) {
-            resolveCombination();
+        if (this.countOfLiterals == position) {
+            this.resolveCombination();
         } else {
-            this.configuration[position] = false;
-            generateCombination(position + 1);
-            this.configuration[position] = true;
-            generateCombination(position + 1);
+            boolean[] configuration = this.configuration;
+            configuration[position] = false;
+            this.generateCombination(position + 1);
+            configuration[position] = true;
+            this.generateCombination(position + 1);
         }
     }
 
     private void resolveCombination() {
+        boolean[] configuration = this.configuration;
         if (this.isSolution(configuration)) {
             String result = "";
-            for (Boolean value : configuration) {
-                result += (value == true ? "1" : "0");
+
+            for (int i = 0; i < configuration.length; i++) {
+                if (configuration[i]) {
+                    result = result + "1";
+                } else {
+                    result = result + "0";
+                }
             }
+
             System.println(result);
         }
     }
 
     public boolean isSolution(boolean[] clauseValuation) {
-        boolean result = true;
-        for (Clauses clause : this.listOfClauses) {
-            if (!clause.isSatisfiable(clauseValuation))
+        Clauses[] listOfClauses = this.listOfClauses;
+
+        for (int i = 0; i < listOfClauses.length; i++) {
+            Clauses clause = listOfClauses[i];
+            Boolean isSat = clause.isSatisfiable(clauseValuation);
+            if (!isSat)
                 return false;
         }
 
         return true;
     }
 
-    public int getLiterals() {
-        return countOfLiterals;
-    }
-
     public void addClause(String[] literals) {
-        System.println(this.clauseCounter);
-        System.println("Add clause");
-        this.listOfClauses[this.clauseCounter] = new Clauses();
+        Clauses[] listOfClauses = this.listOfClauses;
+        listOfClauses[this.clauseCounter] = new Clauses();
 
-//
-//        for (int i = 0; i < literals.length; i++) {
-//            Clauses clauses = this.listOfClauses[this.clauseCounter];
-//            clauses.addLiteral(literals[i]); // TODO change literal to int
-//            System.println(literals[i]);
-//        }
+        for (int i = 0; i < literals.length; i++) {
+            Clauses clauses = listOfClauses[this.clauseCounter];
+            clauses.addLiteral(Integer.parseInt(literals[i])); // TODO change literal to int
+        }
 
         this.clauseCounter++;
     }
@@ -134,21 +142,22 @@ public class Main {
 
         int countOfLiterals = Integer.parseInt(file.readLine());
         int countOfClauses = Integer.parseInt(file.readLine());
+        countOfClauses = 60;
 
         System.println("Bruteforce init");
         bruteforce = new BruteForce(countOfLiterals, countOfClauses);
+
+        System.println(bruteforce);
 
         System.println("Adding clauses");
         System.println("Count of clauses");
         System.println(countOfClauses);
         for (int i = 0; i < countOfClauses; i++) {
             String literalLine = file.readLine();
-            System.println(literalLine);
             String[] literals = literalLine.split(",");
-//            System.println(literals[0]);
             bruteforce.addClause(literals);
         }
 
-//        bruteforce.execute();
+        bruteforce.execute();
     }
 }

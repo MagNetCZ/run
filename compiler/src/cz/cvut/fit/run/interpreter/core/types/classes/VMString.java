@@ -37,6 +37,13 @@ public class VMString extends VMBuiltinType<String, VMStringInstance> {
         return splitArray;
     }
 
+    public VMStringInstance concat(VMObject instance, VMObject operand) throws VMException {
+        VMStringInstance stringValue = (VMStringInstance)instance;
+        VMStringInstance castedOperand = (VMStringInstance)operand;
+
+        return createInstance(stringValue.getValue() + castedOperand.getValue());
+    }
+
     @Override
     public List<BuiltinMethodIdentifier> getBuiltinMethods() {
         List<BuiltinMethodIdentifier> builtinMethods = new LinkedList<>();
@@ -44,6 +51,8 @@ public class VMString extends VMBuiltinType<String, VMStringInstance> {
         builtinMethods.add(
                 new BuiltinMethodIdentifier("split", "split",
                         new VMArrayType(VMType.STRING), VMType.STRING));
+
+        builtinMethods.add(new BuiltinMethodIdentifier("concat", "+", VMType.STRING, VMType.STRING));
 
         return builtinMethods;
     }

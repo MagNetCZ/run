@@ -51,7 +51,7 @@ public class VMMethod extends VMReference {
 
     private void checkNumberOfArguments(VMObject ... args) throws ArgumentException {
         if (args.length != argTypes.length)
-            throw new ArgumentException("Given " + args.length + " arguments, but " + argTypes.length + " are required.");
+            throw new ArgumentException(name + ": Given " + args.length + " arguments, but " + argTypes.length + " are required.");
     }
 
     public VMObject invoke(VMBaseObject onObject, VMObject ... args) throws VMException {

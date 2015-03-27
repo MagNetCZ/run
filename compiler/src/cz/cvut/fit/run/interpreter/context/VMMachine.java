@@ -469,7 +469,7 @@ public class VMMachine {
 
         arrayIdentifier.setArrayIndex(arrayIndex.getValue());
 
-        push(arrayIdentifier);
+        push(arrayIdentifier); // TODO REDO variable access
     }
 
     private void evalObjectCreator(CreatorContext creator) throws VMException {

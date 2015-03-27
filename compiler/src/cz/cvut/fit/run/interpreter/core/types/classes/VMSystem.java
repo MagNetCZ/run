@@ -17,9 +17,8 @@ public class VMSystem extends VMClass {
         super(VMType.SYSTEM, null);
     }
 
-    public void println(VMObject string) {
-        VMBuiltinInstance typedString = (VMBuiltinInstance)string;
-        System.out.println(typedString.getValue().toString()); // TODO own to string method
+    public void println(VMObject obj) {
+        System.out.println(obj.toString()); // TODO own to string method
     }
 
     @Override
