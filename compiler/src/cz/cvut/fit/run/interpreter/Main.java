@@ -2,6 +2,7 @@ package cz.cvut.fit.run.interpreter;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
@@ -21,11 +22,13 @@ public class Main {
         Options parseOptions = new Options();
         parseOptions.addOption("f", "file", true, "The source code to interpret.");
         parseOptions.addOption("c", "class", true, "Name of the main class containing main() method.");
+        parseOptions.addOption("a", "args", true, "Arguments for the program, pass in quotes");
 
         CommandLine cl = cliParser.parse(parseOptions, args);
 
         String mainClassName = cl.getOptionValue("class");
         String sourceFilename = cl.getOptionValue("file");
+        String argsString = cl.getOptionValue("args");
 
         if (mainClassName == null || sourceFilename == null) {
             HelpFormatter helpFormatter = new HelpFormatter();
@@ -52,8 +55,18 @@ public class Main {
         }
 
         VMMachine vm = VMMachine.getInstance();
-        VMArrayInstance vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(0);
+
+        // Arguments passing
+        String[] vmArgs = argsString.split(" ");
+        VMString stringClass = (VMString)vm.getClazz("String");
+        VMArrayInstance vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(vmArgs.length);
+
+        for (int i = 0; i < vmArgs.length; i++) {
+            vmArguments.get(i).setValue(stringClass.createInstance(vmArgs[i]));
+        }
+
         VMObject[] vmArgArray = { vmArguments };
+
         vm.getClazz(mainClassName).callMethod("main", vmArgArray);
     }
 }

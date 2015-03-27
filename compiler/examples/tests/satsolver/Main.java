@@ -133,7 +133,7 @@ public class Main {
 
         BruteForce bruteforce;
 //        File file = new File(args[0]);
-        File file = new File("examples/tests/satsolver/sat_2.inst.dat");
+        File file = new File(args[0]);
 
 
 //        /*if(!file.exist()){
