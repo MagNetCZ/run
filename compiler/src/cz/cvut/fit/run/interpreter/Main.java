@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
+import cz.cvut.fit.run.interpreter.core.exceptions.ProgramEndException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
@@ -67,6 +68,11 @@ public class Main {
 
         VMObject[] vmArgArray = { vmArguments };
 
-        vm.getClazz(mainClassName).callMethod("main", vmArgArray);
+        try {
+            vm.getClazz(mainClassName).callMethod("main", vmArgArray);
+        } catch (ProgramEndException ex) {
+            System.out.println("***************************");
+            System.out.println("Program ended");
+        }
     }
 }

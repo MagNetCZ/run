@@ -120,7 +120,7 @@ class BruteForce {
 
         for (int i = 0; i < literals.length - 1; i++) {
             Clauses clauses = listOfClauses[this.clauseCounter];
-            clauses.addLiteral(Integer.parseInt(literals[i])); // TODO change literal to int
+            clauses.addLiteral(Integer.parseInt(literals[i]));
         }
 
         this.clauseCounter++;
@@ -132,13 +132,7 @@ public class Main {
     public static void main(String[] args) {
 
         BruteForce bruteforce;
-//        File file = new File(args[0]);
         File file = new File(args[0]);
-
-
-//        /*if(!file.exist()){
-//         System.err("Input file does not exists."); //TODO
-//         }*/
 
         String headerLine = file.readLine();
         String[] header = headerLine.split(" ");
