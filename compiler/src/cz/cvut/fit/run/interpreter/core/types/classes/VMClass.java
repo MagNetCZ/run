@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.core.types.classes;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
+import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
@@ -9,6 +10,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.modifiers.Scope;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
@@ -17,10 +19,7 @@ import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
 import cz.cvut.fit.run.parser.JavaParser;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by MagNet on 9. 3. 2015.
@@ -30,6 +29,7 @@ public class VMClass extends VMBaseObject {
     private boolean initialized;
 
     private VMClass superClass = null;
+    private JavaParser.TypeContext superType = null;
 
     private VMType type;
 
@@ -53,8 +53,9 @@ public class VMClass extends VMBaseObject {
         this(type, null);
     }
 
-    public VMClass(VMType type, VMClass superClass, JavaParser.ClassBodyContext source) throws VMException {
-        this(type, superClass);
+    public VMClass(VMType type, JavaParser.TypeContext superType, JavaParser.ClassBodyContext source) throws VMException {
+        this(type, null);
+        this.superType = superType;
         this.source = source;
     }
 
@@ -110,10 +111,11 @@ public class VMClass extends VMBaseObject {
             if (superClass == null)
                 throw new NotDeclaredException(name);
 
+            superClass.initialize();
             return superClass.lookupMethod(name);
         }
         return methods.get(name);
-    };
+    }
 
     public void declareMethod(VMMethod method) {
         // TODO check overriding methods for matching headers
@@ -137,6 +139,10 @@ public class VMClass extends VMBaseObject {
         if (initialized)
             return;
 
+        if (superType != null && superClass == null) {
+            superClass = VMMachine.getInstance().getClazz(superType);
+        }
+
         if (source != null) {
             FieldInitializeVisitorBuilder builder =
                     new FieldInitializeVisitorBuilder(this, new ModifierFilter("static", false));
@@ -146,15 +152,17 @@ public class VMClass extends VMBaseObject {
 
             MethodInitializeVisitorBuilder methodBuilder =
                     new MethodInitializeVisitorBuilder(this);
-            ex = methodBuilder.visit(source);
-            if (ex != null)
-                throw ex;
+
+            methodBuilder.visit(source);
+
+            if (methodBuilder.exception != null)
+                throw methodBuilder.exception;
         }
 
         initialized = true;
     }
 
-    public void setSuperClass(VMClass superClass) throws VMException {
+    private void setSuperClass(VMClass superClass) throws VMException {
         if (hasSuper())
             throw new RedeclarationException("Super class already defined");
         this.superClass = superClass;
@@ -230,6 +238,17 @@ public class VMClass extends VMBaseObject {
         registerBuiltinMethods();
     }
 
+    @Override
+    public TypeValuePair getField(VMIdentifierInstance identifier) throws VMException {
+        try {
+            return super.getField(identifier);
+        } catch (NotDeclaredException e) {
+            if (hasSuper())
+                return superClass.getField(identifier);
+            throw e;
+        }
+    }
+
     public List<BuiltinMethodIdentifier> getBuiltinMethods() {
         return new ArrayList<>();
     };
@@ -256,6 +275,23 @@ public class VMClass extends VMBaseObject {
             this.argTypes = argTypes;
             this.modifiers = new Modifiers(staticFlag, true, Scope.PUBLIC);
         }
+    }
 
+    /**
+     * Get a list of connected superclasses, starting with the topmost class and including this class.
+     * @return
+     */
+    public List<VMClass> getClassHierarchy() {
+        LinkedList<VMClass> classList = new LinkedList<>();
+
+        VMClass curClass = this;
+        while (curClass != null) {
+            classList.add(curClass);
+            curClass = curClass.superClass;
+        }
+
+        Collections.reverse(classList);
+
+        return classList;
     }
 }

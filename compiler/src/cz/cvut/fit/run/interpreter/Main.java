@@ -58,7 +58,7 @@ public class Main {
         VMMachine vm = VMMachine.getInstance();
 
         // Arguments passing
-        String[] vmArgs = argsString.split(" ");
+        String[] vmArgs = argsString == null ? new String[0] : argsString.split(" ");
         VMString stringClass = (VMString)vm.getClazz("String");
         VMArrayInstance vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(vmArgs.length);
 

@@ -89,21 +89,24 @@ public class VMMachine {
 
         VMType newType = new VMType(className);
 
-        VMClass newClass = new VMClass(newType, null, classDeclaration.classBody());
+        VMClass newClass =
+                new VMClass(newType,
+                        typeDeclaration.classDeclaration().type(),
+                        classDeclaration.classBody());
         registerClass(newClass);
     }
 
     public void registerSuperType(TypeDeclarationContext typeDeclaration) throws VMException {
-        TypeContext superTypeNode = typeDeclaration.classDeclaration().type();
+        /*TypeContext superTypeNode = typeDeclaration.classDeclaration().type();
         if (superTypeNode != null) {
             ClassDeclarationContext classDeclaration = typeDeclaration.classDeclaration();
             String className = classDeclaration.Identifier().getText();
 
-            VMClass thisClass = getClazz(className);
             VMClass superClass = getClazz(superTypeNode);
+            VMClass thisClass = getClazz(className);
 
             thisClass.setSuperClass(superClass);
-        }
+        }*/
     }
 
     /** ACCESSORS **/

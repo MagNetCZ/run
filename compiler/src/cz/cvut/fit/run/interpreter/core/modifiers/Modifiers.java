@@ -70,4 +70,26 @@ public class Modifiers {
 
         return modifiers;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Modifiers)) return false;
+
+        Modifiers modifiers = (Modifiers) o;
+
+        if (finalFlag != modifiers.finalFlag) return false;
+        if (staticFlag != modifiers.staticFlag) return false;
+        if (scope != modifiers.scope) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (staticFlag ? 1 : 0);
+        result = 31 * result + (finalFlag ? 1 : 0);
+        result = 31 * result + (scope != null ? scope.hashCode() : 0);
+        return result;
+    }
 }

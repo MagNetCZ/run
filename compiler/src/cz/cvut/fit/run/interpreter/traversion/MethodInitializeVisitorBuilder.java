@@ -2,6 +2,8 @@ package cz.cvut.fit.run.interpreter.traversion;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
+import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
+import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
@@ -26,6 +28,8 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
         return Modifiers.getFor(ctx.modifier());
     }
 
+    public VMException exception;
+
     @Override
     public VMException visitClassBodyDeclaration(@NotNull ClassBodyDeclarationContext ctx) {
         try {
@@ -33,6 +37,7 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
             evalMethodDeclaration(ctx.memberDeclaration().methodDeclaration(), modifiers);
             evalConstructorDeclaration(ctx.memberDeclaration().constructorDeclaration(), modifiers);
         } catch (VMException ex) {
+            exception = ex;
             return ex;
         }
 
@@ -54,6 +59,12 @@ public class MethodInitializeVisitorBuilder extends JavaBaseVisitor<VMException>
         BlockContext methodSource = ctx.methodBody().block();
 
         VMMethod method = getMethod(methodName, modifiers, returnType, methodSource, ctx.formalParameters());
+
+        try {
+            VMMethod superMethod = buildObject.lookupMethod(methodName);
+            if (!method.headersMatch(superMethod))
+                throw new RedeclarationException("Trying to override method with different arguments, return type or modifiers.");
+        } catch (NotDeclaredException ex) {}
 
         buildObject.declareMethod(method);
     }

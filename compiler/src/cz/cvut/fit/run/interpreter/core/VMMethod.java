@@ -9,6 +9,7 @@ import cz.cvut.fit.run.parser.JavaParser;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Created by MagNet on 9. 3. 2015.
@@ -121,5 +122,21 @@ public class VMMethod extends VMReference {
 
     public Modifiers getModifiers() {
         return modifiers;
+    }
+
+    public boolean headersMatch(VMMethod other) {
+        if (!modifiers.equals(other.modifiers))
+            return false;
+
+        int i = modifiers.isStatic() ? 0 : 1;
+
+        if (argTypes.length != other.argTypes.length)
+            return false;
+
+        for (; i < argTypes.length; i++)
+            if (!argTypes[i].equals(other.argTypes[i]))
+                return false;
+
+        return returnType.equals(other.returnType);
     }
 }

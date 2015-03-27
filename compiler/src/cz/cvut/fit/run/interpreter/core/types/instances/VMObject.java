@@ -7,6 +7,8 @@ import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
 
+import java.util.List;
+
 /**
  * Created by MagNet on 9. 3. 2015.
  */
@@ -62,9 +64,15 @@ public class VMObject extends VMBaseObject {
 
         FieldInitializeVisitorBuilder builder =
                 new FieldInitializeVisitorBuilder(this, new ModifierFilter("static", true));
-        VMException ex = builder.visit(getClazz().getSource());
-        if (ex != null)
-            throw ex;
+
+        List<VMClass> classList = getClazz().getClassHierarchy();
+        // Initialize fields from the top of the class hierarchy (most super)
+        for (VMClass clazz : classList) {
+            VMException ex = builder.visit(clazz.getSource());
+
+            if (ex != null)
+                throw ex;
+        }
     }
 
     public boolean canBeAssignedTo(VMType type) {
