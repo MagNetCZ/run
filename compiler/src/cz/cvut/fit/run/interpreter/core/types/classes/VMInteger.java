@@ -28,7 +28,6 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     // Binary operators
 
     public VMIntegerInstance sum(VMObject instance, VMObject operand) throws VMException {
-        VMMachine.logger.log(Level.INFO, "Summing");
         VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
         VMIntegerInstance secondOperand = convertToInt(operand);
 
@@ -36,7 +35,6 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     }
 
     public VMIntegerInstance subtract(VMObject instance, VMObject operand) throws VMException {
-        VMMachine.logger.log(Level.INFO, "Subtracting");
         VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
         VMIntegerInstance secondOperand = convertToInt(operand);
 
@@ -44,7 +42,6 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     }
 
     public VMIntegerInstance multiply(VMObject instance, VMObject operand) throws VMException {
-        VMMachine.logger.log(Level.INFO, "Multiplying");
         VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
         VMIntegerInstance secondOperand = convertToInt(operand);
 
@@ -52,7 +49,6 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     }
 
     public VMIntegerInstance divide(VMObject instance, VMObject operand) throws VMException {
-        VMMachine.logger.log(Level.INFO, "Dividing");
         VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
         VMIntegerInstance secondOperand = convertToInt(operand);
 
