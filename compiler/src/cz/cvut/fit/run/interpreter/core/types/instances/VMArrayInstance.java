@@ -1,8 +1,11 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
+import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMOutOfBoundsException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMIdentifier;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.type.VMArrayType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
@@ -19,6 +22,11 @@ public class VMArrayInstance extends VMBuiltinInstance<TypeValuePair[]> {
             value[i] = new TypeValuePair(contentType);
         }
 
+        VMMachine vm = VMMachine.getInstance();
+        VMInteger intClass = (VMInteger)vm.getClazz("Integer");
+
+        declareField(vm.getID("length"),VMType.INT)
+                .setValue(intClass.createInstance(value.length));
     }
 
     public TypeValuePair get(int index) throws VMException {

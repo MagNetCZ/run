@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.core.types.classes;
 
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMBuiltinInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
@@ -17,8 +18,8 @@ public class VMSystem extends VMClass {
     }
 
     public void println(VMObject string) {
-        VMStringInstance typedString = (VMStringInstance)string;
-        System.out.println(typedString);
+        VMBuiltinInstance typedString = (VMBuiltinInstance)string;
+        System.out.println(typedString.getValue().toString()); // TODO own to string method
     }
 
     @Override

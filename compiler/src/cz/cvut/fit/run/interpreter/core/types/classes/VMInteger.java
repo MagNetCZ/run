@@ -5,6 +5,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 
 import java.util.LinkedList;
@@ -67,6 +68,13 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
         return firstOperand;
     }
 
+    // Static methods
+
+    public VMIntegerInstance parseInt(VMObject string) throws VMException {
+        VMStringInstance firstOperand = (VMStringInstance)string;
+        return new VMIntegerInstance(this, Integer.parseInt(firstOperand.getValue()));
+    }
+
     // Comparision operators
 
     public VMBooleanInstance compareEquals(VMObject instance, VMObject operand) throws VMException {
@@ -122,6 +130,10 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
         builtinMethods.add(new BuiltinMethodIdentifier("divide", "/", VMType.INT, VMType.INT));
 
         builtinMethods.add(new BuiltinMethodIdentifier("plusOne", "++", VMType.INT));
+
+        // Static (parsing, etc.)
+
+        builtinMethods.add(new BuiltinMethodIdentifier(true, "parseInt", "parseInt", VMType.INT, VMType.STRING));
 
         // Comparison
         builtinMethods.add(new BuiltinMethodIdentifier("compareEquals", "==", VMType.BOOLEAN, VMType.INT));

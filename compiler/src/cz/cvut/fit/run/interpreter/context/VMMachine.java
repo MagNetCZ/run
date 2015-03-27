@@ -45,8 +45,8 @@ public class VMMachine {
             throw new RuntimeException(ex);
         }
 
-        logger.setLevel(Level.INFO);
-//        logger.setLevel(Level.SEVERE);
+//        logger.setLevel(Level.INFO);
+        logger.setLevel(Level.SEVERE);
     }
 
     public static VMMachine getInstance() {

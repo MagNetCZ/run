@@ -8,12 +8,12 @@ import java.io.IOException;
 
 class Clauses {
 
-    private int literals[];
+    private int[] literals;
     private int literalsCounter;
 
     public Clauses() {
-        literals = new int[3];
-        literalsCounter = 0;
+        this.literals = new int[3];
+        this.literalsCounter = 0;
     }
 
     public void addLiteral(int literal) {
@@ -59,9 +59,9 @@ class BruteForce {
     public BruteForce(int countOfLiterals, int countOfClauses) {
         this.countOfLiterals = countOfLiterals;
         this.countOfClauses = countOfClauses;
-        listOfClauses = new Clauses[this.countOfClauses];
-        configuration = new boolean[this.countOfLiterals];
-        clauseCounter = 0;
+        this.listOfClauses = new Clauses[this.countOfClauses];
+        this.configuration = new boolean[this.countOfLiterals];
+        this.clauseCounter = 0;
     }
 
     public void execute() {
@@ -85,7 +85,7 @@ class BruteForce {
             for (Boolean value : configuration) {
                 result += (value == true ? "1" : "0");
             }
-            System.out.println(result);
+            System.println(result);
         }
     }
 
@@ -104,40 +104,51 @@ class BruteForce {
     }
 
     public void addClause(String[] literals) {
-        listOfClauses[clauseCounter++] = new Clauses();
-        for (String literal : literals) {
-            listOfClauses[(clauseCounter - 1)].addLiteral(Integer.parseInt(literal));
-        }
+        System.println(this.clauseCounter);
+        System.println("Add clause");
+        this.listOfClauses[this.clauseCounter] = new Clauses();
+
+//
+//        for (int i = 0; i < literals.length; i++) {
+//            Clauses clauses = this.listOfClauses[this.clauseCounter];
+//            clauses.addLiteral(literals[i]); // TODO change literal to int
+//            System.println(literals[i]);
+//        }
+
+        this.clauseCounter++;
     }
 }
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) {
 
         BruteForce bruteforce;
-        //File file = new File(args[0]);
+//        File file = new File(args[0]);
+        File file = new File("examples/tests/satsolver/sat_1.inst.dat");
 
-        /*if(!file.exist()){
-         System.err("Input file does not exists."); //TODO
-         }*/
 
-        /*String literals = file.readLine();
-         String clauses = file.readLine();*/
-        int countOfClauses = 4;
-        int countOfLiterals = 4;
+//        /*if(!file.exist()){
+//         System.err("Input file does not exists."); //TODO
+//         }*/
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/mi/run/satsolver/sat_1.inst.dat"))) { //TODO remove
-            countOfLiterals = Integer.parseInt(br.readLine());
-            countOfClauses = Integer.parseInt(br.readLine());
-            bruteforce = new BruteForce(countOfLiterals, countOfClauses);
-            for (int i = 0; i < countOfClauses; i++) {
-                String[] literals = br.readLine().split(",");
-                bruteforce.addClause(literals);
-            }
+        int countOfLiterals = Integer.parseInt(file.readLine());
+        int countOfClauses = Integer.parseInt(file.readLine());
+
+        System.println("Bruteforce init");
+        bruteforce = new BruteForce(countOfLiterals, countOfClauses);
+
+        System.println("Adding clauses");
+        System.println("Count of clauses");
+        System.println(countOfClauses);
+        for (int i = 0; i < countOfClauses; i++) {
+            String literalLine = file.readLine();
+            System.println(literalLine);
+            String[] literals = literalLine.split(",");
+//            System.println(literals[0]);
+            bruteforce.addClause(literals);
         }
 
-        bruteforce.execute();
+//        bruteforce.execute();
     }
-
 }
