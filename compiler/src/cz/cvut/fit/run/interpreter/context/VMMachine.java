@@ -10,7 +10,7 @@ import cz.cvut.fit.run.interpreter.core.types.IDType;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.*;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
-import cz.cvut.fit.run.parser.JavaParser;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -117,25 +117,25 @@ public class VMMachine {
         return getInstance().getCurrentFrame();
     }
 
-    public static VMObject pop() {
+    public static VMPointer pop() throws VMException {
         return getFrame().pop();
     }
 
-    public static boolean isIdOnStack() {
-        return getFrame().peek().getType() == VMType.ID;
+    public static boolean isIdOnStack() throws VMException {
+        return getFrame().peek().getObject().getType() == VMType.ID;
     }
 
     public static VMObject popValue() throws VMException {
         if (isIdOnStack()) {
-            return popPair().getValue();
+            return popPair().getPointer().getObject();
         } else {
-            return pop();
+            return pop().getObject();
         }
     }
 
     private static VMBaseObject getObjectOrClass(VMIdentifierInstance id) throws VMException {
         try {
-            VMObject accessedObject = getFrame().getVariable(id);
+            VMObject accessedObject = getFrame().getVariable(id).getObject();
             return accessedObject;
         } catch (NotDeclaredException ex) {
             VMClass accessedClass = VMMachine.getInstance().getClazz(id.getValue());
@@ -148,7 +148,7 @@ public class VMMachine {
     }
 
     public static TypeValuePair popPair() throws VMException {
-        VMObject object = pop();
+        VMObject object = pop().getObject();
         if (object.getType() == VMType.ID) {
             VMIdentifierInstance id = (VMIdentifierInstance)object;
             IDType idType = id.getIDType();
@@ -157,7 +157,7 @@ public class VMMachine {
 //                    logger.log(Level.INFO, "Looked up " + value);
                     return getFrame().getPair(id);
                 case ARRAY_ACCESS:
-                    VMArrayInstance array = (VMArrayInstance)getFrame().getVariable(id);
+                    VMArrayInstance array = (VMArrayInstance)getFrame().getVariable(id).getObject();
 //                    logger.log(Level.INFO, "Looked up array " + value);
                     return array.get(id.getArrayIndex());
                 case FIELD_ACCESS:
@@ -168,12 +168,12 @@ public class VMMachine {
         throw new NotImplementedException();
     }
 
-    public static void push(VMObject object) {
+    public static void push(VMPointer object) throws VMException {
         getFrame().push(object);
     }
 
     public VMIdentifierInstance getID(String id) throws VMException {
-        return IDClass.createInstance(id);
+        return (VMIdentifierInstance)IDClass.createInstance(id).getObject();
     }
 
     public VMFrame getCurrentFrame() {
@@ -270,7 +270,7 @@ public class VMMachine {
                         evalExpression(switchLabel.constantExpression().expression());
                         VMObject caseValue = popValue();
 
-                        switchValue.callMethod("==", caseValue); // TODO use equals
+                        switchValue.callMethod("==", caseValue.getPointer()); // TODO use equals
                         VMBooleanInstance compResult = (VMBooleanInstance)popValue();
                         if (compResult.getValue()) {
                             caseEquals = true;
@@ -435,7 +435,7 @@ public class VMMachine {
                     getFrame().enterScope();
 
                     try {
-                        getFrame().declareVariable(getID(exceptionId), exception.getType()).setValue(exception);
+                        getFrame().declareVariable(getID(exceptionId), exception.getType()).setValue(exception.getPointer());
                         evalBlock(catchClause.block());
                     } finally {
                         if (getFrame().equals(frame))
@@ -480,12 +480,12 @@ public class VMMachine {
         PrimaryContext primary = expression.primary();
         // Literal?
         if (primary.literal() != null) {
-            value = LiteralParser.parseLiteral(primary.getText());
+            value = LiteralParser.parseLiteral(primary.getText()).getObject();
         } else {
             value = getID(primary.getText());
         }
 
-        push(value);
+        push(value.getPointer());
         return;
     }
 
@@ -505,7 +505,7 @@ public class VMMachine {
                 String binOperator = expression.getChild(1).toString();
                 VMObject operand = popValue();
                 VMObject object = popValue();
-                object.callMethod(binOperator, operand);
+                object.callMethod(binOperator, operand.getPointer());
                 break;
             case DIRECT_UNARY_METHOD:
                 int operandIndex = expression.getChild(0) instanceof ExpressionContext ? 1 : 0;
@@ -532,19 +532,19 @@ public class VMMachine {
 //        String classOrInstanceName = expression.getChild(0).getText();
 
         String fieldOrMethodName = expression.getChild(2).getText();
-        VMIdentifierInstance objectId = (VMIdentifierInstance)pop();//VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
+        VMIdentifierInstance objectId = (VMIdentifierInstance)pop().getObject();//VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
         objectId.setField(getID(fieldOrMethodName));
 
-        push(objectId);
+        push(objectId.getPointer());
     }
 
     private void evalArrayAccess(ExpressionContext expression) throws VMException {
         VMIntegerInstance arrayIndex = (VMIntegerInstance)(evalReturnExpressionValue(expression.expression(1)));
-        VMIdentifierInstance arrayIdentifier = (VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
+        VMIdentifierInstance arrayIdentifier = (VMIdentifierInstance)(evalReturnExpression(expression.expression(0)).getObject());
 
         arrayIdentifier.setArrayIndex(arrayIndex.getValue());
 
-        push(arrayIdentifier); // TODO REDO variable access
+        push(arrayIdentifier.getPointer()); // TODO REDO variable access
     }
 
     private void evalObjectCreator(CreatorContext creator) throws VMException {
@@ -552,14 +552,14 @@ public class VMMachine {
         VMClass clazz = getClazz(typeName);
 
         ExpressionListContext argumentExpressionList = creator.classCreatorRest().arguments().expressionList();
-        LinkedList<VMObject> argList = new LinkedList<>();
+        LinkedList<VMPointer> argList = new LinkedList<>();
         if (argumentExpressionList != null)
             for (ExpressionContext expression : argumentExpressionList.expression()) {
                 evalExpression(expression);
-                argList.add(popValue());
+                argList.add(popValue().getPointer());
             }
 
-        push(clazz.createInstance(argList.toArray(new VMObject[argList.size()])));
+        push(clazz.createInstance(argList.toArray(new VMPointer[argList.size()])));
     }
 
     private void evalArrayCreator(CreatorContext creator) throws VMException {
@@ -571,7 +571,7 @@ public class VMMachine {
         VMIntegerInstance arraySizeInstance = (VMIntegerInstance)popValue();
         VMArray arrayClass = getArrayClazz(clazz.getType());
 
-        VMObject newArray = arrayClass.createInstance(arraySizeInstance.getValue());
+        VMPointer newArray = arrayClass.createInstance(arraySizeInstance.getValue());
         push(newArray);
     }
 
@@ -591,16 +591,16 @@ public class VMMachine {
     }
 
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
-        VMIdentifierInstance id = (VMIdentifierInstance)pop();
+        VMIdentifierInstance id = (VMIdentifierInstance)pop().getObject();
 
         // Method invocation
-        LinkedList<VMObject> args = new LinkedList<>();
+        LinkedList<VMPointer> args = new LinkedList<>();
         if (expression.expressionList() != null)
             for (ExpressionContext argExpression : expression.expressionList().expression()) {
-                args.add(evalReturnExpressionValue(argExpression));
+                args.add(evalReturnExpressionValue(argExpression).getPointer());
             }
 
-        VMObject[] argArray = args.toArray(new VMObject[args.size()]);
+        VMPointer[] argArray = args.toArray(new VMPointer[args.size()]);
 
         String methodName = id.getField().getValue();
         getObjectOrClass(id).callMethod(methodName, argArray);
@@ -619,7 +619,7 @@ public class VMMachine {
         VMObject value= popValue();
         TypeValuePair pair = popPair();
 
-        pair.setValue(value);
+        pair.setValue(value.getPointer());
     }
 
     private void evalLocalVariableDeclaration(LocalVariableDeclarationContext variableDeclaration)
@@ -638,7 +638,7 @@ public class VMMachine {
                 return;
 
             ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
-            VMObject initValue = evalReturnExpressionValue(initExpression);
+            VMPointer initValue = evalReturnExpressionValue(initExpression).getPointer();
 
             newPair.setValue(initValue);
         }
@@ -685,7 +685,7 @@ public class VMMachine {
      * @return
      * @throws VMException
      */
-    public VMObject evalReturnExpression(ExpressionContext expression) throws VMException {
+    public VMPointer evalReturnExpression(ExpressionContext expression) throws VMException {
         evalExpression(expression);
         return pop();
     }

@@ -4,6 +4,8 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,38 +24,38 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
         TRUE = new VMBooleanInstance(this, true);
     }
 
-    public static VMBooleanInstance getBool(boolean value) {
-        return value ? TRUE : FALSE;
+    public static VMPointer getBool(boolean value) {
+        return value ? VMPointer.TRUE_POINTER : VMPointer.FALSE_POINTER;
     }
 
-    public VMBooleanInstance negate(VMObject instance) {
-        VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
+    public VMPointer negate(VMPointer instance) throws VMException {
+        VMBooleanInstance boolInstance = (VMBooleanInstance)instance.getObject();
         return getBool(!boolInstance.getValue());
     }
 
-    public VMBooleanInstance boolEquals(VMObject instance, VMObject other) {
-        VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getBool(boolInstance.getValue() == ((VMBooleanInstance) other).getValue());
+    public VMPointer boolEquals(VMPointer instance, VMPointer other) throws VMException {
+        VMBooleanInstance boolInstance = (VMBooleanInstance)instance.getObject();
+        return getBool(boolInstance.getValue() == ((VMBooleanInstance) other.getObject()).getValue());
     }
 
-    public VMBooleanInstance boolNotEquals(VMObject instance, VMObject other) {
-        VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getBool(boolInstance.getValue() != ((VMBooleanInstance) other).getValue());
+    public VMPointer boolNotEquals(VMPointer instance, VMPointer other) throws VMException {
+        VMBooleanInstance boolInstance = (VMBooleanInstance)instance.getObject();
+        return getBool(boolInstance.getValue() != ((VMBooleanInstance) other.getObject()).getValue());
     }
 
-    public VMBooleanInstance or(VMObject instance, VMObject other) {
-        VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getBool(boolInstance.getValue() || ((VMBooleanInstance) other).getValue());
+    public VMPointer or(VMPointer instance, VMPointer other) throws VMException {
+        VMBooleanInstance boolInstance = (VMBooleanInstance)instance.getObject();
+        return getBool(boolInstance.getValue() || ((VMBooleanInstance) other.getObject()).getValue());
     }
 
-    public VMBooleanInstance and(VMObject instance, VMObject other) {
-        VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getBool(boolInstance.getValue() && ((VMBooleanInstance) other).getValue());
+    public VMPointer and(VMPointer instance, VMPointer other) throws VMException {
+        VMBooleanInstance boolInstance = (VMBooleanInstance)instance.getObject();
+        return getBool(boolInstance.getValue() && ((VMBooleanInstance) other.getObject()).getValue());
     }
 
-    public VMBooleanInstance xor(VMObject instance, VMObject other) {
-        VMBooleanInstance boolInstance = (VMBooleanInstance)instance;
-        return getBool(boolInstance.getValue() ^ ((VMBooleanInstance) other).getValue());
+    public VMPointer xor(VMPointer instance, VMPointer other) throws VMException {
+        VMBooleanInstance boolInstance = (VMBooleanInstance)instance.getObject();
+        return getBool(boolInstance.getValue() ^ ((VMBooleanInstance) other.getObject()).getValue());
     }
 
     @Override
@@ -76,7 +78,7 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
     }
 
     @Override
-    public VMBooleanInstance createInstance(Boolean value) throws VMException {
-        return new VMBooleanInstance(this, value);
+    public VMPointer createInstance(Boolean value) throws VMException {
+        return VMMemory.allocate(new VMBooleanInstance(this, value));
     }
 }

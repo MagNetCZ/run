@@ -1,9 +1,11 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
+import cz.cvut.fit.run.interpreter.core.exceptions.NotAllocatedException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
 
@@ -14,20 +16,31 @@ import java.util.List;
  */
 public class VMObject extends VMBaseObject {
     VMClass clazz;
+    VMPointer pointer;
+
+    public VMPointer getPointer() throws VMException {
+        if (pointer == null)
+            throw new NotAllocatedException(this.toString());
+        return pointer;
+    }
+
+    public void setPointer(VMPointer pointer) {
+        this.pointer = pointer;
+    }
 
     @Override
     public VMType getType() {
         return getClazz().getType();
     }
 
-    public VMObject(VMClass clazz, VMObject ... args) throws VMException {
+    public VMObject(VMClass clazz, VMPointer... args) throws VMException {
         this.clazz = clazz;
 
         initialize();
     }
 
-    public void callMethod(String name, VMObject ... args) throws VMException {
-        getClazz().callMethod(name, this, args);
+    public void callMethod(String name, VMPointer ... args) throws VMException {
+        getClazz().callMethod(name, getPointer(), args);
     }
 
     public VMClass getClazz() {

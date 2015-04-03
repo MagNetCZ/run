@@ -8,6 +8,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaParser;
 
 import java.util.Stack;
@@ -18,8 +19,7 @@ import java.util.logging.Level;
  */
 public class VMFrame {
     private Stack<VariableHash> localVariableStack;
-    private Stack<VMObject> opStack;
-    private Stack<JavaParser.StatementContext> tryStack;
+    private Stack<VMPointer> opStack;
 
     VMFrame parent;
 
@@ -60,7 +60,7 @@ public class VMFrame {
         throw new NotDeclaredException("The variable " + identifier + " has not been yet declared.");
     }
 
-    public VMObject getVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
+    public VMPointer getVariable(VMIdentifierInstance identifier) throws VMException {
         return getHashWithVariable(identifier).getVariable(identifier);
     }
 
@@ -68,14 +68,14 @@ public class VMFrame {
         return getHashWithVariable(identifier).getPair(identifier);
     }
 
-    public void push(VMObject value) {
-        VMMachine.logger.log(Level.INFO, "Push " + value);
+    public void push(VMPointer value) throws VMException {
+        VMMachine.logger.log(Level.INFO, "Push " + value.getObject());
         opStack.push(value);
     }
 
-    public VMObject pop() {
-        VMObject object = opStack.pop();
-        VMMachine.logger.log(Level.INFO, "Pop " + object);
+    public VMPointer pop() throws VMException {
+        VMPointer object = opStack.pop();
+        VMMachine.logger.log(Level.INFO, "Pop " + object.getObject());
         return object;
     }
 
@@ -83,7 +83,7 @@ public class VMFrame {
         return opStack.size();
     }
 
-    public VMObject peek() {
+    public VMPointer peek() {
         return opStack.peek();
     }
 

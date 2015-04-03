@@ -7,6 +7,8 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,96 +22,96 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
         super(VMType.INT);
     }
 
-    public static VMIntegerInstance convertToInt(VMObject object) {
+    public static VMIntegerInstance convertToInt(VMPointer object) throws VMException {
         // TODO support for other numeric types
-        return (VMIntegerInstance)object;
+        return (VMIntegerInstance)object.getObject();
     }
 
     // Binary operators
 
-    public VMIntegerInstance sum(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer sum(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
-        return new VMIntegerInstance(this, firstOperand.getValue() + secondOperand.getValue());
+        return createInstance(firstOperand.getValue() + secondOperand.getValue());
     }
 
-    public VMIntegerInstance subtract(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer subtract(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
-        return new VMIntegerInstance(this, firstOperand.getValue() - secondOperand.getValue());
+        return createInstance(firstOperand.getValue() - secondOperand.getValue());
     }
 
-    public VMIntegerInstance multiply(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer multiply(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
-        return new VMIntegerInstance(this, firstOperand.getValue() * secondOperand.getValue());
+        return createInstance(firstOperand.getValue() * secondOperand.getValue());
     }
 
-    public VMIntegerInstance divide(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer divide(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
-        return new VMIntegerInstance(this, firstOperand.getValue() / secondOperand.getValue());
+        return createInstance(firstOperand.getValue() / secondOperand.getValue());
     }
 
     // Unary operators
 
-    public VMIntegerInstance plusOne(VMObject instance) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer plusOne(VMPointer instance) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         firstOperand.setValue(firstOperand.getValue() + 1);
 
-        return firstOperand;
+        return firstOperand.getPointer();
     }
 
     // Static methods
 
-    public VMIntegerInstance parseInt(VMObject string) throws VMException {
-        VMStringInstance firstOperand = (VMStringInstance)string;
-        return new VMIntegerInstance(this, Integer.parseInt(firstOperand.getValue()));
+    public VMPointer parseInt(VMPointer string) throws VMException {
+        VMStringInstance firstOperand = (VMStringInstance)string.getObject();
+        return createInstance(Integer.parseInt(firstOperand.getValue()));
     }
 
     // Comparision operators
 
-    public VMBooleanInstance compareEquals(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer compareEquals(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
         return VMBoolean.getBool(firstOperand.getValue() == secondOperand.getValue());
     }
 
-    public VMBooleanInstance compareNotEquals(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer compareNotEquals(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
         return VMBoolean.getBool(firstOperand.getValue() != secondOperand.getValue());
     }
 
-    public VMBooleanInstance compareGreaterThan(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer compareGreaterThan(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
         return VMBoolean.getBool(firstOperand.getValue() > secondOperand.getValue());
     }
 
-    public VMBooleanInstance compareLessThan(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer compareLessThan(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
         return VMBoolean.getBool(firstOperand.getValue() < secondOperand.getValue());
     }
 
-    public VMBooleanInstance compareGreaterEquals(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer compareGreaterEquals(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
         return VMBoolean.getBool(firstOperand.getValue() >= secondOperand.getValue());
     }
 
-    public VMBooleanInstance compareLessEquals(VMObject instance, VMObject operand) throws VMException {
-        VMIntegerInstance firstOperand = (VMIntegerInstance)instance;
+    public VMPointer compareLessEquals(VMPointer instance, VMPointer operand) throws VMException {
+        VMIntegerInstance firstOperand = (VMIntegerInstance)instance.getObject();
         VMIntegerInstance secondOperand = convertToInt(operand);
 
         return VMBoolean.getBool(firstOperand.getValue() <= secondOperand.getValue());
@@ -143,8 +145,8 @@ public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
     }
 
     @Override
-    public VMIntegerInstance createInstance(Integer value) throws VMException {
-        return new VMIntegerInstance(this, value);
+    public VMPointer createInstance(Integer value) throws VMException {
+        return VMMemory.allocate(new VMIntegerInstance(this, value));
     }
 
     @Override

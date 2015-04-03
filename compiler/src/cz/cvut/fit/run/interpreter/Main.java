@@ -7,6 +7,8 @@ import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaLexer;
 import cz.cvut.fit.run.parser.JavaParser;
 import org.antlr.v4.runtime.ANTLRFileStream;
@@ -55,18 +57,22 @@ public class Main {
             VMMachine.getInstance().registerSuperType(type);
         }
 
+        VMMemory.getInstance().init(2048);
         VMMachine vm = VMMachine.getInstance();
 
         // Arguments passing
         String[] vmArgs = argsString == null ? new String[0] : argsString.split(" ");
         VMString stringClass = (VMString)vm.getClazz("String");
-        VMArrayInstance vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(vmArgs.length);
+        VMPointer vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(vmArgs.length);
+
+        VMArrayInstance vmArgumentsArray = (VMArrayInstance)vmArguments.getObject();
 
         for (int i = 0; i < vmArgs.length; i++) {
-            vmArguments.get(i).setValue(stringClass.createInstance(vmArgs[i]));
+            VMPointer stringValuePointer = stringClass.createInstance(vmArgs[i]);
+            vmArgumentsArray.get(i).setValue(stringValuePointer);
         }
 
-        VMObject[] vmArgArray = { vmArguments };
+        VMPointer[] vmArgArray = { vmArguments };
 
         try {
             vm.getClazz(mainClassName).callMethod("main", vmArgArray);

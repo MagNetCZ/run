@@ -8,6 +8,8 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMFileInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -25,13 +27,13 @@ public class VMFile extends VMBuiltinType<BufferedReader, VMFileInstance> {
     }
 
     @Override
-    public VMFileInstance createInstance(BufferedReader value) throws VMException {
-        return new VMFileInstance(this, value);
+    public VMPointer createInstance(BufferedReader value) throws VMException {
+        return VMMemory.allocate(new VMFileInstance(this, value));
     }
 
     @Override
-    public VMObject createInstance(VMObject... args) throws VMException {
-        VMStringInstance filenameString = (VMStringInstance)args[0];
+    public VMPointer createInstance(VMPointer... args) throws VMException {
+        VMStringInstance filenameString = (VMStringInstance)args[0].getObject();
         String filename = filenameString.getValue();
 
         try {
@@ -42,8 +44,8 @@ public class VMFile extends VMBuiltinType<BufferedReader, VMFileInstance> {
         }
     }
 
-    public VMStringInstance readLine(VMObject instance) throws VMException {
-        VMFileInstance typedInstance = (VMFileInstance)instance;
+    public VMPointer readLine(VMPointer instance) throws VMException {
+        VMFileInstance typedInstance = (VMFileInstance)instance.getObject();
 
         try {
             VMMachine vm = VMMachine.getInstance();

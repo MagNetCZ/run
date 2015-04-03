@@ -5,6 +5,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMBuiltinInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +18,8 @@ public class VMSystem extends VMClass {
         super(VMType.SYSTEM, null);
     }
 
-    public void println(VMObject obj) {
-        System.out.println(obj.toString()); // TODO own to string method
+    public void println(VMPointer obj) throws VMException {
+        System.out.println(obj.getObject().toString()); // TODO own to string method
     }
 
     @Override

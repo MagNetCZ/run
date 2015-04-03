@@ -7,6 +7,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.*;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMBoolean;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,10 +19,10 @@ public class LiteralParser {
     private static final Pattern STRING_PATTERN = Pattern.compile("^\".*\"$");
     private static final Pattern BOOLEAN_PATTERN = Pattern.compile("^(false|true)$");
 
-    public static VMObject parseLiteral(String literalString) throws VMException {
+    public static VMPointer parseLiteral(String literalString) throws VMException {
         // Null
         if (literalString.equals("null"))
-            return VMNullInstance.getInstance();
+            return VMPointer.NULL_POINTER;
 
         // String
         Matcher m = STRING_PATTERN.matcher(literalString);
@@ -35,20 +36,20 @@ public class LiteralParser {
         return parseInt(literalString);
     }
 
-    public static VMBooleanInstance parseBoolean(String string) throws VMException {
+    public static VMPointer parseBoolean(String string) throws VMException {
         switch (string) {
-            case "false": return VMBoolean.FALSE;
-            case "true": return VMBoolean.TRUE;
+            case "false": return VMPointer.FALSE_POINTER;
+            case "true": return VMPointer.TRUE_POINTER;
             default: throw new IllegalArgumentException();
         }
     }
 
-    public static VMStringInstance parseString(String string) throws VMException {
+    public static VMPointer parseString(String string) throws VMException {
         String strippedString = string.substring(1, string.length() - 1); // TODO \ sequences
         return ((VMString)VMMachine.getInstance().getClazz("String")).createInstance(strippedString);
     }
 
-    public static VMIntegerInstance parseInt(String string) throws VMException {
+    public static VMPointer parseInt(String string) throws VMException {
         int intValue = Integer.parseInt(string);
         return ((VMInteger)VMMachine.getInstance().getClazz("Integer")).createInstance(intValue);
     }

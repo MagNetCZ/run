@@ -5,7 +5,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.helpers.VariableHash;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 /**
  * Created by MagNet on 12. 3. 2015.
@@ -30,5 +30,5 @@ public abstract class VMBaseObject extends VMReference {
         return fields.getPair(identifier);
     }
 
-    public abstract void callMethod(String name, VMObject ... args) throws VMException;
+    public abstract void callMethod(String name, VMPointer... args) throws VMException;
 }

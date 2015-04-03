@@ -5,6 +5,8 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMArrayType;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -15,12 +17,12 @@ public class VMArray extends VMBuiltinType<TypeValuePair[], VMArrayInstance> {
         super(new VMArrayType(contentType));
     }
 
-    public VMArrayInstance createInstance(Integer size) throws VMException {
-        return new VMArrayInstance(this, size);
+    public VMPointer createInstance(Integer size) throws VMException {
+        return VMMemory.allocate(new VMArrayInstance(this, size));
     }
 
     @Override
-    public VMArrayInstance createInstance(TypeValuePair... args) {
+    public VMPointer createInstance(TypeValuePair... args) {
         throw new NotImplementedException();
     }
 }

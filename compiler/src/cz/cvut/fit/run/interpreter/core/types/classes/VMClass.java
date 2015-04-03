@@ -13,6 +13,8 @@ import cz.cvut.fit.run.interpreter.core.modifiers.Scope;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.MethodInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
@@ -63,8 +65,8 @@ public class VMClass extends VMBaseObject {
         return type;
     }
 
-    private VMObject[] injectTarget(VMObject instance, VMObject ... args) {
-        VMObject[] injectedArgs = new VMObject[args.length + 1];
+    private VMPointer[] injectTarget(VMPointer instance, VMPointer ... args) {
+        VMPointer[] injectedArgs = new VMPointer[args.length + 1];
         injectedArgs[0] = instance;
         for (int i = 0; i < args.length; i++) {
             injectedArgs[i + 1] = args[i];
@@ -73,7 +75,7 @@ public class VMClass extends VMBaseObject {
         return injectedArgs;
     }
 
-    public void callMethod(String name, VMObject ... args) throws VMException {
+    public void callMethod(String name, VMPointer ... args) throws VMException {
         VMMethod method = lookupMethod(name);
         if (!method.isStaticMethod())
             throw new MethodNotFoundException("Trying to call instance method from static context");
@@ -81,20 +83,20 @@ public class VMClass extends VMBaseObject {
         invokeMethod(method, args);
     }
 
-    public void callMethod(String name, VMObject target, VMObject ... args) throws VMException {
+    public void callMethod(String name, VMPointer target, VMPointer ... args) throws VMException {
         VMMethod method = lookupMethod(name);
         callMethod(method, target, args);
     }
 
-    public void callMethod(VMMethod method, VMObject target, VMObject ... args) throws VMException {
+    public void callMethod(VMMethod method, VMPointer target, VMPointer ... args) throws VMException {
         if (method.isStaticMethod())
             throw new MethodNotFoundException("Trying to call static method from instance context");
 
-        VMObject[] injectedArgs = injectTarget(target, args);
+        VMPointer[] injectedArgs = injectTarget(target, args);
         invokeMethod(method, injectedArgs);
     }
 
-    private void invokeMethod(VMMethod method, VMObject ... args) throws VMException {
+    private void invokeMethod(VMMethod method, VMPointer ... args) throws VMException {
         VMMachine vm = VMMachine.getInstance();
         vm.enterFrame();
 
@@ -110,7 +112,7 @@ public class VMClass extends VMBaseObject {
         }
 
         if (method.getReturnType() != VMType.VOID)
-            VMMachine.push(methodResult);
+            VMMachine.push(methodResult.getPointer());
     }
 
     public VMMethod lookupMethod(String name) throws VMException {
@@ -133,11 +135,12 @@ public class VMClass extends VMBaseObject {
         this.constructor = constructor;
     }
 
-    public VMObject createInstance(VMObject ... args) throws VMException {
-        VMObject newInstance = new VMObject(this, args);
+    public VMPointer createInstance(VMPointer ... args) throws VMException {
+        VMPointer newInstance = VMMemory.allocate(new VMObject(this, args));
 
-        if (constructor != null)
+        if (constructor != null) {
             callMethod(constructor, newInstance, args);
+        }
 
         return newInstance;
     }
@@ -225,13 +228,13 @@ public class VMClass extends VMBaseObject {
                 LinkedList<VMType> argTypes = new LinkedList<>();
 
                 if (instanceMethod) {
-                    argClasses.add(VMObject.class);
+                    argClasses.add(VMPointer.class);
                     argTypes.add(getType());
                 }
 
                 for (int i = 0; i < builtinMethod.argTypes.length; i++) {
                     argTypes.add(builtinMethod.argTypes[i]);
-                    argClasses.add(VMObject.class);
+                    argClasses.add(VMPointer.class);
                 }
 
                 Class<?>[] argClassArray = argClasses.toArray(new Class<?>[argClasses.size()]);

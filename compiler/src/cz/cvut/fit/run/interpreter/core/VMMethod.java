@@ -5,6 +5,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaParser;
 
 import java.lang.reflect.InvocationTargetException;
@@ -50,12 +51,12 @@ public class VMMethod extends VMReference {
         nativeMethod = true;
     }
 
-    private void checkNumberOfArguments(VMObject ... args) throws ArgumentException {
+    private void checkNumberOfArguments(VMPointer ... args) throws ArgumentException {
         if (args.length != argTypes.length)
             throw new ArgumentException(name + ": Given " + args.length + " arguments, but " + argTypes.length + " are required.");
     }
 
-    public VMObject invoke(VMBaseObject onObject, VMObject ... args) throws VMException {
+    public VMObject invoke(VMBaseObject onObject, VMPointer ... args) throws VMException {
         checkNumberOfArguments(args);
 
         if (nativeMethod) {
@@ -65,7 +66,7 @@ public class VMMethod extends VMReference {
         }
     }
 
-    private void loadArgs(VMObject ... args) throws VMException {
+    private void loadArgs(VMPointer... args) throws VMException {
         VMMachine vm = VMMachine.getInstance();
 
         for (int i = 0; i < args.length; i++) {
@@ -76,7 +77,7 @@ public class VMMethod extends VMReference {
         }
     }
 
-    private VMObject invokeVM(VMObject ... args) throws VMException {
+    private VMObject invokeVM(VMPointer ... args) throws VMException {
         VMMachine vm = VMMachine.getInstance();
 
         loadArgs(args);
@@ -98,7 +99,7 @@ public class VMMethod extends VMReference {
         throw new RuntimeException("Should not ever get here");
     }
 
-    private VMObject invokeNative(VMBaseObject onObject, VMObject ... args) throws VMException {
+    private VMObject invokeNative(VMBaseObject onObject, VMPointer ... args) throws VMException {
         try {
             return (VMObject)nativeCode.invoke(onObject, args);
         } catch (IllegalAccessException e) {

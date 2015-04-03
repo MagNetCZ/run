@@ -7,6 +7,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,10 +46,10 @@ public class VariableHash extends HashMap<VMIdentifierInstance, TypeValuePair> {
         return newPair;
     }
 
-    public VMObject getVariable(VMIdentifierInstance identifier) throws NotDeclaredException {
+    public VMPointer getVariable(VMIdentifierInstance identifier) throws VMException {
         TypeValuePair fullVariable =  getPair(identifier);
 
-        return fullVariable.getValue();
+        return fullVariable.getPointer();
     }
 
     protected TypeValuePair getVariablePair(VMIdentifierInstance identifier) {

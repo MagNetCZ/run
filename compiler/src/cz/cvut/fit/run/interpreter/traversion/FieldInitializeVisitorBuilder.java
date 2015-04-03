@@ -5,8 +5,8 @@ import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaBaseVisitor;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -65,7 +65,7 @@ public class FieldInitializeVisitorBuilder extends JavaBaseVisitor<VMException> 
                 return;
 
             ExpressionContext initExpression = variableDeclarator.variableInitializer().expression();
-            VMObject initValue = vm.evalReturnExpressionValue(initExpression);
+            VMPointer initValue = vm.evalReturnExpressionValue(initExpression).getPointer();
 
             newPair.setValue(initValue);
         }

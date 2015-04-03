@@ -5,6 +5,8 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.instances.*;
 import cz.cvut.fit.run.interpreter.core.types.type.VMArrayType;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,28 +20,29 @@ public class VMString extends VMBuiltinType<String, VMStringInstance> {
     }
 
     @Override
-    public VMStringInstance createInstance(String value) throws VMException {
-        return new VMStringInstance(this, value);
+    public VMPointer createInstance(String value) throws VMException {
+        return VMMemory.allocate(new VMStringInstance(this, value));
     }
 
-    public VMArrayInstance split(VMObject instance, VMObject operand) throws VMException {
-        VMStringInstance stringValue = (VMStringInstance)instance;
-        VMStringInstance splitArgument = (VMStringInstance)operand;
+    public VMPointer split(VMPointer instance, VMPointer operand) throws VMException {
+        VMStringInstance stringValue = (VMStringInstance)instance.getObject();
+        VMStringInstance splitArgument = (VMStringInstance)operand.getObject();
 
         String[] splitResult = stringValue.getValue().split(splitArgument.getValue());
         VMMachine vm = VMMachine.getInstance();
-        VMArrayInstance splitArray = vm.getArrayClazz(VMType.STRING).createInstance(splitResult.length);
+        VMArrayInstance splitArray = (VMArrayInstance)vm.getArrayClazz(VMType.STRING)
+                .createInstance(splitResult.length).getObject();
 
         for (int i = 0; i < splitResult.length; i++) {
             splitArray.get(i).setValue(createInstance(splitResult[i]));
         }
 
-        return splitArray;
+        return splitArray.getPointer();
     }
 
-    public VMStringInstance concat(VMObject instance, VMObject operand) throws VMException {
-        VMStringInstance stringValue = (VMStringInstance)instance;
-        VMStringInstance castedOperand = (VMStringInstance)operand;
+    public VMPointer concat(VMPointer instance, VMPointer operand) throws VMException {
+        VMStringInstance stringValue = (VMStringInstance)instance.getObject();
+        VMStringInstance castedOperand = (VMStringInstance)operand.getObject();
 
         return createInstance(stringValue.getValue() + castedOperand.getValue());
     }
