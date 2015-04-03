@@ -10,6 +10,7 @@ import cz.cvut.fit.run.interpreter.core.types.IDType;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.*;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.parser.JavaParser;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -78,6 +79,7 @@ public class VMMachine {
         registerClass(new VMString());
         registerClass(new VMFile());
         registerClass(new VMSystem());
+        registerClass(new VMExceptionClass());
 
         IDClass = new VMIdentifier();
         registerClass(IDClass);
@@ -291,22 +293,26 @@ public class VMMachine {
     private void evalFor(StatementContext statement) throws VMException {
         ForControlContext forControl = statement.forControl();
 
+        VMFrame frame = getFrame();
         getFrame().enterScope();
 
-        if (forControl.forInit().localVariableDeclaration() != null) {
-            evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
-        }
-
         try {
-            while (checkExpression(forControl.expression())) {
-                try {
-                    evalStatement(statement.statement(0));
-                } catch (ContinueException ex) {}
-                evalExpressionList(forControl.forUpdate().expressionList());
+            if (forControl.forInit().localVariableDeclaration() != null) {
+                evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
             }
-        } catch (BreakException ex) {}
 
-        getFrame().exitScope();
+            try {
+                while (checkExpression(forControl.expression())) {
+                    try {
+                        evalStatement(statement.statement(0));
+                    } catch (ContinueException ex) {}
+                    evalExpressionList(forControl.forUpdate().expressionList());
+                }
+            } catch (BreakException ex) {}
+        } finally {
+            if (getFrame().equals(frame))
+                getFrame().exitScope();
+        }
     }
 
     private void evalFlowControl(StatementContext statement) throws VMException {
@@ -332,13 +338,17 @@ public class VMMachine {
     }
 
     private void evalBlock(BlockContext block) throws VMException {
+        VMFrame frame = getFrame();
         getFrame().enterScope();
 
-        for (BlockStatementContext blockStatement : block.blockStatement()) {
-            evalBlockStatement(blockStatement);
+        try {
+            for (BlockStatementContext blockStatement : block.blockStatement()) {
+                evalBlockStatement(blockStatement);
+            }
+        } finally {
+            if (getFrame().equals(frame))
+                getFrame().exitScope();
         }
-
-        getFrame().exitScope();
     }
     private void evalBlockStatement(BlockStatementContext blockStatement) throws VMException {
         StatementContext statement = blockStatement.statement();
@@ -354,6 +364,7 @@ public class VMMachine {
             evalLocalVariableDeclaration(localVariableDeclaration);
         }
     }
+
 
     private void evalStatement(StatementContext statement) throws VMException {
         ParExpressionContext parExpression = statement.parExpression();
@@ -376,7 +387,12 @@ public class VMMachine {
         }
 
         if (statement.block() != null) {
-            evalBlock(statement.block());
+            if (statement.children.get(0).getText().equals("try")) {
+                evalTryCatch(statement);
+            } else {
+                evalBlock(statement.block());
+            }
+
             return;
         }
 
@@ -389,9 +405,64 @@ public class VMMachine {
                 throw new ContinueException();
             case "return":
                 evalReturn(statement);
+            case "throw":
+                evalException(statement);
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    private void evalTryCatch(StatementContext statement) throws VMException {
+        if (statement.catchClause().size() == 0)
+            throw new SyntaxException("Missing catch clauses for try statement");
+
+        boolean caught = true;
+        VMObject exception = null;
+
+        try {
+            evalBlock(statement.block());
+        } catch (ThrowException exceptionWrapper) {
+            caught = false;
+            for (CatchClauseContext catchClause : statement.catchClause()) {
+                caught = false;
+                VMType catchType = new VMType(catchClause.catchType().getText());
+                exception = exceptionWrapper.getException();
+                if (exception.isDescendantOf(catchType)) {
+                    // Exception caught
+                    String exceptionId = catchClause.children.get(3).getText();
+
+                VMFrame frame = getFrame();
+                    getFrame().enterScope();
+
+                    try {
+                        getFrame().declareVariable(getID(exceptionId), exception.getType()).setValue(exception);
+                        evalBlock(catchClause.block());
+                    } finally {
+                        if (getFrame().equals(frame))
+                            getFrame().exitScope();
+                    }
+
+                    caught = true;
+                    break;
+                }
+            }
+        }
+
+        if (statement.finallyBlock() != null)
+            evalBlock(statement.finallyBlock().block());
+
+        if (!caught && exception != null) {
+            throw new ThrowException(exception);
+        }
+    }
+
+    private void evalException(StatementContext statement) throws VMException {
+        ExpressionContext throwExpression = statement.expression(0);
+        VMObject throwValue = null;
+        if (throwExpression != null)
+            throwValue = evalReturnExpressionValue(statement.expression(0));
+
+        throw new ThrowException(throwValue);
     }
 
     private void evalReturn(StatementContext statement) throws VMException {
@@ -629,11 +700,16 @@ public class VMMachine {
         currentFrame = new VMFrame(lastFrame);
     }
 
-    public void exitFrame() throws VMException {
+    public void exitFrame(VMException ex) throws VMException {
         logger.info("Exiting frame, stack size " + currentFrame.stackSize());
 
+        if (ex != null) {
+            throw ex;
+        }
+
         currentFrame = currentFrame.parent;
-        if (currentFrame == null)
+        if (currentFrame == null) {
             throw new ProgramEndException();
+        }
     }
 }

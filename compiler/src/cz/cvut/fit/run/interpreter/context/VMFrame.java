@@ -8,6 +8,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.parser.JavaParser;
 
 import java.util.Stack;
 import java.util.logging.Level;
@@ -18,7 +19,8 @@ import java.util.logging.Level;
 public class VMFrame {
     private Stack<VariableHash> localVariableStack;
     private Stack<VMObject> opStack;
-    
+    private Stack<JavaParser.StatementContext> tryStack;
+
     VMFrame parent;
 
     public VMFrame() {
@@ -96,5 +98,9 @@ public class VMFrame {
 
     public void exitScope() {
         localVariableStack.pop();
+    }
+
+    public int getLocalVariableStackSize() {
+        return localVariableStack.size();
     }
 }

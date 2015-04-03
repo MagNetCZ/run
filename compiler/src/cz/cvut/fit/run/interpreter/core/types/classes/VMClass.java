@@ -98,9 +98,16 @@ public class VMClass extends VMBaseObject {
         VMMachine vm = VMMachine.getInstance();
         vm.enterFrame();
 
-        VMObject methodResult = method.invoke(this, args);
+        VMObject methodResult = null;
+        VMException exception = null;
 
-        vm.exitFrame();
+        try {
+            methodResult = method.invoke(this, args);
+        } catch (VMException ex) {
+            exception = ex;
+        } finally {
+            vm.exitFrame(exception);
+        }
 
         if (method.getReturnType() != VMType.VOID)
             VMMachine.push(methodResult);
@@ -170,6 +177,15 @@ public class VMClass extends VMBaseObject {
 
     public VMClass getSuperClass() {
         return superClass;
+    }
+
+    public boolean isDescendantOf(VMType superType) {
+        for (VMClass clazz : getClassHierarchy()) {
+            if (clazz.getType().equals(superType))
+                return true;
+        }
+
+        return false;
     }
 
     public JavaParser.ClassBodyContext getSource() {

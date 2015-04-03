@@ -34,6 +34,10 @@ public class VMObject extends VMBaseObject {
         return clazz;
     }
 
+    public boolean isDescendantOf(VMType superClass) {
+        return getClazz().isDescendantOf(superClass);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,6 +72,8 @@ public class VMObject extends VMBaseObject {
         List<VMClass> classList = getClazz().getClassHierarchy();
         // Initialize fields from the top of the class hierarchy (most super)
         for (VMClass clazz : classList) {
+            if (clazz.getSource() == null)
+                continue;
             VMException ex = builder.visit(clazz.getSource());
 
             if (ex != null)
