@@ -16,20 +16,7 @@ import java.util.Map;
  * Created by MagNet on 20. 3. 2015.
  */
 public class VariableHash extends HashMap<VMIdentifierInstance, TypeValuePair> {
-    public VariableHash(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-    }
-
-    public VariableHash(int initialCapacity) {
-        super(initialCapacity);
-    }
-
-    public VariableHash() {
-    }
-
-    public VariableHash(Map<? extends VMIdentifierInstance, ? extends TypeValuePair> m) {
-        super(m);
-    }
+    public VariableHash() {}
 
     public boolean isVariableDeclared(VMIdentifierInstance identifier) {
         return containsKey(identifier);
@@ -66,5 +53,18 @@ public class VariableHash extends HashMap<VMIdentifierInstance, TypeValuePair> {
             throw new NotDeclaredException("The variable " + identifier + " has not been yet declared.");
 
         return variablePair;
+    }
+
+    public VariableHash copy() throws VMException {
+        VariableHash newHash = new VariableHash();
+        for (Entry<VMIdentifierInstance, TypeValuePair> entry : entrySet()) {
+            copyEntry(entry, newHash);
+        }
+
+        return newHash;
+    }
+
+    private void copyEntry(Entry<VMIdentifierInstance, TypeValuePair> entry, VariableHash target) throws VMException {
+        target.put((VMIdentifierInstance)entry.getKey().copy().getObject(), entry.getValue().copy());
     }
 }

@@ -6,6 +6,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.interpreter.traversion.FieldInitializeVisitorBuilder;
 import cz.cvut.fit.run.interpreter.traversion.ModifierFilter;
@@ -18,6 +19,7 @@ import java.util.List;
 public class VMObject extends VMBaseObject {
     protected VMClass clazz;
     protected VMPointer pointer = null;
+    protected VMPointer relocated = null;
 
     public VMPointer getPointer() throws VMException {
         if (pointer == null)
@@ -29,6 +31,20 @@ public class VMObject extends VMBaseObject {
         if (this.pointer != null)
             throw new RedeclarationException("Cannot reset an object's pointer. The object has to be copied.");
         this.pointer = pointer;
+    }
+
+    public boolean isRelocated() {
+        return relocated != null;
+    }
+
+    public void setRelocatedPointer(VMPointer relocated) throws VMException {
+        if (this.relocated != null)
+            throw new RedeclarationException("Cannot reset an object's relocation pointer. Trying to copy again?");
+        this.relocated = relocated;
+    }
+
+    public VMPointer getRelocatedPointer() {
+        return relocated;
     }
 
     @Override
@@ -79,7 +95,7 @@ public class VMObject extends VMBaseObject {
     }
 
     public void initialize() throws VMException {
-        if (getClazz().getSource() == null)
+        if (getClazz() == null || getClazz().getSource() == null)
             return;
 
         FieldInitializeVisitorBuilder builder =
@@ -99,5 +115,12 @@ public class VMObject extends VMBaseObject {
 
     public boolean canBeAssignedTo(VMType type) {
         return clazz.canBeAssignedTo(type);
+    }
+
+    @Override
+    public VMPointer copy() throws VMException {
+        VMObject newObject = new VMObject(clazz);
+        newObject.fields = fields.copy();
+        return VMMemory.allocate(newObject);
     }
 }

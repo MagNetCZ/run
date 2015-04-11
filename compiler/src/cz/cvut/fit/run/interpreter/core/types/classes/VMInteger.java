@@ -17,7 +17,7 @@ import java.util.logging.Level;
 /**
  * Created by MagNet on 12. 3. 2015.
  */
-public class VMInteger extends VMBuiltinType<Integer, VMIntegerInstance> {
+public class VMInteger extends VMBuiltinType<Integer> {
     public VMInteger() throws VMException {
         super(VMType.INT);
     }

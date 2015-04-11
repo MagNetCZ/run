@@ -47,6 +47,23 @@ public class VMPointer {
                 return VMBoolean.FALSE;
         }
 
-        return VMMemory.getInstance().get(this);
+        VMMemory memory = VMMemory.getInstance();
+        VMObject object = memory.get(this);
+        if (object.isRelocated())
+            return memory.get(object.getRelocatedPointer());
+
+        return object;
+    }
+
+    public boolean pointsToObject() {
+        return location >= 0;
+    }
+
+    public VMObject getRawObject() throws VMException {
+        if (location < 0)
+            return null;
+
+        VMMemory memory = VMMemory.getInstance();
+        return memory.get(this);
     }
 }

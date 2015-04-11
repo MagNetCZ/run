@@ -103,4 +103,16 @@ public class VMFrame {
     public int getLocalVariableStackSize() {
         return localVariableStack.size();
     }
+
+    public Stack<VariableHash> getLocalVariableStack() {
+        return localVariableStack;
+    }
+
+    public Stack<VMPointer> getOpStack() {
+        return opStack;
+    }
+
+    public void setOpStack(Stack<VMPointer> opStack) {
+        this.opStack = opStack;
+    }
 }

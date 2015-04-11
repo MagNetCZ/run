@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by MagNet on 12. 3. 2015.
  */
-public class VMString extends VMBuiltinType<String, VMStringInstance> {
+public class VMString extends VMBuiltinType<String> {
     public VMString() throws VMException {
         super(VMType.STRING);
     }

@@ -12,7 +12,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Created by MagNet on 12. 3. 2015.
  */
-public class VMArray extends VMBuiltinType<TypeValuePair[], VMArrayInstance> {
+public class VMArray extends VMBuiltinType<TypeValuePair[]> {
     public VMArray(VMType contentType) throws VMException {
         super(new VMArrayType(contentType));
     }

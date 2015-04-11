@@ -6,6 +6,7 @@ import cz.cvut.fit.run.interpreter.core.exceptions.MemoryNotInitializedException
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMOutOfBoundsException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * The Heap
@@ -13,6 +14,7 @@ import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 public class VMMemory {
     private static VMMemory instance;
     private VMObject[] memory;
+    private VMGarbageCollector gc;
 
     class MemoryInfo {
         // Points to the next free memory
@@ -60,10 +62,14 @@ public class VMMemory {
     public void init(int size) {
         memory = new VMObject[size];
 
-        leftInfo = new MemoryInfo(0, size / 2 - 1);
-        rightInfo = new MemoryInfo(size / 2, size - 1);
+        leftInfo = new MemoryInfo(0, size / 2);
+        rightInfo = new MemoryInfo(size / 2, size);
 
         currentMemory = Memory.LEFT;
+    }
+
+    public VMMemory() {
+        gc = new VMGarbageCollector(this);
     }
 
     public static VMMemory getInstance() {
@@ -86,12 +92,23 @@ public class VMMemory {
         return memory[location];
     }
 
-    public MemoryInfo currentInfo() {
+    private MemoryInfo currentInfo() {
         switch (currentMemory) {
             case LEFT:
                 return leftInfo;
             case RIGHT:
                 return rightInfo;
+        }
+
+        throw new IndexOutOfBoundsException();
+    }
+
+    private MemoryInfo otherInfo() {
+        switch (currentMemory) {
+            case LEFT:
+                return rightInfo;
+            case RIGHT:
+                return leftInfo;
         }
 
         throw new IndexOutOfBoundsException();
@@ -104,6 +121,7 @@ public class VMMemory {
         object.setPointer(objectPointer);
 
         VMMachine.logger.severe("Allocating [" + pointer + "] " + object);
+        VMMachine.logger.severe("Available " + memoryAvailable());
 
         return objectPointer;
     }
@@ -115,5 +133,39 @@ public class VMMemory {
     public int memoryAvailable() {
         MemoryInfo current = currentInfo();
         return current.top - current.current;
+    }
+
+    public int memoryCapacity() {
+        MemoryInfo current = currentInfo();
+        return current.top - current.bottom;
+    }
+
+    public void gcPoint() throws VMException {
+        if (memoryAvailable() < memoryCapacity() * 0.25)
+            gc.garbageCollect();
+    }
+
+    /**
+     * Switch between using left or right memory
+     */
+    public void switchMemory() {
+        currentMemory = currentMemory == Memory.LEFT ? Memory.RIGHT : Memory.LEFT;
+    }
+
+    /**
+     * Wipe the currently unused part of memory
+     */
+    public void wipeUnused() {
+        MemoryInfo toWipeInfo = otherInfo();
+        for (int i = toWipeInfo.bottom; i < toWipeInfo.top; i++)
+            memory[i] = null;
+
+        toWipeInfo.reset();
+    }
+
+    public boolean inActive(VMPointer pointer) {
+        int location = pointer.getLocation();
+        MemoryInfo curInfo = currentInfo();
+        return location >= curInfo.bottom && location < curInfo.top;
     }
 }

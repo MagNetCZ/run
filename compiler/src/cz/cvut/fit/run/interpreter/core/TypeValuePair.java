@@ -19,6 +19,11 @@ public class TypeValuePair {
         this.value = VMPointer.NULL_POINTER;
     }
 
+    public TypeValuePair(VMType type, VMPointer value) {
+        this.type = type;
+        this.value = value;
+    }
+
     public void setValue(VMPointer value) throws VMException {
         if (!value.getObject().canBeAssignedTo(getType())) {
             throw new TypeMismatchException(value.getObject().getType().getName() + " to " + getType().getName());
@@ -37,5 +42,9 @@ public class TypeValuePair {
 
     public VMType getType() {
         return type;
+    }
+
+    public TypeValuePair copy() {
+        return new TypeValuePair(type, value);
     }
 }

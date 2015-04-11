@@ -10,11 +10,13 @@ import cz.cvut.fit.run.interpreter.core.types.IDType;
 import cz.cvut.fit.run.interpreter.core.types.classes.*;
 import cz.cvut.fit.run.interpreter.core.types.instances.*;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaParser.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -683,7 +685,9 @@ public class VMMachine {
         return popValue();
     }
 
-    public void enterFrame() {
+    public void enterFrame() throws VMException {
+        VMMemory.getInstance().gcPoint();
+
         logger.severe("** Entering frame " + frames);
         frames++;
         VMFrame lastFrame = currentFrame;
@@ -702,5 +706,22 @@ public class VMMachine {
         if (currentFrame == null) {
             throw new ProgramEndException();
         }
+    }
+
+    // Roots for garbage collector
+
+    public Collection<VMClass> getClasses() {
+        return classes.values();
+    }
+
+    public Collection<VMFrame> getFrames() {
+        LinkedList<VMFrame> frames = new LinkedList<>();
+        VMFrame curFrame = currentFrame;
+        while (curFrame != null) {
+            frames.add(curFrame);
+            curFrame = curFrame.parent;
+        }
+
+        return frames;
     }
 }

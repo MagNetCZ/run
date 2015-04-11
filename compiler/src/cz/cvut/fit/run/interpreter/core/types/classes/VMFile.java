@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by MagNet on 26. 3. 2015.
  */
-public class VMFile extends VMBuiltinType<BufferedReader, VMFileInstance> {
+public class VMFile extends VMBuiltinType<BufferedReader> {
     public VMFile() throws VMException {
         super(VMType.FILE);
     }

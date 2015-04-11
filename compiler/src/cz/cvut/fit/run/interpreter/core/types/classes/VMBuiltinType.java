@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by MagNet on 12. 3. 2015.
  */
-public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>> extends VMClass {
+public abstract class VMBuiltinType<T> extends VMClass {
     protected VMBuiltinType(VMType type) throws VMException {
         super(type);
     }
@@ -28,6 +28,6 @@ public abstract class VMBuiltinType<T, InstanceType extends VMBuiltinInstance<T>
 
     @Override
     public VMPointer createInstance(VMPointer... args) throws VMException {
-        return createInstance(((InstanceType)args[0].getObject()).getValue());
+        return createInstance(((VMBuiltinInstance<T>)args[0].getObject()).getValue());
     }
 }

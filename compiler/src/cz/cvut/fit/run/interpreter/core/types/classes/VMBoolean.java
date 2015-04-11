@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by MagNet on 13. 3. 2015.
  */
-public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
+public class VMBoolean extends VMBuiltinType<Boolean> {
     public static VMBooleanInstance FALSE;
     public static VMBooleanInstance TRUE;
 

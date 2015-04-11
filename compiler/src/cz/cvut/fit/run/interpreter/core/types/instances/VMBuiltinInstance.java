@@ -1,7 +1,10 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
+import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMBuiltinType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 /**
  * Created by MagNet on 16. 3. 2015.
@@ -42,5 +45,10 @@ public class VMBuiltinInstance<T> extends VMObject {
     @Override
     public int hashCode() {
         return value != null ? value.hashCode() : 0;
+    }
+
+    @Override
+    public VMPointer copy() throws VMException {
+        return ((VMBuiltinType<T>)clazz).createInstance(value);
     }
 }

@@ -9,7 +9,7 @@ import cz.cvut.fit.run.interpreter.memory.VMPointer;
 /**
  * Created by MagNet on 12. 3. 2015.
  */
-public class VMIdentifier extends VMBuiltinType<String, VMIdentifierInstance> {
+public class VMIdentifier extends VMBuiltinType<String> {
     public VMIdentifier() throws VMException {
         super(VMType.ID);
     }
