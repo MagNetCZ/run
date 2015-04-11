@@ -2,6 +2,7 @@ package cz.cvut.fit.run.interpreter.core.types.instances;
 
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotAllocatedException;
+import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
@@ -15,8 +16,8 @@ import java.util.List;
  * Created by MagNet on 9. 3. 2015.
  */
 public class VMObject extends VMBaseObject {
-    VMClass clazz;
-    VMPointer pointer;
+    protected VMClass clazz;
+    protected VMPointer pointer = null;
 
     public VMPointer getPointer() throws VMException {
         if (pointer == null)
@@ -24,7 +25,9 @@ public class VMObject extends VMBaseObject {
         return pointer;
     }
 
-    public void setPointer(VMPointer pointer) {
+    public void setPointer(VMPointer pointer) throws VMException {
+        if (this.pointer != null)
+            throw new RedeclarationException("Cannot reset an object's pointer. The object has to be copied.");
         this.pointer = pointer;
     }
 

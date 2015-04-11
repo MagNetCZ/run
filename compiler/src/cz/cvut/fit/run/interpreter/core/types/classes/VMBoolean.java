@@ -21,7 +21,9 @@ public class VMBoolean extends VMBuiltinType<Boolean, VMBooleanInstance> {
         super(VMType.BOOLEAN);
 
         FALSE = new VMBooleanInstance(this, false);
+        FALSE.setPointer(VMPointer.FALSE_POINTER);
         TRUE = new VMBooleanInstance(this, true);
+        TRUE.setPointer(VMPointer.TRUE_POINTER);
     }
 
     public static VMPointer getBool(boolean value) {

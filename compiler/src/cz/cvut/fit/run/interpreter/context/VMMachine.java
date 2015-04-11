@@ -34,6 +34,7 @@ public class VMMachine {
     public static final Logger logger = Logger.getLogger("VMMachine");
 
     private VMFrame currentFrame;
+    private int frames = 0;
 
     private VMMachine() {
 //        currentFrame = new VMFrame();
@@ -96,19 +97,6 @@ public class VMMachine {
                         typeDeclaration.classDeclaration().type(),
                         classDeclaration.classBody());
         registerClass(newClass);
-    }
-
-    public void registerSuperType(TypeDeclarationContext typeDeclaration) throws VMException {
-        /*TypeContext superTypeNode = typeDeclaration.classDeclaration().type();
-        if (superTypeNode != null) {
-            ClassDeclarationContext classDeclaration = typeDeclaration.classDeclaration();
-            String className = classDeclaration.Identifier().getText();
-
-            VMClass superClass = getClazz(superTypeNode);
-            VMClass thisClass = getClazz(className);
-
-            thisClass.setSuperClass(superClass);
-        }*/
     }
 
     /** ACCESSORS **/
@@ -696,12 +684,15 @@ public class VMMachine {
     }
 
     public void enterFrame() {
+        logger.severe("** Entering frame " + frames);
+        frames++;
         VMFrame lastFrame = currentFrame;
         currentFrame = new VMFrame(lastFrame);
     }
 
     public void exitFrame(VMException ex) throws VMException {
-        logger.info("Exiting frame, stack size " + currentFrame.stackSize());
+        frames--;
+        logger.severe("** Exiting frame " + frames + ", stack size " + currentFrame.stackSize());
 
         if (ex != null) {
             throw ex;

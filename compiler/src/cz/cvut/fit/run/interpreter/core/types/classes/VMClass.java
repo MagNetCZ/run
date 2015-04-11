@@ -100,6 +100,8 @@ public class VMClass extends VMBaseObject {
         VMMachine vm = VMMachine.getInstance();
         vm.enterFrame();
 
+        vm.logger.severe("-- Invoking " + method.getName());
+
         VMObject methodResult = null;
         VMException exception = null;
 

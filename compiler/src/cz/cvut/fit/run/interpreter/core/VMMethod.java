@@ -101,7 +101,9 @@ public class VMMethod extends VMReference {
 
     private VMObject invokeNative(VMBaseObject onObject, VMPointer ... args) throws VMException {
         try {
-            return (VMObject)nativeCode.invoke(onObject, args);
+            Object result = nativeCode.invoke(onObject, args);
+            if (result == null) return VMPointer.NULL_POINTER.getObject();
+            return ((VMPointer)result).getObject();
         } catch (IllegalAccessException e) {
             throw new MethodNotFoundException(e);
         } catch (InvocationTargetException e) {

@@ -53,10 +53,6 @@ public class Main {
             VMMachine.getInstance().registerType(type);
         }
 
-        for (JavaParser.TypeDeclarationContext type : compilationUnit.typeDeclaration()) {
-            VMMachine.getInstance().registerSuperType(type);
-        }
-
         VMMemory.getInstance().init(2048);
         VMMachine vm = VMMachine.getInstance();
 
