@@ -15,6 +15,7 @@ public class VMMemory {
     private static VMMemory instance;
     private VMObject[] memory;
     private VMGarbageCollector gc;
+    private int gcDisableCounter;
 
     class MemoryInfo {
         // Points to the next free memory
@@ -70,6 +71,7 @@ public class VMMemory {
 
     public VMMemory() {
         gc = new VMGarbageCollector(this);
+        gcDisableCounter = 0;
     }
 
     public static VMMemory getInstance() {
@@ -115,6 +117,8 @@ public class VMMemory {
     }
 
     public VMPointer alloc(VMObject object) throws VMException {
+        gcPoint();
+
         int pointer = currentInfo().getNext();
         memory[pointer] = object;
         VMPointer objectPointer = new VMPointer(pointer);
@@ -167,5 +171,16 @@ public class VMMemory {
         int location = pointer.getLocation();
         MemoryInfo curInfo = currentInfo();
         return location >= curInfo.bottom && location < curInfo.top;
+    }
+
+    public void disableGC() {
+        gcDisableCounter++;
+        gc.setDisabled(gcDisableCounter > 0);
+    }
+
+    public void enableGC() throws VMException {
+        gcDisableCounter--;
+        gc.setDisabled(gcDisableCounter > 0);
+        gcPoint();
     }
 }

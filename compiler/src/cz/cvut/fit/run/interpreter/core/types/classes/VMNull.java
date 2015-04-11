@@ -26,7 +26,7 @@ public final class VMNull extends VMClass {
     }
 
     @Override
-    public VMPointer createInstance(VMPointer... args) throws VMException {
+    public VMPointer createInstance() throws VMException {
         throw new IllegalOperationException("Can not create a new null object");
     }
 }

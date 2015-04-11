@@ -32,8 +32,11 @@ public class VMFile extends VMBuiltinType<BufferedReader> {
     }
 
     @Override
-    public VMPointer createInstance(VMPointer... args) throws VMException {
-        VMStringInstance filenameString = (VMStringInstance)args[0].getObject();
+    public VMPointer createInstance() throws VMException {
+        checkNumberOfArguments();
+        VMPointer initValuePointer = VMMachine.pop();
+
+        VMStringInstance filenameString = (VMStringInstance)initValuePointer.getObject();
         String filename = filenameString.getValue();
 
         try {

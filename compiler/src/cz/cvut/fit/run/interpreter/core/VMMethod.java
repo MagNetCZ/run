@@ -3,8 +3,11 @@ package cz.cvut.fit.run.interpreter.core;
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.memory.VMMemory;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaParser;
 
@@ -51,22 +54,30 @@ public class VMMethod extends VMReference {
         nativeMethod = true;
     }
 
-    private void checkNumberOfArguments(VMPointer ... args) throws ArgumentException {
-        if (args.length != argTypes.length)
-            throw new ArgumentException(name + ": Given " + args.length + " arguments, but " + argTypes.length + " are required.");
+    private int numArgs() {
+        return argTypes.length;
     }
 
-    public VMObject invoke(VMBaseObject onObject, VMPointer ... args) throws VMException {
-        checkNumberOfArguments(args);
+    private void checkNumberOfArguments() throws VMException {
+        VMObject quantifier = VMMachine.popValue(); // Arg quantifier
+        int argNum = ((VMIntegerInstance)quantifier).getValue();
+
+        if (argNum != numArgs())
+            throw new ArgumentException(name + ": Given " + argNum + " arguments, but " + numArgs() + " are required.");
+    }
+
+    public void invoke(VMClass onObject) throws VMException {
+        checkNumberOfArguments();
+        VMMachine.logger.severe("/// Calling " + getName());
 
         if (nativeMethod) {
-            return invokeNative(onObject, args);
+            invokeNative(onObject);
         } else {
-            return invokeVM(args);
+            invokeVM();
         }
     }
 
-    private void loadArgs(VMPointer... args) throws VMException {
+    private void loadArgs(VMPointer[] args) throws VMException {
         VMMachine vm = VMMachine.getInstance();
 
         for (int i = 0; i < args.length; i++) {
@@ -77,10 +88,32 @@ public class VMMethod extends VMReference {
         }
     }
 
-    private VMObject invokeVM(VMPointer ... args) throws VMException {
+    private VMPointer[] popArgs(boolean reversed) throws VMException {
+        VMPointer[] args = new VMPointer[numArgs()];
+
+        int first = 0;
+        if (!isStaticMethod()) {
+            args[0] = VMMachine.pop(); // Instance "this" is at the top of the stack
+            first = 1;
+        }
+        for (int i = numArgs() - 1; i >= first ; i--)
+            args[i] = VMMachine.pop(); // While the rest of the args is ordered last to first
+
+        return args;
+    }
+
+    private void invokeVM() throws VMException {
         VMMachine vm = VMMachine.getInstance();
+        VMMemory mem = VMMemory.getInstance();
+
+        mem.disableGC();
+
+        VMPointer[] args = popArgs(true);
+        vm.enterFrame();
 
         loadArgs(args);
+
+        mem.enableGC();
 
         try {
             vm.evalMethod(code);
@@ -91,23 +124,39 @@ public class VMMethod extends VMReference {
 
                 if (!ret.getValue().canBeAssignedTo(returnType))
                     throw new TypeMismatchException("Wrong return type");
+
+                VMMachine.push(ret.getValue().getPointer());
             }
 
-            return ret.getValue();
+            return;
         }
 
         throw new RuntimeException("Should not ever get here");
     }
 
-    private VMObject invokeNative(VMBaseObject onObject, VMPointer ... args) throws VMException {
+    private void invokeNative(VMClass onObject) throws VMException {
+        VMMachine vm = VMMachine.getInstance();
+        VMMemory mem = VMMemory.getInstance();
+
+        VMPointer[] args;
         try {
+            mem.disableGC();
+
+            args = popArgs(false);
+            vm.enterFrame();
             Object result = nativeCode.invoke(onObject, args);
-            if (result == null) return VMPointer.NULL_POINTER.getObject();
-            return ((VMPointer)result).getObject();
+
+            if (returnType != VMType.VOID) {
+                if (result == null)
+                    VMMachine.push(VMPointer.NULL_POINTER);
+                VMMachine.push((VMPointer)result);
+            }
         } catch (IllegalAccessException e) {
             throw new MethodNotFoundException(e);
         } catch (InvocationTargetException e) {
             throw new MethodNotFoundException(e);
+        } finally {
+            mem.enableGC();
         }
     }
 

@@ -50,7 +50,8 @@ public class VMMachine {
         }
 
 //        logger.setLevel(Level.INFO);
-        logger.setLevel(Level.SEVERE);
+        logger.setLevel(Level.OFF);
+//        logger.setLevel(Level.SEVERE);
     }
 
     public static VMMachine getInstance() {
@@ -101,6 +102,15 @@ public class VMMachine {
         registerClass(newClass);
     }
 
+    /** CLASS HELPERS **/
+    public VMInteger getIntegerClass() throws VMException {
+        return (VMInteger)getClazz("Integer");
+    }
+
+    public VMPointer getInteger(int value) throws VMException {
+        return getIntegerClass().createInstance(value);
+    }
+
     /** ACCESSORS **/
 
     public static VMFrame getFrame() {
@@ -109,6 +119,10 @@ public class VMMachine {
 
     public static VMPointer pop() throws VMException {
         return getFrame().pop();
+    }
+
+    public static void exchange() throws VMException {
+        getFrame().exchange();
     }
 
     public static boolean isIdOnStack() throws VMException {
@@ -258,9 +272,12 @@ public class VMMachine {
                 if (!caseEquals) {
                     for (SwitchLabelContext switchLabel : switchBlockStatementGroup.switchLabel()) {
                         evalExpression(switchLabel.constantExpression().expression());
-                        VMObject caseValue = popValue();
+                        // Case Value is now on stack
+                        //VMObject caseValue = popValue();
 
-                        switchValue.callMethod("==", caseValue.getPointer()); // TODO use equals
+                        push(getInteger(1)); // Arg num for == method
+
+                        switchValue.callMethod("==");
                         VMBooleanInstance compResult = (VMBooleanInstance)popValue();
                         if (compResult.getValue()) {
                             caseEquals = true;
@@ -288,17 +305,22 @@ public class VMMachine {
 
         try {
             if (forControl.forInit().localVariableDeclaration() != null) {
+                logger.severe("For init " + forControl.forInit().localVariableDeclaration().getText());
                 evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
             }
 
             try {
                 while (checkExpression(forControl.expression())) {
                     try {
+                        logger.severe("Eval statement " + statement.statement(0).getText());
                         evalStatement(statement.statement(0));
                     } catch (ContinueException ex) {}
+                    logger.severe("Eval expression list " + forControl.forUpdate().expressionList().getText());
                     evalExpressionList(forControl.forUpdate().expressionList());
                 }
-            } catch (BreakException ex) {}
+            } catch (BreakException ex) {
+                logger.severe("Break");
+            }
         } finally {
             if (getFrame().equals(frame))
                 getFrame().exitScope();
@@ -493,14 +515,25 @@ public class VMMachine {
                 break;
             case DIRECT_BINARY_METHOD:
                 String binOperator = expression.getChild(1).toString();
+                VMPointer numArgs = getInteger(1);
+
                 VMObject operand = popValue();
                 VMObject object = popValue();
-                object.callMethod(binOperator, operand.getPointer());
+
+                push(operand.getPointer());
+                push(numArgs);
+
+                object.callMethod(binOperator);
                 break;
             case DIRECT_UNARY_METHOD:
                 int operandIndex = expression.getChild(0) instanceof ExpressionContext ? 1 : 0;
                 String unOperator = expression.getChild(operandIndex).getText();
+
+                VMPointer zero = getInteger(0);
+
                 VMObject unObject = popValue();
+                push(zero);
+
                 unObject.callMethod(unOperator);
                 break;
             case CREATOR:
@@ -521,20 +554,27 @@ public class VMMachine {
     private void evalDotAccess(ExpressionContext expression) throws VMException {
 //        String classOrInstanceName = expression.getChild(0).getText();
 
+        VMMemory.getInstance().disableGC();
+
         String fieldOrMethodName = expression.getChild(2).getText();
         VMIdentifierInstance objectId = (VMIdentifierInstance)pop().getObject();//VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
-        objectId.setField(getID(fieldOrMethodName));
-
+        objectId.setFieldPointer(getID(fieldOrMethodName).getPointer());
         push(objectId.getPointer());
+
+        VMMemory.getInstance().enableGC();
     }
 
     private void evalArrayAccess(ExpressionContext expression) throws VMException {
+        VMMemory.getInstance().disableGC();
+
         VMIntegerInstance arrayIndex = (VMIntegerInstance)(evalReturnExpressionValue(expression.expression(1)));
         VMIdentifierInstance arrayIdentifier = (VMIdentifierInstance)(evalReturnExpression(expression.expression(0)).getObject());
 
         arrayIdentifier.setArrayIndex(arrayIndex.getValue());
 
         push(arrayIdentifier.getPointer()); // TODO REDO variable access
+
+        VMMemory.getInstance().enableGC();
     }
 
     private void evalObjectCreator(CreatorContext creator) throws VMException {
@@ -542,14 +582,20 @@ public class VMMachine {
         VMClass clazz = getClazz(typeName);
 
         ExpressionListContext argumentExpressionList = creator.classCreatorRest().arguments().expressionList();
-        LinkedList<VMPointer> argList = new LinkedList<>();
+//        LinkedList<VMPointer> argList = new LinkedList<>();
+        int numArgs = 0;
         if (argumentExpressionList != null)
             for (ExpressionContext expression : argumentExpressionList.expression()) {
-                evalExpression(expression);
-                argList.add(popValue().getPointer());
+                push(evalReturnExpressionValue(expression).getPointer()); // Results are added on stack (thus arguments are in reverse order)
+                //argList.add(popValue().getPointer());
+                numArgs++;
             }
 
-        push(clazz.createInstance(argList.toArray(new VMPointer[argList.size()])));
+        push(getInteger(numArgs));
+        VMMemory.getInstance().disableGC();
+        VMPointer newInstance = clazz.createInstance();
+        push(newInstance);
+        VMMemory.getInstance().enableGC();
     }
 
     private void evalArrayCreator(CreatorContext creator) throws VMException {
@@ -581,19 +627,22 @@ public class VMMachine {
     }
 
     private void evalFunctionCall(ExpressionContext expression) throws VMException {
+        logger.severe("Function call " + expression.getText());
         VMIdentifierInstance id = (VMIdentifierInstance)pop().getObject();
+        String methodName = id.getField().getValue();
 
         // Method invocation
-        LinkedList<VMPointer> args = new LinkedList<>();
+        int numArgs = 0;
         if (expression.expressionList() != null)
             for (ExpressionContext argExpression : expression.expressionList().expression()) {
-                args.add(evalReturnExpressionValue(argExpression).getPointer());
+                push(evalReturnExpressionValue(argExpression).getPointer());
+                numArgs++;
             }
 
-        VMPointer[] argArray = args.toArray(new VMPointer[args.size()]);
-
-        String methodName = id.getField().getValue();
-        getObjectOrClass(id).callMethod(methodName, argArray);
+        VMMemory.getInstance().disableGC();
+        push(getInteger(numArgs));
+        VMMemory.getInstance().enableGC();
+        getObjectOrClass(id).callMethod(methodName);
     }
 
     private void evalExpression(ExpressionContext expression) throws VMException {
@@ -686,9 +735,8 @@ public class VMMachine {
     }
 
     public void enterFrame() throws VMException {
-        VMMemory.getInstance().gcPoint();
-
         logger.severe("** Entering frame " + frames);
+        VMMemory.getInstance().gcPoint();
         frames++;
         VMFrame lastFrame = currentFrame;
         currentFrame = new VMFrame(lastFrame);

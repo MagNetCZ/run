@@ -4,13 +4,11 @@ import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.VMMethod;
-import cz.cvut.fit.run.interpreter.core.exceptions.MethodNotFoundException;
-import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
-import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
-import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.modifiers.Scope;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;
@@ -75,46 +73,41 @@ public class VMClass extends VMBaseObject {
         return injectedArgs;
     }
 
-    public void callMethod(String name, VMPointer ... args) throws VMException {
+    public void callMethod(String name) throws VMException {
         VMMethod method = lookupMethod(name);
-        if (!method.isStaticMethod())
-            throw new MethodNotFoundException("Trying to call instance method from static context");
-
-        invokeMethod(method, args);
+        invokeMethod(method);
     }
 
-    public void callMethod(String name, VMPointer target, VMPointer ... args) throws VMException {
-        VMMethod method = lookupMethod(name);
-        callMethod(method, target, args);
+    public void callMethod(VMMethod method) throws VMException {
+//        if (method.isStaticMethod())
+//            throw new MethodNotFoundException("Trying to call static method from instance context");
+
+//        VMPointer[] injectedArgs = injectTarget(target, args);
+        invokeMethod(method);
     }
 
-    public void callMethod(VMMethod method, VMPointer target, VMPointer ... args) throws VMException {
-        if (method.isStaticMethod())
-            throw new MethodNotFoundException("Trying to call static method from instance context");
-
-        VMPointer[] injectedArgs = injectTarget(target, args);
-        invokeMethod(method, injectedArgs);
-    }
-
-    private void invokeMethod(VMMethod method, VMPointer ... args) throws VMException {
+    private void invokeMethod(VMMethod method) throws VMException {
         VMMachine vm = VMMachine.getInstance();
-        vm.enterFrame();
 
         vm.logger.severe("-- Invoking " + method.getName());
 
-        VMObject methodResult = null;
         VMException exception = null;
+        VMPointer result = null;
 
         try {
-            methodResult = method.invoke(this, args);
+            method.invoke(this);
+            if (method.getReturnType() != VMType.VOID)
+                result = VMMachine.pop();
         } catch (VMException ex) {
             exception = ex;
         } finally {
             vm.exitFrame(exception);
+            if (result != null)
+                VMMachine.push(result);
         }
 
-        if (method.getReturnType() != VMType.VOID)
-            VMMachine.push(methodResult.getPointer());
+//        if (method.getReturnType() != VMType.VOID)
+//            VMMachine.push(methodResult.getPointer());
     }
 
     public VMMethod lookupMethod(String name) throws VMException {
@@ -137,11 +130,15 @@ public class VMClass extends VMBaseObject {
         this.constructor = constructor;
     }
 
-    public VMPointer createInstance(VMPointer ... args) throws VMException {
-        VMPointer newInstance = VMMemory.allocate(new VMObject(this, args));
+    public VMPointer createInstance() throws VMException {
+        VMPointer newInstance = VMMemory.allocate(new VMObject(this));
 
         if (constructor != null) {
-            callMethod(constructor, newInstance, args);
+            newInstance.getObject().callMethod(constructor);
+        } else {
+            int argNum = ((VMIntegerInstance)VMMachine.popValue()).getValue();
+            if (argNum != 0)
+                throw new ArgumentException("The constructor for " + getType().getName() + " does not take any arguments. " + argNum + " given.");
         }
 
         return newInstance;

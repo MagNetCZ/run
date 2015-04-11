@@ -75,8 +75,20 @@ public class VMFrame {
 
     public VMPointer pop() throws VMException {
         VMPointer object = opStack.pop();
-        VMMachine.logger.log(Level.INFO, "Pop " + object.getObject());
+//        VMMachine.logger.log(Level.INFO, "Pop " + object.getObject());
         return object;
+    }
+
+    /**
+     * Exchange first two elements on the stack
+     * @throws VMException
+     */
+    public void exchange() throws VMException {
+        VMPointer pointerA = pop();
+        VMPointer pointerB = pop();
+
+        push(pointerA);
+        push(pointerB);
     }
 
     public int stackSize() {

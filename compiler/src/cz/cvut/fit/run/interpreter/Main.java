@@ -3,6 +3,7 @@ package cz.cvut.fit.run.interpreter;
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.ProgramEndException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
@@ -59,6 +60,7 @@ public class Main {
         // Arguments passing
         String[] vmArgs = argsString == null ? new String[0] : argsString.split(" ");
         VMString stringClass = (VMString)vm.getClazz("String");
+        VMInteger integerClass = (VMInteger)vm.getClazz("Integer");
         VMPointer vmArguments = vm.getArrayClazz(VMType.STRING).createInstance(vmArgs.length);
 
         VMArrayInstance vmArgumentsArray = (VMArrayInstance)vmArguments.getObject();
@@ -68,10 +70,13 @@ public class Main {
             vmArgumentsArray.get(i).setValue(stringValuePointer);
         }
 
-        VMPointer[] vmArgArray = { vmArguments };
+        vm.enterFrame();
+        vm.push(vmArgumentsArray.getPointer());
+        vm.push(integerClass.createInstance(1)); // Arg num (1 array)
 
         try {
-            vm.getClazz(mainClassName).callMethod("main", vmArgArray);
+            vm.getClazz(mainClassName).callMethod("main");
+            vm.exitFrame(null);
         } catch (ProgramEndException ex) {
             System.out.println("***************************");
             System.out.println("Program ended");

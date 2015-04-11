@@ -1,6 +1,7 @@
 package cz.cvut.fit.run.interpreter.memory;
 
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
+import cz.cvut.fit.run.interpreter.core.exceptions.VMSegmentationFault;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMBoolean;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMNullInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
@@ -19,10 +20,13 @@ public class VMPointer {
 
     private int location;
 
-    public VMPointer(int memoryLocation) {
+    private VMObject alloc_object;
+
+    public VMPointer(int memoryLocation) throws VMException {
         if (location < 0)
             throw new IllegalArgumentException("Memory location cannot be below zero");
         this.location = memoryLocation;
+        alloc_object = getObject(); // TODO REMOVE
     }
 
     private VMPointer(int memoryLocation, boolean negative) {
@@ -49,6 +53,10 @@ public class VMPointer {
 
         VMMemory memory = VMMemory.getInstance();
         VMObject object = memory.get(this);
+
+        if (object == null)
+            throw new VMSegmentationFault("Trying to access unitialized (deleted) memory at " + location);
+
         if (object.isRelocated())
             return memory.get(object.getRelocatedPointer());
 
@@ -65,5 +73,10 @@ public class VMPointer {
 
         VMMemory memory = VMMemory.getInstance();
         return memory.get(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Pointer -> " + location;
     }
 }

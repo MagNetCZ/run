@@ -3,13 +3,14 @@ package cz.cvut.fit.run.interpreter.core.types.instances;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.IDType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
+import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 /**
  * Created by MagNet on 16. 3. 2015.
  */
 public class VMIdentifierInstance extends VMBuiltinInstance<String> {
     private Integer arrayIndex = null;
-    private VMIdentifierInstance field = null;
+    private VMPointer field = null;
 
     public VMIdentifierInstance(VMClass clazz, String value) throws VMException {
         super(clazz, value);
@@ -27,11 +28,15 @@ public class VMIdentifierInstance extends VMBuiltinInstance<String> {
         return arrayIndex != null;
     }
 
-    public VMIdentifierInstance getField() {
+    public VMIdentifierInstance getField() throws VMException {
+        return (VMIdentifierInstance)field.getObject();
+    }
+
+    public VMPointer getFieldPointer() {
         return field;
     }
 
-    public void setField(VMIdentifierInstance field) {
+    public void setFieldPointer(VMPointer field) {
         this.field = field;
     }
 
@@ -56,5 +61,15 @@ public class VMIdentifierInstance extends VMBuiltinInstance<String> {
                 ", ai=" + arrayIndex +
                 ", f=" + field +
                 '>';
+    }
+
+    @Override
+    public VMPointer copy() throws VMException {
+        VMPointer newPointer = super.copy();
+        VMIdentifierInstance newID = (VMIdentifierInstance)newPointer.getObject();
+        newID.setFieldPointer(getFieldPointer());
+        newID.setArrayIndex(getArrayIndex());
+
+        return newPointer;
     }
 }

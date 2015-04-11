@@ -31,7 +31,7 @@ public abstract class VMBaseObject extends VMReference {
         return fields.getPair(identifier);
     }
 
-    public abstract void callMethod(String name, VMPointer... args) throws VMException;
+    public abstract void callMethod(String name) throws VMException;
 
     // For GC
 

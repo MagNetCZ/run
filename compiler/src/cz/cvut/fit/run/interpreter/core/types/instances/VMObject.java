@@ -1,10 +1,13 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
+import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.VMBaseObject;
+import cz.cvut.fit.run.interpreter.core.VMMethod;
 import cz.cvut.fit.run.interpreter.core.exceptions.NotAllocatedException;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
+import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
@@ -43,6 +46,13 @@ public class VMObject extends VMBaseObject {
         this.relocated = relocated;
     }
 
+    public VMPointer getCurrentPointer() {
+        if (relocated != null)
+            return relocated;
+
+        return pointer;
+    }
+
     public VMPointer getRelocatedPointer() {
         return relocated;
     }
@@ -52,14 +62,35 @@ public class VMObject extends VMBaseObject {
         return getClazz().getType();
     }
 
-    public VMObject(VMClass clazz, VMPointer... args) throws VMException {
+    public VMObject(VMClass clazz) throws VMException {
         this.clazz = clazz;
 
         initialize();
     }
 
-    public void callMethod(String name, VMPointer ... args) throws VMException {
-        getClazz().callMethod(name, getPointer(), args);
+    private void injectSelf() throws VMException {
+//        VMMemory.getInstance().disableGC();
+
+        int argNum = ((VMIntegerInstance) VMMachine.popValue()).getValue();
+
+        // Inject itself (this)
+        VMMachine.push(getPointer());
+        VMPointer argNumPlusOne = VMMachine.getInstance().getInteger(argNum + 1);
+        VMMachine.push(argNumPlusOne);
+
+//        VMMachine.push(getCurrentPointer());
+
+//        VMMemory.getInstance().enableGC();
+    }
+
+    public void callMethod(String name) throws VMException {
+        injectSelf();
+        getClazz().callMethod(name);
+    }
+
+    public void callMethod(VMMethod method) throws VMException {
+        injectSelf();
+        getClazz().callMethod(method);
     }
 
     public VMClass getClazz() {
@@ -91,7 +122,7 @@ public class VMObject extends VMBaseObject {
 
     @Override
     public String toString() {
-        return "<" + getType().getName() + ">";
+        return "<Instance: " + getType().getName() + ">";
     }
 
     public void initialize() throws VMException {

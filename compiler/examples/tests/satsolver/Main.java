@@ -119,6 +119,7 @@ class BruteForce {
         listOfClauses[this.clauseCounter] = new Clauses();
 
         for (int i = 0; i < literals.length - 1; i++) {
+            System.println(i + 0);
             Clauses clauses = listOfClauses[this.clauseCounter];
             clauses.addLiteral(Integer.parseInt(literals[i]));
         }
@@ -135,6 +136,7 @@ public class Main {
         File file = new File(args[0]);
 
         String headerLine = file.readLine();
+        System.println(headerLine);
         String[] header = headerLine.split(" ");
 
         int countOfLiterals = Integer.parseInt(header[2]);
