@@ -68,7 +68,6 @@ public class VMMethod extends VMReference {
 
     public void invoke(VMClass onObject) throws VMException {
         checkNumberOfArguments();
-        VMMachine.logger.severe("/// Calling " + getName());
 
         if (nativeMethod) {
             invokeNative(onObject);

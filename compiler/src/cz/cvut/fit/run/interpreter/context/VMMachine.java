@@ -48,10 +48,6 @@ public class VMMachine {
         } catch (VMException ex) {
             throw new RuntimeException(ex);
         }
-
-//        logger.setLevel(Level.INFO);
-        logger.setLevel(Level.OFF);
-//        logger.setLevel(Level.SEVERE);
     }
 
     public static VMMachine getInstance() {
@@ -63,6 +59,20 @@ public class VMMachine {
     }
 
     /** VM INIT **/
+
+    public void setLogLevel(int logLevel) {
+        switch (logLevel) {
+            case 0:
+                logger.setLevel(Level.OFF);
+                break;
+            case 1:
+                logger.setLevel(Level.SEVERE);
+                break;
+            case 2:
+                logger.setLevel(Level.INFO);
+                break;
+        }
+    }
 
     private void registerClass(VMClass clazz) {
         String className = clazz.getType().getName();
@@ -273,7 +283,6 @@ public class VMMachine {
                     for (SwitchLabelContext switchLabel : switchBlockStatementGroup.switchLabel()) {
                         evalExpression(switchLabel.constantExpression().expression());
                         // Case Value is now on stack
-                        //VMObject caseValue = popValue();
 
                         push(getInteger(1)); // Arg num for == method
 
@@ -305,22 +314,17 @@ public class VMMachine {
 
         try {
             if (forControl.forInit().localVariableDeclaration() != null) {
-                logger.severe("For init " + forControl.forInit().localVariableDeclaration().getText());
                 evalLocalVariableDeclaration(forControl.forInit().localVariableDeclaration());
             }
 
             try {
                 while (checkExpression(forControl.expression())) {
                     try {
-                        logger.severe("Eval statement " + statement.statement(0).getText());
                         evalStatement(statement.statement(0));
                     } catch (ContinueException ex) {}
-                    logger.severe("Eval expression list " + forControl.forUpdate().expressionList().getText());
                     evalExpressionList(forControl.forUpdate().expressionList());
                 }
-            } catch (BreakException ex) {
-                logger.severe("Break");
-            }
+            } catch (BreakException ex) { }
         } finally {
             if (getFrame().equals(frame))
                 getFrame().exitScope();
@@ -552,12 +556,10 @@ public class VMMachine {
     }
 
     private void evalDotAccess(ExpressionContext expression) throws VMException {
-//        String classOrInstanceName = expression.getChild(0).getText();
-
         VMMemory.getInstance().disableGC();
 
         String fieldOrMethodName = expression.getChild(2).getText();
-        VMIdentifierInstance objectId = (VMIdentifierInstance)pop().getObject();//VMIdentifierInstance)(evalReturnExpression(expression.expression(0)));
+        VMIdentifierInstance objectId = (VMIdentifierInstance)pop().getObject();
         objectId.setFieldPointer(getID(fieldOrMethodName).getPointer());
         push(objectId.getPointer());
 
@@ -572,7 +574,7 @@ public class VMMachine {
 
         arrayIdentifier.setArrayIndex(arrayIndex.getValue());
 
-        push(arrayIdentifier.getPointer()); // TODO REDO variable access
+        push(arrayIdentifier.getPointer());
 
         VMMemory.getInstance().enableGC();
     }
@@ -582,12 +584,10 @@ public class VMMachine {
         VMClass clazz = getClazz(typeName);
 
         ExpressionListContext argumentExpressionList = creator.classCreatorRest().arguments().expressionList();
-//        LinkedList<VMPointer> argList = new LinkedList<>();
         int numArgs = 0;
         if (argumentExpressionList != null)
             for (ExpressionContext expression : argumentExpressionList.expression()) {
                 push(evalReturnExpressionValue(expression).getPointer()); // Results are added on stack (thus arguments are in reverse order)
-                //argList.add(popValue().getPointer());
                 numArgs++;
             }
 
@@ -756,7 +756,7 @@ public class VMMachine {
         }
     }
 
-    // Roots for garbage collector
+    /** Roots for the garbage collector **/
 
     public Collection<VMClass> getClasses() {
         return classes.values();

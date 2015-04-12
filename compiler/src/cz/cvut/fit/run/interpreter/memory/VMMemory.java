@@ -6,7 +6,6 @@ import cz.cvut.fit.run.interpreter.core.exceptions.MemoryNotInitializedException
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMOutOfBoundsException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * The Heap

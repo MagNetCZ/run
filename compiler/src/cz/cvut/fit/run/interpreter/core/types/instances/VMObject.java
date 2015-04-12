@@ -69,18 +69,12 @@ public class VMObject extends VMBaseObject {
     }
 
     private void injectSelf() throws VMException {
-//        VMMemory.getInstance().disableGC();
-
         int argNum = ((VMIntegerInstance) VMMachine.popValue()).getValue();
 
-        // Inject itself (this)
         VMMachine.push(getPointer());
         VMPointer argNumPlusOne = VMMachine.getInstance().getInteger(argNum + 1);
         VMMachine.push(argNumPlusOne);
-
-//        VMMachine.push(getCurrentPointer());
-
-//        VMMemory.getInstance().enableGC();
+        // NOTE Debugging the order of these was quite fun
     }
 
     public void callMethod(String name) throws VMException {

@@ -119,7 +119,6 @@ class BruteForce {
         listOfClauses[this.clauseCounter] = new Clauses();
 
         for (int i = 0; i < literals.length - 1; i++) {
-            System.println(i + 0);
             Clauses clauses = listOfClauses[this.clauseCounter];
             clauses.addLiteral(Integer.parseInt(literals[i]));
         }

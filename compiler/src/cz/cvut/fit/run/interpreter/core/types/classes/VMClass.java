@@ -89,7 +89,7 @@ public class VMClass extends VMBaseObject {
     private void invokeMethod(VMMethod method) throws VMException {
         VMMachine vm = VMMachine.getInstance();
 
-        vm.logger.severe("-- Invoking " + method.getName());
+        vm.logger.severe("-- Invoking '" + method.getName() + "'");
 
         VMException exception = null;
         VMPointer result = null;

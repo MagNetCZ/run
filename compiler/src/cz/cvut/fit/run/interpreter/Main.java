@@ -26,7 +26,9 @@ public class Main {
         Options parseOptions = new Options();
         parseOptions.addOption("f", "file", true, "The source code to interpret.");
         parseOptions.addOption("c", "class", true, "Name of the main class containing main() method.");
-        parseOptions.addOption("a", "args", true, "Arguments for the program, pass in quotes");
+        parseOptions.addOption("a", "args", true, "[Optional] Arguments for the program, pass in quotes");
+        parseOptions.addOption("m", "memsize", true, "[Optional] Memory size in number of objects. Actual usable memory will always be only half because of Baker GC usage. Default 2048.");
+        parseOptions.addOption("l", "log", true, "[Optional] The log level. 0 for nothing, 1 for some, 2 for all. Default 0.");
 
         CommandLine cl = cliParser.parse(parseOptions, args);
 
@@ -34,9 +36,15 @@ public class Main {
         String sourceFilename = cl.getOptionValue("file");
         String argsString = cl.getOptionValue("args");
 
+        String memSizeString = cl.getOptionValue("memsize");
+        String logLevelString = cl.getOptionValue("log");
+
+        int memSize = memSizeString == null ? 2048 : Integer.parseInt(memSizeString);
+        int logLevel = logLevelString == null ? 0 : Integer.parseInt(logLevelString);
+
         if (mainClassName == null || sourceFilename == null) {
             HelpFormatter helpFormatter = new HelpFormatter();
-            helpFormatter.printHelp("-f \"Path to source\" -c \"Main class name\"", parseOptions);
+            helpFormatter.printHelp("-f \"Path to source\" -c \"Main class name\" [-a \"Program args\"] [-m \"2048\"] [-l \"0\"]", parseOptions);
             return;
         }
 
@@ -54,8 +62,9 @@ public class Main {
             VMMachine.getInstance().registerType(type);
         }
 
-        VMMemory.getInstance().init(2048);
+        VMMemory.getInstance().init(memSize);
         VMMachine vm = VMMachine.getInstance();
+        vm.setLogLevel(logLevel);
 
         // Arguments passing
         String[] vmArgs = argsString == null ? new String[0] : argsString.split(" ");
@@ -71,8 +80,8 @@ public class Main {
         }
 
         vm.enterFrame();
-        vm.push(vmArgumentsArray.getPointer());
-        vm.push(integerClass.createInstance(1)); // Arg num (1 array)
+        VMMachine.push(vmArgumentsArray.getPointer());
+        VMMachine.push(integerClass.createInstance(1)); // Arg num (1 array)
 
         try {
             vm.getClazz(mainClassName).callMethod("main");
