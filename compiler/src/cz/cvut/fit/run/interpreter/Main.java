@@ -51,6 +51,9 @@ public class Main {
         }
 
         System.out.println("VMMachine Starting up...");
+        System.out.println("File: " + sourceFilename);
+        if (argsString != null)
+            System.out.println("Args: " + argsString);
         System.out.println("***************************");
 
         ANTLRInputStream input = new ANTLRFileStream(sourceFilename);
