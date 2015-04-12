@@ -10,8 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4adb53e-696f-4e76-82f3-503cb0616c0a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/run_examples.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/tests/test_file.java" afterPath="$PROJECT_DIR$/examples/tests/test_file.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/run_examples_log.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="compiler.iws" />
@@ -1252,7 +1251,7 @@
       <workItem from="1427456587331" duration="20063000" />
       <workItem from="1428049089949" duration="22522000" />
       <workItem from="1428682879906" duration="2951000" />
-      <workItem from="1428742701221" duration="46588000" />
+      <workItem from="1428742701221" duration="46778000" />
     </task>
     <task id="LOCAL-00001" summary="Array access, getting and setting values through an index">
       <created>1426847521512</created>
@@ -1430,11 +1429,15 @@
       <created>1428800164955</created>
       <updated>1428800164955</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="More explanation in file test, added a shell script to run all the nice tests">
+      <created>1428800366766</created>
+      <updated>1428800366766</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="235747000" />
+    <option name="totallyTimeSpent" value="235937000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1480,7 +1483,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30583334" sideWeight="0.79465777" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30583334" sideWeight="0.79465777" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3296027" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1531,7 +1534,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Test code edits" />
     <MESSAGE value="File class with readLine support" />
     <MESSAGE value="Moved builtin method helpers to VMClass" />
     <MESSAGE value="File class" />
@@ -1556,7 +1558,8 @@
     <MESSAGE value="Import cleanup" />
     <MESSAGE value="Added some args to output" />
     <MESSAGE value="Fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix" />
+    <MESSAGE value="More explanation in file test, added a shell script to run all the nice tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="More explanation in file test, added a shell script to run all the nice tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
