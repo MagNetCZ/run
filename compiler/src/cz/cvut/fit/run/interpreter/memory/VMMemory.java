@@ -16,6 +16,8 @@ public class VMMemory {
     private VMGarbageCollector gc;
     private int gcDisableCounter;
 
+    private double criticalMemory;
+
     class MemoryInfo {
         // Points to the next free memory
         private int current;
@@ -59,8 +61,13 @@ public class VMMemory {
 
     private Memory currentMemory;
 
-    public void init(int size) {
+    public void init(int size, double criticalMemory) {
         memory = new VMObject[size];
+
+        if (criticalMemory < 0 || criticalMemory > 1)
+            throw new IllegalArgumentException("Critical memory should be a 'percentage' (0-1)");
+
+        this.criticalMemory = criticalMemory;
 
         leftInfo = new MemoryInfo(0, size / 2);
         rightInfo = new MemoryInfo(size / 2, size);
@@ -144,7 +151,7 @@ public class VMMemory {
     }
 
     public void gcPoint() throws VMException {
-        if (memoryAvailable() < memoryCapacity() * 0.25)
+        if (memoryAvailable() < memoryCapacity() * criticalMemory)
             gc.garbageCollect();
     }
 

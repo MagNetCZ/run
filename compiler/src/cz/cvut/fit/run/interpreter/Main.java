@@ -28,6 +28,7 @@ public class Main {
         parseOptions.addOption("c", "class", true, "Name of the main class containing main() method.");
         parseOptions.addOption("a", "args", true, "[Optional] Arguments for the program, pass in quotes");
         parseOptions.addOption("m", "memsize", true, "[Optional] Memory size in number of objects. Actual usable memory will always be only half because of Baker GC usage. Default 2048.");
+        parseOptions.addOption("r", "crit", true, "[Optional] Critical memory ratio - the percentage of free memory left needed to start GC. Lower for less GC runs but higher risk of running out of memory in GC-safe blocks. Default 0.05.");
         parseOptions.addOption("l", "log", true, "[Optional] The log level. 0 for nothing, 1 for some, 2 for all. Default 0.");
 
         CommandLine cl = cliParser.parse(parseOptions, args);
@@ -38,9 +39,11 @@ public class Main {
 
         String memSizeString = cl.getOptionValue("memsize");
         String logLevelString = cl.getOptionValue("log");
+        String critMemoryString = cl.getOptionValue("crit");
 
         int memSize = memSizeString == null ? 2048 : Integer.parseInt(memSizeString);
         int logLevel = logLevelString == null ? 0 : Integer.parseInt(logLevelString);
+        double critMemory = critMemoryString == null ? 0.05 : Double.parseDouble(critMemoryString);
 
         if (mainClassName == null || sourceFilename == null) {
             HelpFormatter helpFormatter = new HelpFormatter();
@@ -62,7 +65,7 @@ public class Main {
             VMMachine.getInstance().registerType(type);
         }
 
-        VMMemory.getInstance().init(memSize);
+        VMMemory.getInstance().init(memSize, critMemory);
         VMMachine vm = VMMachine.getInstance();
         vm.setLogLevel(logLevel);
 
