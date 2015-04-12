@@ -11,6 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4adb53e-696f-4e76-82f3-503cb0616c0a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java" afterPath="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/testcode.java" afterPath="$PROJECT_DIR$/examples/testcode.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="compiler.iws" />
@@ -77,11 +78,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7248677" vertical-offset="113" max-vertical-offset="1785">
-              <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1819">
+              <caret line="36" column="35" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -109,11 +110,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testcode.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="testcode.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/examples/testcode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
-              <caret line="12" column="44" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.2667829" vertical-offset="0" max-vertical-offset="1147">
+              <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -243,11 +244,11 @@
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/context/VMMachine.java" />
         <option value="$PROJECT_DIR$/examples/tests/satsolver/Main.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/memory/VMMemory.java" />
-        <option value="$PROJECT_DIR$/examples/testcode.java" />
         <option value="$PROJECT_DIR$/examples/testcode_unused.java" />
         <option value="$PROJECT_DIR$/examples/tests/test_constructor.java" />
         <option value="$PROJECT_DIR$/examples/tests/test_methods.java" />
         <option value="$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java" />
+        <option value="$PROJECT_DIR$/examples/testcode.java" />
       </list>
     </option>
   </component>
@@ -1251,7 +1252,7 @@
       <workItem from="1427456587331" duration="20063000" />
       <workItem from="1428049089949" duration="22522000" />
       <workItem from="1428682879906" duration="2951000" />
-      <workItem from="1428742701221" duration="45795000" />
+      <workItem from="1428742701221" duration="46402000" />
     </task>
     <task id="LOCAL-00001" summary="Array access, getting and setting values through an index">
       <created>1426847521512</created>
@@ -1421,11 +1422,15 @@
       <created>1428799449639</created>
       <updated>1428799449639</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Added some args to output">
+      <created>1428799561828</created>
+      <updated>1428799561828</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="234954000" />
+    <option name="totallyTimeSpent" value="235561000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1522,7 +1527,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Inheritance 1 - Supertypes, methods base" />
     <MESSAGE value="Added SATSolver test code" />
     <MESSAGE value="Test code edits" />
     <MESSAGE value="File class with readLine support" />
@@ -1547,7 +1551,8 @@
     <MESSAGE value="Added argument" />
     <MESSAGE value="Adjusted test codes" />
     <MESSAGE value="Import cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Import cleanup" />
+    <MESSAGE value="Added some args to output" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some args to output" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2104,14 +2109,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/testcode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
-          <caret line="12" column="44" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/tests/test_inheritance.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
@@ -2128,11 +2125,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/memory/VMGarbageCollector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2" max-vertical-offset="2091">
+          <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/examples/tests/test_exceptions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17525773" vertical-offset="0" max-vertical-offset="970">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1819">
+          <caret line="36" column="35" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2144,21 +2159,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/memory/VMGarbageCollector.java">
+    <entry file="file://$PROJECT_DIR$/examples/testcode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2" max-vertical-offset="2091">
-          <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.2667829" vertical-offset="0" max-vertical-offset="1147">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cz/cvut/fit/run/interpreter/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7248677" vertical-offset="113" max-vertical-offset="1785">
-          <caret line="55" column="32" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

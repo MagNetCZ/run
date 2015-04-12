@@ -24,7 +24,7 @@ public class Main {
         PosixParser cliParser = new PosixParser();
         Options parseOptions = new Options();
         parseOptions.addOption("f", "file", true, "The source code to interpret.");
-        parseOptions.addOption("c", "class", true, "Name of the main class containing main() method.");
+        parseOptions.addOption("c", "class", true, "[Optional] Name of the main class containing main() method. Default Main.");
         parseOptions.addOption("a", "args", true, "[Optional] Arguments for the program, pass in quotes");
         parseOptions.addOption("m", "memsize", true, "[Optional] Memory size in number of objects. Actual usable memory will always be only half because of Baker GC usage. Default 2048.");
         parseOptions.addOption("r", "crit", true, "[Optional] Critical memory ratio - the percentage of free memory left needed to start GC. Lower for less GC runs but higher risk of running out of memory in GC-safe blocks. Default 0.05.");
@@ -33,6 +33,8 @@ public class Main {
         CommandLine cl = cliParser.parse(parseOptions, args);
 
         String mainClassName = cl.getOptionValue("class");
+        if (mainClassName == null)
+            mainClassName = "Main";
         String sourceFilename = cl.getOptionValue("file");
         String argsString = cl.getOptionValue("args");
 

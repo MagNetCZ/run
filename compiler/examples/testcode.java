@@ -13,7 +13,9 @@ public class Main {
     public static void main(String[] args) {
         Test testInstance = new Test();
         testInstance.array = new Integer[10];
-        testInstance.array[1] = 5;
-        System.println(testInstance.array[1]);
+        Integer[] array = testInstance.array;
+        array[1] = 5;
+        array = testInstance.array;
+        System.println(array[1]);
     }
 }
