@@ -221,6 +221,9 @@
       <zipfileset dir="${basedir}/../parser/out/production/parser"/>
       <zipfileset src="${basedir}/lib/antlr-4.4-complete.jar"/>
       <zipfileset src="${basedir}/lib/commons-cli-1.2/commons-cli-1.2.jar"/>
+      <manifest>
+        <attribute name="Main-Class" value="cz.cvut.fit.run.interpreter.Main"/>
+      </manifest>
     </jar>
     <copy file="${temp.jar.path.interpreter.jar}" tofile="${artifact.temp.output.interpreter:jar}/interpreter.jar"/>
   </target>
