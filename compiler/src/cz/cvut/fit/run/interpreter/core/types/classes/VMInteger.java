@@ -1,10 +1,7 @@
 package cz.cvut.fit.run.interpreter.core.types.classes;
 
-import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMBooleanInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;
@@ -12,7 +9,6 @@ import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Created by MagNet on 12. 3. 2015.

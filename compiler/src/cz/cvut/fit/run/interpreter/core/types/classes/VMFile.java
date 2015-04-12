@@ -5,7 +5,6 @@ import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMFileNotFoundException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMIOException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMFileInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;

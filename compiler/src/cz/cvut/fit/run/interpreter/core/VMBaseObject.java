@@ -3,10 +3,9 @@ package cz.cvut.fit.run.interpreter.core;
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.helpers.VariableHash;
-import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by MagNet on 12. 3. 2015.

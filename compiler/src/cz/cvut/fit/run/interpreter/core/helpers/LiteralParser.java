@@ -2,9 +2,6 @@ package cz.cvut.fit.run.interpreter.core.helpers;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMNull;
-import cz.cvut.fit.run.interpreter.core.types.instances.*;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMBoolean;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMString;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;

@@ -2,7 +2,8 @@ package cz.cvut.fit.run.interpreter.core.types.classes;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.instances.*;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
+import cz.cvut.fit.run.interpreter.core.types.instances.VMStringInstance;
 import cz.cvut.fit.run.interpreter.core.types.type.VMArrayType;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;

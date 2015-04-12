@@ -7,7 +7,6 @@ import cz.cvut.fit.run.interpreter.core.exceptions.NotAllocatedException;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
-import cz.cvut.fit.run.interpreter.core.types.classes.VMInteger;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;

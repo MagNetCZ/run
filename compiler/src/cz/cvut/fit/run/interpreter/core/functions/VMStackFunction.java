@@ -1,6 +1,5 @@
 package cz.cvut.fit.run.interpreter.core.functions;
 
-import cz.cvut.fit.run.interpreter.core.VMReference;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 
 /**

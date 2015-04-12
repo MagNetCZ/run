@@ -1,8 +1,8 @@
 package cz.cvut.fit.run.interpreter.memory;
 
 import cz.cvut.fit.run.interpreter.context.VMMachine;
-import cz.cvut.fit.run.interpreter.core.exceptions.OutOfMemoryException;
 import cz.cvut.fit.run.interpreter.core.exceptions.MemoryNotInitializedException;
+import cz.cvut.fit.run.interpreter.core.exceptions.OutOfMemoryException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMOutOfBoundsException;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;

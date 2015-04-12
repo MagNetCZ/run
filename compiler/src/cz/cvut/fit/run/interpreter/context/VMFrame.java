@@ -1,15 +1,13 @@
 package cz.cvut.fit.run.interpreter.context;
 
 import cz.cvut.fit.run.interpreter.core.TypeValuePair;
+import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.exceptions.RedeclarationException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.helpers.VariableHash;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
-import cz.cvut.fit.run.interpreter.core.exceptions.NotDeclaredException;
 import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
-import cz.cvut.fit.run.parser.JavaParser;
 
 import java.util.Stack;
 import java.util.logging.Level;

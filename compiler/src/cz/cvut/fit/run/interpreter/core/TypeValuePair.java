@@ -2,9 +2,8 @@ package cz.cvut.fit.run.interpreter.core;
 
 import cz.cvut.fit.run.interpreter.core.exceptions.TypeMismatchException;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
-import cz.cvut.fit.run.interpreter.core.types.type.VMType;
-import cz.cvut.fit.run.interpreter.core.types.instances.VMNullInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
 
 /**

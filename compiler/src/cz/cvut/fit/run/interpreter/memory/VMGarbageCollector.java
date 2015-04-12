@@ -10,7 +10,6 @@ import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMArrayInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIdentifierInstance;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
-import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 
 import java.util.Collections;
 import java.util.Stack;

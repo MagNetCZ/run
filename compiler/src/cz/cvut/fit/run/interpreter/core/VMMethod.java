@@ -5,15 +5,14 @@ import cz.cvut.fit.run.interpreter.core.exceptions.*;
 import cz.cvut.fit.run.interpreter.core.modifiers.Modifiers;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMIntegerInstance;
-import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.core.types.instances.VMObject;
+import cz.cvut.fit.run.interpreter.core.types.type.VMType;
 import cz.cvut.fit.run.interpreter.memory.VMMemory;
 import cz.cvut.fit.run.interpreter.memory.VMPointer;
 import cz.cvut.fit.run.parser.JavaParser;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * Created by MagNet on 9. 3. 2015.

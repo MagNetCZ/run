@@ -1,6 +1,5 @@
 package cz.cvut.fit.run.interpreter.core.types.instances;
 
-import cz.cvut.fit.run.interpreter.core.VMBaseObject;
 import cz.cvut.fit.run.interpreter.core.exceptions.VMException;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMBuiltinType;
 import cz.cvut.fit.run.interpreter.core.types.classes.VMClass;
