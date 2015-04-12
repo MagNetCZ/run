@@ -17,7 +17,7 @@ int number = 3, sec, third = 5;
         int b = 15;
         int c = b + b * a;
         
-        console(c);
+        System.println(c);
     }
 
     public static void testIf() {
@@ -25,19 +25,19 @@ int number = 3, sec, third = 5;
         boolean b = false;
 
         if (a)
-            console(1);
+            System.println(1);
 
         if (b)
-            console(1);
+            System.println(1);
         else
-            console(2);
+            System.println(2);
 
         if (false)
-            console(1);
+            System.println(1);
         else if(true)
-            console(2);
+            System.println(2);
         else {
-            console(3);
+            System.println(3);
         }
     }
 
@@ -45,12 +45,12 @@ int number = 3, sec, third = 5;
         boolean b = true;
         switch (b) {
             case true:
-                console("true");
+                System.println("true");
             case false:
-                console("false");
+                System.println("false");
                 break;
             default:
-                console("default");
+                System.println("default");
         }
     }
 
@@ -58,13 +58,13 @@ int number = 3, sec, third = 5;
         boolean a = true;
         int i = 0;
         while (a) {
-            console(i);
+            System.println(i);
             i = i + 1;
             a = false;
         }
 
         do {
-            console(2);
+            System.println(2);
         } while (false);
     }
 
@@ -72,7 +72,7 @@ int number = 3, sec, third = 5;
 
     public static void testIf() {
         for (int i = 0; true; i = i + 1) {
-            console(i);
+            System.println(i);
         }
     }
 
@@ -81,28 +81,28 @@ int number = 3, sec, third = 5;
     public static void testBoolean() {
         boolean a = false;
         boolean b = true;
-        console(!a); // True
-        console(a == a); // True
-        console(a == b); // False
-        console(!a == a); // False
+        System.println(!a); // True
+        System.println(a == a); // True
+        System.println(a == b); // False
+        System.println(!a == a); // False
     }
 
     // Curly bracket scope basic
     public static void testVariableScope() {
         if (true) {
             int a = 10;
-            console(a);
+            System.println(a);
         }
 
-        console(a); // Exception, should not be found
+        System.println(a); // Exception, should not be found
     }
 
     // Curly bracket and for scope
     public static void testVariableScope2() {
         for (int i = 1; i < 10; i++) {
-            console(i); // 1
+            System.println(i); // 1
             i = 15; // Should be ok
-            console(i); // 15
+            System.println(i); // 15
         }
 
         i = 20; // Should not be found
@@ -110,15 +110,15 @@ int number = 3, sec, third = 5;
 
     public static void testFor() {
         for (int i = 1; i < 10; i++) {
-            console(i);
+            System.println(i);
         }
     }
 
     public static void testTypeMismatch() {
         Integer a = 5;
-        console(a);
+        System.println(a);
         a = false;
-        console(a);
+        System.println(a);
     }
 
     public static void testArray() {
@@ -127,30 +127,30 @@ int number = 3, sec, third = 5;
 
     public static void testCompare() {
         int i = 10;
-        console(i == 10); // True
-        console(i != 10); // False
-        console(i != 5); // True
-        console(i > 5); // True
-        console(i > 10); // False
-        console(i < 5); // False
-        console(i < 10); // False
-        console(i <= 5); // False
-        console(i >= 5); // True
-        console(i <= 10); // True
-        console(i >= 10); // True
+        System.println(i == 10); // True
+        System.println(i != 10); // False
+        System.println(i != 5); // True
+        System.println(i > 5); // True
+        System.println(i > 10); // False
+        System.println(i < 5); // False
+        System.println(i < 10); // False
+        System.println(i <= 5); // False
+        System.println(i >= 5); // True
+        System.println(i <= 10); // True
+        System.println(i >= 10); // True
     }
 
 public static void testNew() {
         Boolean a = new Boolean(false);
-        console(a);
+        System.println(a);
         }
 
 public static void testArray() {
         Boolean[] a = new Boolean[20];
-        console(a[0]);
+        System.println(a[0]);
         a[0] = true;
-        console(a[0]);
-        console(a);
+        System.println(a[0]);
+        System.println(a);
         }
 
 public static void testIntegerArray() {
@@ -162,6 +162,6 @@ public static void testIntegerArray() {
         }
 
         for (int i = 0; i < size; i++) {
-        console(a[i]);
+        System.println(a[i]);
         }
-        }
+}

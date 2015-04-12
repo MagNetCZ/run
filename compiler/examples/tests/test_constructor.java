@@ -14,6 +14,6 @@ public class Test {
 public class Main {
     public static void main(String[] args) {
         Test a = new Test(5);
-        console(a.instanceVar);
+        System.println(a.instanceVar);
     }
 }

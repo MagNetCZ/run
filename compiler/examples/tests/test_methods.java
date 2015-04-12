@@ -7,13 +7,13 @@ public class Test {
     int instanceVar = 5;
 
     public static void staticMethod() {
-        console("Static method");
+        System.println("Static method");
     }
 
     public void instanceMethod(String arg) {
-        console("Instance method");
-        console(this.instanceVar);
-        console(arg);
+        System.println("Instance method");
+        System.println(this.instanceVar);
+        System.println(arg);
         return;
     }
 
